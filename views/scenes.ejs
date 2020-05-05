@@ -1,0 +1,24 @@
+<%- include("partials/header.js") %>
+
+<h1>Find here your next amanzing trip</h1>
+
+<ul>
+    <% scenes.forEach((scene) => { %>
+        <li>
+            <div>
+                <h3><%= scene.name %> - <%= scene.location %></h3>
+                <img src="<%= scene.image %>" alt="">
+                
+            </div>
+            
+        </li>
+
+    <% }); %>
+</ul>
+
+<img src="https://static.boredpanda.com/blog/wp-content/uuuploads/unbelievable-places/unbelievable-places-19-1.jpg" alt="">
+<h4>scenes page</h4>
+
+<a href="/">back</a>
+
+<%- include("partials/footer.js") %>
