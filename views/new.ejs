@@ -1,0 +1,18 @@
+<%- include("partials/header.js") %>
+
+<h1>creat a new scene</h1>
+<form action="/scenes" method="POST" enctype="multipart/form-data">
+
+    <h4> Name</h4>
+    <input type="text" name="name" placeholder="enter new scene name">
+    
+    <h4> Location</h4>
+    <input type="text" name="location" placeholder="City, Country...">
+
+    <h4> image</h4>
+    <input type="file" name="file" placeholder="image">
+    <input type="submit">
+
+</form>
+
+<%- include("partials/footer.js") %>
