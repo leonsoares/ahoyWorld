@@ -1,27 +1,57 @@
 <%- include("partials/header.js") %>
 
-<h1>Find here your next amanzing trip</h1>
-
-<ul class="container">
-    <% scenes.forEach((scene) => { %>
-        <li>
-            <div>
-                <h3><%= scene.name %> - <%= scene.location %></h3>
-                <img src="<%= scene.image %>" class="img-thumbnail" alt="">
-                
-            </div>
-            
-        </li>
-
-    <% }); %>
-</ul>
-
-<img src="https://static.boredpanda.com/blog/wp-content/uuuploads/unbelievable-places/unbelievable-places-19-1.jpg" alt="">
-<h4>scenes page</h4>
+<!-- <nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="nav-header">
+                <a class="navbar-brand" href="/">AhoyWorld</a>
+        </div>
+        <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li> <a href="#">Login </a></li>
+                    <li> <a href="#">Sign up </a></li>
+                    <li> <a href="#">Logout </a></li>
+                </ul>
+        </div>
+    </div>
+</nav> -->
 
 
-<a href="/">back</a>
-<br>
-<a href="/scenes/new">add scene</a>
 
-<%- include("partials/footer.js") %>
+
+
+
+
+
+<header class="jumbotron">
+        <h1>Find here your next amanzing trip</h1>
+        <a class="btn btn-primary btn-large" href="/scenes/new">Add scene</a>
+</header>
+
+
+<div class="container">
+    <div class="row text-center" >
+        <% scenes.forEach((scene) => { %>
+            <div class="col-md-3 col-sm-6 card">
+                <div>
+                    <div class="thumbnail">
+                        <div class="card-title">
+                                <h4><%= scene.name %> - <%= scene.location %></h4>
+                        </div>
+                        <img src="<%= scene.image %>" class="card-img-top"" alt="">
+                        
+                    </div>
+                    
+                </div>
+            </div> 
+        <% }); %>
+    </div>
+
+    <h4>scenes page</h4>
+
+
+    <a href="/">back</a>
+    <br>
+    
+
+    <%- include("partials/footer.js") %>
+</div>

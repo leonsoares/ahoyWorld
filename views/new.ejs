@@ -1,18 +1,24 @@
 <%- include("partials/header.js") %>
 
-<h1>creat a new scene</h1>
-<form action="/scenes" method="POST" enctype="multipart/form-data">
 
-    <h4> Name</h4>
-    <input type="text" name="name" placeholder="enter new scene name">
+<div class="container-xl container-fluid row justify-content-md-center">
     
-    <h4> Location</h4>
-    <input type="text" name="location" placeholder="City, Country...">
+    <form class="form-group col-md-auto" action="/scenes" method="POST" enctype="multipart/form-data">
+        <h1 class="text-center">Creat a new scene</h1>
+        <br>
+        <h4> Name</h4>
+        <input class="form-control" type="text" name="name" placeholder="enter new scene name">
+        <br>
+        <h4> Location</h4>
+        <input class="form-control" type="text" name="location" placeholder="City, Country...">
+        <br>
+        <h4> Image</h4>
+        <input type="file" name="file" placeholder="image">
+        <br>
+        <br>
+        <input type="submit">
 
-    <h4> image</h4>
-    <input type="file" name="file" placeholder="image">
-    <input type="submit">
-
-</form>
+    </form>
+</div>
 
 <%- include("partials/footer.js") %>

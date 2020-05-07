@@ -55,12 +55,6 @@ app.post('/scenes', (req, res) => {
     })
 
 
-
-    
-
-
-
-
 app.listen(3000, () => { 
     console.log('Ahoy Wolrd '); 
     console.log('Server listening on port 3000'); 
