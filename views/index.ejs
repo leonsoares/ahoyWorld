@@ -1,0 +1,41 @@
+<%- include("partials/header.js") %>
+
+
+
+<header class="jumbotron">
+        <h1>Find here your next amanzing trip</h1>
+        <a class="btn btn-primary btn-large" href="/scenes/new">Add scene</a>
+</header>
+
+
+<div class="container">
+    
+    <div class="row text-center" >
+        <% scenes.forEach((scene) => { %>
+            <div class="col-md-3 col-sm-6 card">
+                <div>
+                    <div class="thumbnail">
+                        <div class="card-title">
+                                <h4><%= scene.name %> - <%= scene.location %></h4>
+                        </div>
+                        <img src="<%= scene.image %>" class="card-img-top"" alt="">
+                        
+                    </div>
+                    <p class="card-text"><%= scene.description %></p>
+                    
+                </div>
+                <a href="/scenes/<%= scene._id%>" target="_blank" rel="noopener noreferrer">See more</a>
+            </div> 
+        <% }); %>
+        
+    </div>
+
+    <h4>scenes page</h4>
+
+
+    <a href="/">back</a>
+    <br>
+    
+
+    <%- include("partials/footer.js") %>
+</div>
