@@ -1,43 +1,71 @@
 
+// semanticUI?
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const formidable = require('formidable');
-const fs = require('fs');
+const methodOverride = require('method-override'); // trick the GET method To a PUT (update) Method
+const formidable = require('express-formidable');
+// const sanitizer = require('express-sanitizer')  use sanitizer to clean code from malicius input
 const mongoose = require('mongoose');
-
 const app = express();
+app.use(formidable());
+// app.use(expressSanitizer()); use sanitizer to clean code from malicius input
 
-mongoose.connect("mongodb://localhost/ahoy_world");
-app.use(bodyParser.urlencoded({extended: true}))
-app.set('view engine', 'ejs')
+app.use(require('sanitize').middleware);
+// mongo set up
+
+// create application/json parser
+// var jsonParser = bodyParser.json()
+// create application/x-www-form-urlencoded parser
+// app.use(bodyParser.urlencoded({ extended: true }))
+
+
+
+app.use(methodOverride("_method"))
+
+mongoose.connect("mongodb://localhost/ahoy_world", {useNewUrlParser: true, useUnifiedTopology: true});
+
+// mongoose.connect("mongodb://localhost/ahoy_world", { useNewUrlParser: true });
+// mongoose.createConnection("mongodb://localhost/ahoy_world", { useUnifiedTopology: true });
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+
+// App Config
 app.use(express.static("public"));
+app.set('view engine', 'ejs');
 
 
 
-// SCHEMA SETUP
+
+
+
+// Mongoose / Model Config SCHEMA SETUP
 
 const sceneSchema = new mongoose.Schema({
-    name: "",
-    location: "string",
-    image: "string",
-    description: 'string'
+    
+    name: String,
+    location: String,
+    description: { type: String, default: "what a incredible place"} ,
+    image: {type: String, default:"images/default.png"}
 })
 
 const Scene = mongoose.model('Scene', sceneSchema)
 
-Scene.create({
-    name: "Chapada Does",
-    location: "Brasilia",
-    description: 'this is a good place to go in the summer'
+// RESTFUL Routes
+// Scene.create({
+//     name: "Chapada Does",
+//     location: "Brasilia",
+//     description: 'this is a good place to go in the summer'
 
-}, (err, item) => {
-    if (err) {
-        console.log('something went wrong')
-    } else {
-        console.log("New Scene Successifully created")
-        console.log(item)
-    }
-});
+// }, (err, item) => {
+//     if (err) {
+//         console.log('something went wrong')
+//     } else {
+//         console.log("New Scene Successifully created")
+//         console.log(item)
+//     }
+// });
 
 
 app.get('/', (req, res) =>{
@@ -50,6 +78,7 @@ app.get('/', (req, res) =>{
 //     {name: 'Bamboo Forest', location:'Japan', image: 'images/Bamboo_Forest.jpg'},
 //     {name: 'Tianzi Mountains', location:'China', image: 'images/Tianzi_Mountains.jpg'}
 // ]
+
 
 // render all scenes:
 app.get('/scenes', (req , res) => {
@@ -81,40 +110,101 @@ app.get('/scenes/:id', (req, res) => {
     })
 })
 
-
-
-// create a new scene
-app.post('/scenes', (req, res) => {
-        // npm formidable used to save image from user device
-        const formData = new formidable.IncomingForm();
-        formData.parse(req, (error, fields, files) => {
-            // get data from form
-            
-            const location = fields.location
-            const name = fields.name
-            let extension = files.file.name.substr(files.file.name.lastIndexOf("."));
-            const newPath = 'public/images/' + fields.name + extension;
-            const image = `images/${name}${extension}`
-            const newScene = {name: name, location: location, image: image}
-
-            fs.rename(files.file.path, newPath, (e) => {
-                // add data from form to scenes array
-                Scene.create(newScene, (err, item) => {
-                    if (err) {
-                        console.log('something went wrong')
-                    } else {
-                        console.log("New Scene Successifully created")
-                        console.log(item)
-                    }
-                });
-                // redirect back to scenes page
-                res.redirect('/index') 
-            }) 
-        });
+// EDIT ROUTE
+app.get('/scenes/:id/edit', (req, res) => {
+    
+    Scene.findById(req.params.id, (err, foundScene) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('edit', {scene:foundScene});
+        }
     })
+});
 
+app.post('/scenes', (req, res) => {
 
+    // add data from form to scenes array
+    var def = "/images/default.png"
+    if(req.fields.image === "") req.fields.image = def
+    if(req.fields.description === "") req.fields.description = "Beautiful"
+    console.log(req.fields)
+    Scene.create(req.fields, (err, item) => {
+        if (err) {
+            console.log('something went wrong')
+        } else {
+            console.log("New Scene Successifully created")
+            res.redirect('/scenes')
+        }
+    });    
+}) 
+
+// UPDATE ROUTE
+app.put('/scenes/:id', (req, res) => {
+    // add data from form to scenes array
+    Scene.findByIdAndUpdate(req.params.id, req.fields, (err, updatedScene) =>{
+        if(err){
+            res.send(err)
+        } else{
+            // res.send('what?')
+            res.redirect('/scenes/' + req.params.id)
+        }
+    })
+    // redirect back to scenes page
+})
+
+// DELETE
+app.delete('/scenes/:id', (req, res) => {
+    // add data from form to scenes array
+    Scene.findByIdAndDelete(req.params.id, req.fields, (err) =>{
+        if(err){
+            res.send(err)
+        } else{
+            // res.send('what?')
+            res.redirect('/scenes')
+        }
+    })
+    // redirect back to scenes page
+}) 
+
+    
 app.listen(3000, () => { 
     console.log('Ahoy Wolrd '); 
     console.log('Server listening on port 3000'); 
   });
+
+
+
+
+
+
+  // create a new scene with imagefrom user local storage
+// app.post('/scenes', (req, res) => {
+//         // npm formidable used to save image from user device
+//         const formData = new formidable.IncomingForm();
+//         formData.parse(req, (error, fields, files) => {
+//             // get data from form
+            
+//             const location = fields.location
+//             const name = fields.name
+//             const description = fields.description
+//             let extension = files.file.name.substr(files.file.name.lastIndexOf("."));
+//             const newPath = 'public/images/' + fields.name + extension;
+//             const image = `images/${name}${extension}`
+//             const newScene = {name: name, location: location, image: image, description: description}
+
+//             fs.rename(files.file.path, newPath, (e) => {
+//                 // add data from form to scenes array
+//                 Scene.create(newScene, (err, item) => {
+//                     if (err) {
+//                         console.log('something went wrong')
+//                     } else {
+//                         console.log("New Scene Successifully created")
+//                         console.log(item)
+//                     }
+//                 });
+//                 // redirect back to scenes page
+//                 res.redirect('/scenes') 
+//             }) 
+//         });
+//     })

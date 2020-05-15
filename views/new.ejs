@@ -6,14 +6,23 @@
     <form class="form-group col-md-auto" action="/scenes" method="POST" enctype="multipart/form-data">
         <h1 class="text-center">Creat a new scene</h1>
         <br>
+
         <h4> Name</h4>
         <input class="form-control" type="text" name="name" placeholder="enter new scene name">
         <br>
+
         <h4> Location</h4>
         <input class="form-control" type="text" name="location" placeholder="City, Country...">
         <br>
+
+        <h4> Description</h4>
+        <textarea name="description" cols="30" rows="10"></textarea>
+        <br>
+
         <h4> Image</h4>
-        <input type="file" name="file" placeholder="image">
+        <input type="text" name="image" placeholder="image url">
+        <!-- <input type="file" name="file" placeholder="image"> -->
+
         <br>
         <br>
         <input type="submit">

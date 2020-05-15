@@ -8,12 +8,20 @@
                         <div class="card-title">
                                 <h4><%= scene.name %> - <%= scene.location %></h4>
                         </div>
-                        <img src="<%- scene.image %>" class="card-img-top"" alt="">
+                        <img src="<%= scene.image %>" class="card-img-top"" alt="">
                         
                     </div>
-                    <p class="card-text"><%= scene.description %></p>
                     
+                    
+                        <p class="card-text"><%= scene.description %></p>
+                    
+
+                    <p class="card-text"><%= scene._id.getTimestamp() %></p>
                 </div>
-                <a href="/scenes/<%= scene._id%>" target="_blank" rel="noopener noreferrer">See more</a>
+                <a href="/scenes" target="_blank" rel="noopener noreferrer">Back</a>
+                <form class="" action="/scenes/<%=scene._id %>?_method=DELETE" method="POST">
+                    <a href="/scenes/<%- scene._id %>/edit">Edit</a>
+                    <button>Delete</button>
+                </form>
             </div>   
     </div>
