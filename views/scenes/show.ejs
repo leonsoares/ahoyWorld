@@ -21,7 +21,7 @@
 
                     <% scene.comments.forEach((comment) => { %>
                         <p class="card-text">
-                            <%= comment.author %> - <%= comment.text %>
+                            <%= comment.author.username %> - <%= comment.text %>
                         </p>
                         <% }); %>
                 </div>
