@@ -1,4 +1,4 @@
-<%- include("partials/header.js") %>
+<%- include("../partials/header.js") %>
 
 
 <div class="container-xl container-fluid row justify-content-md-center">
@@ -19,7 +19,7 @@
         <textarea name="description" cols="30" rows="10"><%=scene.description%></textarea>        <br>
 
         <label> Image</label>
-        <input type="text" name="image" placeholder="image url">
+        <input type="text" name="image" value="<%=scene.image%>">
 
         <br>
         <br>
@@ -28,4 +28,4 @@
     </form>
 </div>
 
-<%- include("partials/footer.js") %>
+<%- include("../partials/footer.js") %>

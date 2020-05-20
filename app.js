@@ -1,14 +1,55 @@
 
 // semanticUI?
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override'); // trick the GET method To a PUT (update) Method
-const formidable = require('express-formidable');
+const express           = require('express');
+const bodyParser        = require('body-parser');
+const methodOverride    = require('method-override'); // trick the GET method To a PUT (update) Method
+const formidableMiddleware        = require('express-formidable');
 // const sanitizer = require('express-sanitizer')  use sanitizer to clean code from malicius input
-const mongoose = require('mongoose');
+const mongoose          = require('mongoose');
+const passport          = require('passport');
+const localStrategy     = require('passport-local');
+
 const app = express();
-app.use(formidable());
+// app.use(formidable());
+
+
+// App Config
+app.use(express.static(__dirname + "/public"));
+app.set('view engine', 'ejs');
+
+// importing Models
+const User    = require('./models/user')
+const Scene   = require('./models/scenes');
+const Comment = require('./models/comment');
+// const User    = require('./models/user');
+const seedDB  = require('./seeds')
+
+
+
+// Passport Config
+app.use(require("express-session")({
+    secret: 'This is something',
+    resave: false,
+    saveUninitialized: false
+
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use( (req, res, next) => {
+    res.locals.currentUser = req.user // this makes the if(user) available to all the routes
+    next();
+})
+
+
+
+// seedDB();
+
 // app.use(expressSanitizer()); use sanitizer to clean code from malicius input
 
 app.use(require('sanitize').middleware);
@@ -24,6 +65,7 @@ app.use(require('sanitize').middleware);
 app.use(methodOverride("_method"))
 
 mongoose.connect("mongodb://localhost/ahoy_world", {useNewUrlParser: true, useUnifiedTopology: true});
+app.use(bodyParser.urlencoded({extended: true}));
 
 // mongoose.connect("mongodb://localhost/ahoy_world", { useNewUrlParser: true });
 // mongoose.createConnection("mongodb://localhost/ahoy_world", { useUnifiedTopology: true });
@@ -31,41 +73,6 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-// App Config
-app.use(express.static("public"));
-app.set('view engine', 'ejs');
-
-
-
-
-
-
-// Mongoose / Model Config SCHEMA SETUP
-
-const sceneSchema = new mongoose.Schema({
-    
-    name: String,
-    location: String,
-    description: { type: String, default: "what a incredible place"} ,
-    image: {type: String, default:"images/default.png"}
-})
-
-const Scene = mongoose.model('Scene', sceneSchema)
-
-// RESTFUL Routes
-// Scene.create({
-//     name: "Chapada Does",
-//     location: "Brasilia",
-//     description: 'this is a good place to go in the summer'
-
-// }, (err, item) => {
-//     if (err) {
-//         console.log('something went wrong')
-//     } else {
-//         console.log("New Scene Successifully created")
-//         console.log(item)
-//     }
-// });
 
 
 app.get('/', (req, res) =>{
@@ -86,7 +93,7 @@ app.get('/scenes', (req , res) => {
         if (err) {
             console.log('err')
         } else {
-            res.render('index', {scenes:allScenes});
+            res.render('scenes/index', {scenes:allScenes});
         }
     })
 });
@@ -94,35 +101,37 @@ app.get('/scenes', (req , res) => {
 
 
 // show form to add new camp ground
-app.get('/scenes/new', (req, res) =>{
-    res.render('new.ejs')
+app.get('/scenes/new', isLoggedIn, (req, res) =>{
+    res.render('scenes/new.ejs')
 })
 
 app.get('/scenes/:id', (req, res) => {
     // res.send('this is the show page');
-    Scene.findById(req.params.id, (err, foundScene) => {
+    Scene.findById(req.params.id).populate('comments').exec((err, foundScene) => {
         if (err) {
             console.log(err)
         } else {
             // render show template with that scene
-            res.render('show', {scene:foundScene})
+            res.render('scenes/show', {scene:foundScene})
         }
     })
 })
 
 // EDIT ROUTE
-app.get('/scenes/:id/edit', (req, res) => {
+app.get('/scenes/:id/edit', isLoggedIn, (req, res) => {
     
     Scene.findById(req.params.id, (err, foundScene) => {
         if (err) {
             console.log(err)
         } else {
-            res.render('edit', {scene:foundScene});
+            res.render('scenes/edit', {scene:foundScene});
         }
     })
 });
 
-app.post('/scenes', (req, res) => {
+
+
+app.post('/scenes', isLoggedIn, formidableMiddleware(), (req, res) => {
 
     // add data from form to scenes array
     var def = "/images/default.png"
@@ -139,43 +148,156 @@ app.post('/scenes', (req, res) => {
     });    
 }) 
 
+
 // UPDATE ROUTE
-app.put('/scenes/:id', (req, res) => {
+app.put('/scenes/:id', isLoggedIn, formidableMiddleware(), (req, res) => {
     // add data from form to scenes array
     Scene.findByIdAndUpdate(req.params.id, req.fields, (err, updatedScene) =>{
         if(err){
             res.send(err)
         } else{
             // res.send('what?')
+            // redirect back to scenes page
             res.redirect('/scenes/' + req.params.id)
         }
     })
-    // redirect back to scenes page
 })
 
 // DELETE
-app.delete('/scenes/:id', (req, res) => {
+app.delete('/scenes/:id', isLoggedIn, (req, res) => {
     // add data from form to scenes array
-    Scene.findByIdAndDelete(req.params.id, req.fields, (err) =>{
+    Scene.findByIdAndRemove(req.params.id, (err) =>{
         if(err){
             res.send(err)
         } else{
-            // res.send('what?')
-            res.redirect('/scenes')
+            // redirect back to scenes page
+            res.redirect('/scenes');
         }
     })
-    // redirect back to scenes page
 }) 
 
-    
+// ============ COMMENT ROUTES ====================
+
+app.get('/scenes/:id/comments/new', isLoggedIn, (req, res) => {
+    Scene.findById(req.params.id, (err, foundScene) =>{
+        if(err){
+            console.log(err)
+        } else{
+            res.render('comments/new', {scene:foundScene});
+        } 
+    })
+});
+
+app.post('/scenes/:id/comments', isLoggedIn, (req, res) => {
+    var newComment = req.fields
+    Scene.findById(req.params.id, (err, scene) =>{
+        if(err){
+            console.log(err)
+        } else{
+            Comment.create(newComment, (err, comment) => {
+                if(err) {
+                    console.log(err)
+                } else {
+                    scene.comments.push(comment);
+                    scene.save();
+                    res.redirect('/scenes/' + req.params.id);
+                }
+            })
+        }
+    })
+});
+
+// Show Register form
+app.get('/register', (req, res) => {
+    res.render('register')
+});
+
+// sign up logic
+// app.post("/register", function(req, res){
+//     var newUser = new User({username: req.fields.username});
+//     var passw = req.fields.password
+//     User.register(newUser, passw, function(err, user){
+//         if(err){
+//             console.log(err);
+//             return res.render("register");
+//         }else{
+//             passport.authenticate("local")(req, res, function(){
+//                 res.redirect("/scenes"); 
+//              });
+//         }
+//     });
+// });
+
+app.post("/register", function (req, res, next) {
+    var newUser = new User({
+        username: req.body.username
+    });
+    User.register(newUser, req.body.password, function (err, user) {
+        if (err) {
+            return res.send(err);
+        }
+
+        // go to the next middleware
+        next();
+
+    });
+}, passport.authenticate('local', { 
+    successRedirect: '/scenes',
+    failureRedirect: '/' 
+}));
+
+
+// Log in route
+app.get('/login', (req, res) => {
+    res.render('login')
+})
+
+// app.post('/login', (req, res) => {
+//     var test = req.fields.username
+//     res.send(test)
+// })
+
+app.post('/login', passport.authenticate('local', 
+    {
+        successRedirect: '/scenes', 
+        failureRedirect: '/login'}), 
+        
+        (req, res) => {
+})
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/scenes')
+});
+
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()){
+        return next()
+    }
+    res.redirect('/login')
+}
+
 app.listen(3000, () => { 
     console.log('Ahoy Wolrd '); 
     console.log('Server listening on port 3000'); 
-  });
+});
 
 
 
+// RESTFUL Routes
+// Scene.create({
+//     name: "Chapada Does",
+//     location: "Brasilia",
+//     description: 'this is a good place to go in the summer'
 
+// }, (err, item) => {
+//     if (err) {
+//         console.log('something went wrong')
+//     } else {
+//         console.log("New Scene Successifully created")
+//         console.log(item)
+//     }
+// });
 
 
   // create a new scene with imagefrom user local storage

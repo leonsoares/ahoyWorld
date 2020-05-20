@@ -17,15 +17,21 @@
             </button>
         <div class="collapse navbar-collapse justify-content-end id="navbarNav">
             <ul class="navbar-nav ">
+            <% if(!currentUser){ %>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Login <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign up</a>
+                    <a class="nav-link" href="/register">Sign up</a>
+                </li>
+            <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">loged in as <%= currentUser.username%></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">logout</a>
+                    <a class="nav-link" href="logout">logout</a>
                 </li>
+            <% } %>
             </ul>
         </div>
     </div>

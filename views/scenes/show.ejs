@@ -1,0 +1,40 @@
+<%- include("../partials/header.js") %>
+
+
+<div class="row text-center" >
+        
+            <div class="col-md-3 col-sm-6 card">
+                <div>
+                    <div class="thumbnail">
+                        <div class="card-title">
+                                <h4><%= scene.name %> - <%= scene.location %></h4>
+                        </div>
+                        <img src="<%= scene.image %>" class="card-img-top"" alt="">
+                        
+                    </div>
+                    
+                
+                        <p class="card-text"><%= scene.description %></p>
+                    
+
+                    <p class="card-text"><%= scene._id.getTimestamp() %></p>
+
+                    <% scene.comments.forEach((comment) => { %>
+                        <p class="card-text">
+                            <%= comment.author %> - <%= comment.text %>
+                        </p>
+                        <% }); %>
+                </div>
+
+                <a class="btn btn-primary" href="/scenes">Back</a>
+                <a class="btn btn-primary" href="/scenes/<%- scene._id %>/edit">Edit</a>
+                <a class="btn btn-primary" href="/scenes/<%- scene._id %>/comments/new">Add Comment</a>
+                
+                    <br>
+                <form action="/scenes/<%=scene._id %>?_method=DELETE" method="POST" >
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>   
+    </div>
+
+<%- include("../partials/footer.js") %>
