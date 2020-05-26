@@ -10,30 +10,44 @@
                                 <h4><%= scene.name %> - <%= scene.location %></h4>
                         </div>
                         <img src="<%= scene.image %>" class="card-img-top"" alt="">
-                        
+                        <h6 class="card-title"> Post By <%= scene.author.username%></h6>
                     </div>
                     
                 
                         <p class="card-text"><%= scene.description %></p>
                     
-
+                    
                     <p class="card-text"><%= scene._id.getTimestamp() %></p>
 
                     <% scene.comments.forEach((comment) => { %>
+                    <div>
                         <p class="card-text">
                             <%= comment.author.username %> - <%= comment.text %>
+
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                            <a class="btn btn-primary" href="/scenes/<%- scene._id%>/comments/<%-comment._id%>/edit">Edit</a>
+                            <form action="/scenes/<%- scene._id%>/comments/<%-comment._id%>?_method=DELETE" method="POST">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <%  } %>
                         </p>
+                    </div>
                         <% }); %>
+
                 </div>
 
                 <a class="btn btn-primary" href="/scenes">Back</a>
-                <a class="btn btn-primary" href="/scenes/<%- scene._id %>/edit">Edit</a>
                 <a class="btn btn-primary" href="/scenes/<%- scene._id %>/comments/new">Add Comment</a>
-                
+
+                <% if(currentUser && scene.author.id.equals(currentUser._id)){ %>
+                    <a class="btn btn-primary" href="/scenes/<%- scene._id %>/edit">Edit</a>                
                     <br>
-                <form action="/scenes/<%=scene._id %>?_method=DELETE" method="POST" >
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                    <form action="/scenes/<%=scene._id %>?_method=DELETE" method="POST" >
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+              <%  } %>
+                
             </div>   
     </div>
 

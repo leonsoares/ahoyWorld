@@ -29,7 +29,7 @@
                     <a class="nav-link" href="#">loged in as <%= currentUser.username%></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout">logout</a>
+                    <a class="nav-link" href="/logout">logout</a>
                 </li>
             <% } %>
             </ul>

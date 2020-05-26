@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Scene   = require('../models/scenes');
 const Comment = require('../models/comment');
-const User    = require('../models/user')
 const formidableMiddleware        = require('express-formidable');
-
+const bodyParser        = require('body-parser');
+const middleware = require('../middleware');
 
 // ============ COMMENT ROUTES ====================
 
-router.get('/scenes/:id/comments/new', isLoggedIn, (req, res) => {
+router.get('/scenes/:id/comments/new', middleware.isLoggedIn, (req, res) => {
     Scene.findById(req.params.id, (err, foundScene) =>{
         if(err){
             console.log(err)
@@ -18,7 +18,7 @@ router.get('/scenes/:id/comments/new', isLoggedIn, (req, res) => {
     })
 });
 
-router.post('/scenes/:id/comments', isLoggedIn, formidableMiddleware(), (req, res) => {
+router.post('/scenes/:id/comments', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
     var newComment = req.fields
     Scene.findById(req.params.id, (err, scene) =>{
         if(err){
@@ -39,12 +39,38 @@ router.post('/scenes/:id/comments', isLoggedIn, formidableMiddleware(), (req, re
         }
     })
 });
+            
+router.get('/scenes/:id/comments/:comment_id/edit', middleware.commentIsAuthorized, (req, res) => {
+    
+    Comment.findById(req.params.comment_id, (err, foundComment) => {
+        if (err) {
+            res.redirect('back')
+        } else {
+            res.render('comments/edit', {scene_id: req.params.id, comment: foundComment});
+        }
+    });
+});
 
-function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()){
-        return next()
-    }
-    res.redirect('/login')
-}
+router.put('/scenes/:id/comments/:comment_id', middleware.commentIsAuthorized, formidableMiddleware(), (req, res) => {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.fields, (err, foundComment) => {
+        if (err) {
+            console.log(err)
+        } else {
+    
+            res.redirect('/scenes/' + req.params.id)
+        }
+    })
+})
+
+router.delete('/scenes/:id/comments/:comment_id', middleware.commentIsAuthorized, (req, res) => {
+    Comment.findByIdAndRemove(req.params.comment_id, (err, deletedComment) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.redirect('back')
+        }
+    })
+});
+
 
 module.exports = router

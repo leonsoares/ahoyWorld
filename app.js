@@ -9,6 +9,9 @@ const mongoose          = require('mongoose');
 const passport          = require('passport');
 const localStrategy     = require('passport-local');
 
+const flash = require('connect-flash'); // use to display msgs to user
+
+
 // import routes
 const commentRoutes = require('./routes/comments');
 const authRoutes    = require('./routes/auth');
@@ -17,11 +20,14 @@ const scenesRoutes  = require('./routes/scenes');
 const Scene   = require('./models/scenes');
 const Comment = require('./models/comment');
 const User    = require('./models/user')
+const formidableMiddleware        = require('express-formidable');
+const middleware = require('./middleware');
+
 
 
 const app = express();
-// app.use(formidable());
 
+app.use(flash());
 
 // App Config
 app.use(express.static(__dirname + "/public"));
@@ -69,18 +75,19 @@ app.use(require('sanitize').middleware);
 app.use(methodOverride("_method"))
 
 mongoose.connect("mongodb://localhost/ahoy_world", {useNewUrlParser: true, useUnifiedTopology: true});
-app.use(bodyParser.urlencoded({extended: true}));
 
+// app.use(formidableMiddleware());
 // mongoose.connect("mongodb://localhost/ahoy_world", { useNewUrlParser: true });
 // mongoose.createConnection("mongodb://localhost/ahoy_world", { useUnifiedTopology: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
+// app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(commentRoutes);
 app.use(authRoutes);
 app.use(scenesRoutes);
-
 
 
 

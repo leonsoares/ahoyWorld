@@ -6,6 +6,13 @@ const sceneSchema = new mongoose.Schema({
     location: String,
     description: String,
     image: String,
+    author:{
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
+    },
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,

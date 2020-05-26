@@ -4,7 +4,7 @@ const Scene   = require('../models/scenes');
 // const Comment = require('./models/comment');
 // const User    = require('./models/user')
 const formidableMiddleware        = require('express-formidable');
-
+const middleware = require('../middleware');
 
 router.get('/', (req, res) =>{
     res.render('landing')
@@ -24,7 +24,7 @@ router.get('/scenes', (req , res) => {
 
 
 // show form to add new camp ground
-router.get('/scenes/new', isLoggedIn, (req, res) =>{
+router.get('/scenes/new', middleware.isLoggedIn, (req, res) =>{
     res.render('scenes/new.ejs')
 })
 
@@ -41,8 +41,7 @@ router.get('/scenes/:id', (req, res) => {
 })
 
 // EDIT ROUTE
-router.get('/scenes/:id/edit', isLoggedIn, (req, res) => {
-    
+router.get('/scenes/:id/edit', middleware.sceneIsAuthorized, (req, res) => {
     Scene.findById(req.params.id, (err, foundScene) => {
         if (err) {
             console.log(err)
@@ -53,27 +52,32 @@ router.get('/scenes/:id/edit', isLoggedIn, (req, res) => {
 });
 
 
-
-router.post('/scenes', isLoggedIn, formidableMiddleware(), (req, res) => {
+// Create New Scene
+router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
 
     // add data from form to scenes array
+    req.fields.author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+
     var def = "/images/default.png"
     if(req.fields.image === "") req.fields.image = def
     if(req.fields.description === "") req.fields.description = "Beautiful"
-    console.log(req.fields)
     Scene.create(req.fields, (err, item) => {
         if (err) {
             console.log('something went wrong')
         } else {
             console.log("New Scene Successifully created")
+            console.log(item)
             res.redirect('/scenes')
         }
     });    
 }) 
 
 
-// UPDATE ROUTE
-router.put('/scenes/:id', isLoggedIn, formidableMiddleware(), (req, res) => {
+// Edit ROUTE
+router.put('/scenes/:id', middleware.sceneIsAuthorized, formidableMiddleware(), (req, res) => {
     // add data from form to scenes array
     Scene.findByIdAndUpdate(req.params.id, req.fields, (err, updatedScene) =>{
         if(err){
@@ -87,9 +91,9 @@ router.put('/scenes/:id', isLoggedIn, formidableMiddleware(), (req, res) => {
 })
 
 // DELETE
-router.delete('/scenes/:id', isLoggedIn, (req, res) => {
+router.delete('/scenes/:id', middleware.sceneIsAuthorized, (req, res) => {
     // add data from form to scenes array
-    Scene.findByIdAndRemove(req.params.id, (err) =>{
+    Scene.findByIdAndRemove(req.params.id, (err) => {
         if(err){
             res.send(err)
         } else{
@@ -99,11 +103,6 @@ router.delete('/scenes/:id', isLoggedIn, (req, res) => {
     })
 });
 
-function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()){
-        return next()
-    }
-    res.redirect('/login')
-}
+
 
 module.exports = router

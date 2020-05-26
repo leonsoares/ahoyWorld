@@ -4,6 +4,8 @@ const Scene   = require('../models/scenes');
 const Comment = require('../models/comment');
 const User    = require('../models/user')
 const passport          = require('passport');
+const formidableMiddleware        = require('express-formidable');
+const bodyParser        = require('body-parser');
 
 // Show Register form
 router.get('/register', (req, res) => {
@@ -26,7 +28,7 @@ router.get('/register', (req, res) => {
 //     });
 // });
 
-router.post("/register", function (req, res, next) {
+router.post("/register", bodyParser.urlencoded({extended: true}), function (req, res, next) {
     var newUser = new User({
         username: req.body.username
     });
@@ -47,7 +49,7 @@ router.post("/register", function (req, res, next) {
 
 // Log in route
 router.get('/login', (req, res) => {
-    res.render('login')
+    res.render('login', {message: req.flash('error')})
 })
 
 // app.post('/login', (req, res) => {
@@ -55,7 +57,7 @@ router.get('/login', (req, res) => {
 //     res.send(test)
 // })
 
-router.post('/login', passport.authenticate('local', 
+router.post('/login', bodyParser.urlencoded({extended: true}), passport.authenticate('local', 
     {
         successRedirect: '/scenes', 
         failureRedirect: '/login'}), 
@@ -63,7 +65,7 @@ router.post('/login', passport.authenticate('local',
         (req, res) => {
 })
 
-router.get('/logout', (req, res) => {
+router.get('/logout', bodyParser.urlencoded({extended: true}), (req, res) => {
     req.logout();
     res.redirect('/scenes')
 });
