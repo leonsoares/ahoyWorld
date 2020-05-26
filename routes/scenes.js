@@ -31,8 +31,9 @@ router.get('/scenes/new', middleware.isLoggedIn, (req, res) =>{
 router.get('/scenes/:id', (req, res) => {
     // res.send('this is the show page');
     Scene.findById(req.params.id).populate('comments').exec((err, foundScene) => {
-        if (err) {
-            console.log(err)
+        if (err || !foundScene) {
+            req.flash('error', 'Scene not found')
+            res.redirect('back')
         } else {
             // render show template with that scene
             res.render('scenes/show', {scene:foundScene})

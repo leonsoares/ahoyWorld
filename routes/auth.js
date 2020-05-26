@@ -49,7 +49,7 @@ router.post("/register", bodyParser.urlencoded({extended: true}), function (req,
 
 // Log in route
 router.get('/login', (req, res) => {
-    res.render('login', {message: req.flash('error')})
+    res.render('login')
 })
 
 // app.post('/login', (req, res) => {
@@ -66,15 +66,11 @@ router.post('/login', bodyParser.urlencoded({extended: true}), passport.authenti
 })
 
 router.get('/logout', bodyParser.urlencoded({extended: true}), (req, res) => {
+    
     req.logout();
+    req.flash('error', 'see ya...')
     res.redirect('/scenes')
 });
 
-function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()){
-        return next()
-    }
-    res.redirect('/login')
-}
 
 module.exports = router

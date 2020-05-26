@@ -56,6 +56,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use( (req, res, next) => {
     res.locals.currentUser = req.user // this makes the if(user) available to all the routes
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
     next();
 })
 
