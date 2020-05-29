@@ -5,6 +5,8 @@
 <head>
     <title>ahoy World</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"></link>
+    <link rel="stylesheet" href="/stylesheets/main.css"></link>
+
 </head>
 
 
@@ -26,8 +28,13 @@
                 </li>
             <% } else { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">loged in as <%= currentUser.username%></a>
+                    logged in as:
                 </li>
+
+                <li class="nav-item">                
+                    <a class="nav-link" href="/users/<%= currentUser._id%>"> <%= currentUser.username%></a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">logout</a>
                 </li>

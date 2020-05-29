@@ -50,5 +50,35 @@
                 
             </div>   
     </div>
+    <div id="map"></div>
+
+    <script>
+            function initMap() {
+              var lat = <%= scene.lat %>;
+              var lng = <%= scene.lng %>;
+              var center = {lat: lat, lng: lng };
+              var map = new google.maps.Map(document.getElementById('map'), {
+                  zoom: 8,
+                  center: center,
+                  scrollwheel: false
+              });
+              var contentString = `
+                <strong><%= scene.name %><br />
+                <%= scene.location %></strong>
+                <p><%= scene.description %></p>
+              `
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+              var marker = new google.maps.Marker({
+                  position: center,
+                  map: map
+              });
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+            }
+          </script>
+          <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDIuLB4OpdqS823hdshWhlHZ04NSlySvvs&callback=initMap"></script>
 
 <%- include("../partials/footer.js") %>
