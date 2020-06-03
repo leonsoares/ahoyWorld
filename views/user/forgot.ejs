@@ -1,0 +1,22 @@
+<%- include("../partials/header.js") %>
+
+<div class="container-sm">
+        <h1>Forgot Password</h1>
+    <form action="/forgot" method="POST">
+        <div class="form-group row">
+        <label for="email"  type="email" class="col-sm-2 col-form-label">Email:</label>
+            <div class="col-sm-10">
+                <input type="email" name="email" class="form-control" placeholder="email">
+            </div>
+        </div>
+        
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+        </div>
+    </form>
+</div>
+
+
+
+<%- include("../partials/footer.js") %>
