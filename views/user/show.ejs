@@ -4,6 +4,17 @@
     <img src="<%=user.avatar%>" class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">@<%= user.username %></h5>
+
+        <%  if(currentUser && user.id != currentUser._id){ %>
+            <% if(isFollowing !== true) { %>
+              <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow</button></a>
+              <% } else { %>
+                <a href="/unfollow/<%= user.id %>"><button class="btn btn-primary">unfollow</button></a>
+            <% } %>
+          <% }  else { %>
+            <a href="/user/edit/<%= user.id %>"><button class="btn btn-primary">edit</button></a>
+          <% }  %>
+        
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
     </div>
     <ul class="list-group list-group-flush">

@@ -9,20 +9,27 @@ const middleware = require('../middleware');
 // ============ COMMENT ROUTES ====================
 
 router.get('/scenes/:id/comments/new', middleware.isLoggedIn, (req, res) => {
-    Scene.findById(req.params.id, (err, foundScene) =>{
-        if(err){
-            console.log(err)
-        } else{
-            res.render('comments/new', {scene:foundScene});
-        } 
+    Scene.findById(req.params.id, (err, foundScene) => {
+        if(err || !foundScene){
+            req.flash('error', 'Sorry, we were not able to find this scene');
+            res.redirect('back');
+        }
+        Scene.findById(req.params.id, (err, foundScene) =>{
+            if(err){
+                console.log(err)
+            } else{
+                res.render('comments/new', {scene:foundScene});
+            } 
+        })
     })
 });
 
 router.post('/scenes/:id/comments', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
     var newComment = req.fields
     Scene.findById(req.params.id, (err, scene) =>{
-        if(err){
-            console.log(err)
+        if(err || !scene){
+            req.flash('error', 'Sorry, we could not find this')
+            return res.redirect('back')
         } else{
             Comment.create(newComment, (err, comment) => {
                 if(err) {
@@ -41,14 +48,19 @@ router.post('/scenes/:id/comments', middleware.isLoggedIn, formidableMiddleware(
 });
             
 router.get('/scenes/:id/comments/:comment_id/edit', middleware.commentIsAuthorized, (req, res) => {
-    
-    Comment.findById(req.params.comment_id, (err, foundComment) => {
-        if (err) {
-            res.redirect('back')
-        } else {
-            res.render('comments/edit', {scene_id: req.params.id, comment: foundComment});
+    Scene.findById(req.params.id, (err, foundScene) => {
+        if(err || !foundScene){
+            res.flash('error', 'sorry, we could no find this scene!');
+            return res.redirect('back')
         }
-    });
+        Comment.findById(req.params.comment_id, (err, foundComment) => {
+            if (err) {
+                res.redirect('back')
+            } else {
+                res.render('comments/edit', {scene_id: req.params.id, comment: foundComment});
+            }
+        });
+    })
 });
 
 router.put('/scenes/:id/comments/:comment_id', middleware.commentIsAuthorized, formidableMiddleware(), (req, res) => {

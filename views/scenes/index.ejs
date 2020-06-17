@@ -19,10 +19,22 @@
                                 <h4><%= scene.name %> - <%= scene.location %></h4>
                         </div>
                         <img src="<%= scene.image %>" class="card-img-top"" alt="">
+                        <% if (scene.rating === 0) { %>
+                            <em>No reviews yet.</em>
+                            <% } else { %>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star <% if (scene.rating > 1.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (scene.rating > 2.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (scene.rating > 3.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (scene.rating > 4.5) { %> checked <% } %>"></span>
+                            <% } %>
                         
                     </div>
                     <p class="card-text"><%= scene.description %></p>
-                    
+
+                    <div>
+                        <span class="badge label-primary"><i class="fas fa-thumbs-up"></i> <%= scene.likes.length %></span>
+                     </div>
                 </div>
                 <a href="/scenes/<%= scene._id%>" target="_blank" rel="noopener noreferrer">See more</a>
             </div> 

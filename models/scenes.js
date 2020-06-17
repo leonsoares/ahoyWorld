@@ -4,6 +4,8 @@ const sceneSchema = new mongoose.Schema({
     
     name: String,
     location: String,
+    lat: Number,
+    lng: Number,
     description: String,
     image: String,
     author:{
@@ -18,7 +20,23 @@ const sceneSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
         }
-    ]
+    ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
+    reviews: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review"
+        }
+    ],
+    rating: {
+        type: Number,
+        default: 0
+    }
 });
 
 // const Scene = mongoose.model('Scene', sceneSchema)

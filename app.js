@@ -1,6 +1,9 @@
 
 // semanticUI?
 
+require('dotenv').config(); // tool to keep track of 
+
+
 const express           = require('express');
 const bodyParser        = require('body-parser');
 const methodOverride    = require('method-override'); // trick the GET method To a PUT (update) Method
@@ -16,7 +19,7 @@ const flash = require('connect-flash'); // use to display msgs to user
 const commentRoutes = require('./routes/comments');
 const authRoutes    = require('./routes/auth');
 const scenesRoutes  = require('./routes/scenes');
-
+const reviewsRoutes       = require('./routes/reviews');
 const Scene   = require('./models/scenes');
 const Comment = require('./models/comment');
 const User    = require('./models/user')
@@ -54,10 +57,19 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use( (req, res, next) => {
+app.use( async (req, res, next) => {
     res.locals.currentUser = req.user // this makes the if(user) available to all the routes
+    if(req.user){
+        try{
+            let user = await User.findById(req.user._id).populate('notifications', null, {isRead: false}).exec();
+            res.locals.notifications = user.notifications.reverse()
+        } catch(err){
+            console.log(err.message)
+        }
+    }
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
+   
     next();
 })
 
@@ -90,7 +102,7 @@ mongoose.set('useUnifiedTopology', true);
 app.use(commentRoutes);
 app.use(authRoutes);
 app.use(scenesRoutes);
-
+app.use(reviewsRoutes)
 
 
 app.listen(3000, () => { 

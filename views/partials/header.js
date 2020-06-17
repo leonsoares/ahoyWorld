@@ -6,7 +6,11 @@
     <title>ahoy World</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"></link>
     <link rel="stylesheet" href="/stylesheets/main.css"></link>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"></link>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 </head>
 
 
@@ -21,23 +25,55 @@
             <ul class="navbar-nav ">
             <% if(!currentUser){ %>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" data-toggle="modal" data-target="#staticBackdrop" href="#">Log in <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Sign up</a>
+                <li class="nav-item active">
+                <a class="nav-link" data-toggle="modal" data-target="#staticBackdrop1" href="#">Sign up <span class="sr-only">(current)</span></a>
                 </li>
             <% } else { %>
-                <li class="nav-item">
-                    logged in as:
-                </li>
 
-                <li class="nav-item">                
-                    <a class="nav-link" href="/users/<%= currentUser._id%>"> <%= currentUser.username%></a>
-                </li>
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-envelope"></i> <span class="badge"> <%= notifications.length %></span>
+                    </a>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">logout</a>
-                </li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li>
+                         <a class="dropdown-item" href="/notifications">See passed Notifications</a>
+                    </li>
+                          <% notifications.forEach(function(notification) { %>
+                            <li>                                     
+                                <a class="dropdown-item" href="/notifications/<%=notification._id %>">
+                                    <%= notification.username %> created a new Scene
+                                </a>
+                            </li>
+                        <% })%>
+                
+                  
+                    
+                    </ul>
+                </div>
+
+      
+                
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= currentUser.username%> <span class="badge"> </span>
+                    <img src="<%=currentUser.avatar%>" class="card-img-top avatar" alt="..."></img>
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" href="/users/<%= currentUser._id%>">Account</a>
+                        </li>
+                            
+                        <li>                                     
+                            <a class="dropdown-item" href="/logout">
+                            Log out
+                            </a>
+                        </li>
+                    </ul>
+                </div>            
             <% } %>
             </ul>
         </div>
@@ -56,3 +92,100 @@
         </div> 
     <% } %>
 
+
+
+
+<!-- Log In Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-size">
+ 
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Log in</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+      <form action="/login" method="POST">
+       <% if(error && error.length > 0){ %> 
+            <p><%= error %></p>
+        <%}%>
+        <div class="form-group row">
+        <label for="inputEmail3" class="col-sm-2 field">Username:</label>
+        <div class="col-sm-10">
+            <input type="text" name="username" class="form-control" placeholder="username">
+        </div>
+        </div>
+        <div class="form-group row">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">Password:</label>
+        <div class="col-sm-10">
+            <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password">
+        </div>
+        </div>
+        
+            <button type="submit" class="btn btn-primary">Log in</button>
+     
+    </form>
+      </div>
+        <div class="modal-footer"></div>
+            <p class="model-js">Don’t have an account? <a href="/register">Sign up</a></p>
+        </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<!-- Sign up Model -->
+<div class="modal fade" id="staticBackdrop1" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-size">
+ 
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Sign up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+      <form action="/register" method="POST">
+        <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">Email:</label>
+            <div class="col-sm-10">
+                <input type="email" name="email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+
+        <div class="form-group row">
+        <label for="UserName" class="col-sm-2 col-form-label">User Name:</label>
+        <div class="col-sm-10">
+            <input type="text" name="username" class="form-control" placeholder="Username">
+        </div>
+        </div>
+        <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
+        <div class="col-sm-10">
+            <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password">
+        </div>
+        </div>
+        
+        
+        <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+        </div>
+    </form>
+      </div>
+      
+        <div class="modal-footer"></div>
+            <p class="model-js" data-toggle="modal" data-target="#staticBackdrop">Already have an account? <a href="/login">Log in</a></p>
+        </div>
+      
+      
+    </div>
+  </div>
+</div>

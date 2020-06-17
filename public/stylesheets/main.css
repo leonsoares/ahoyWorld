@@ -1,0 +1,25 @@
+/* style the whole app here */
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+body{
+    background-color: white;
+}
+
+.checked {
+    color: orange;
+}
+
+.card {
+    margin-right: 15px;
+}
+.avatar{
+    width: 35px;
+}
+
+.model-js{
+    margin-left: 10px;
+}
