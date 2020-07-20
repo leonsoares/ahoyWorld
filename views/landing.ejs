@@ -1,37 +1,305 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Ahoy World</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/stylesheets/landing.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
-    </head>
-    <body>
-    
-    <div class="container">
-        <% if(error && error.length > 0){ %>
-            <div class="alert alert-danger" role="alert">
-                <%= error %>
-            </div>
-        <% } %>
-        <% if(success && success.length > 0){ %>
-            <div class="alert alert-success" role="alert">
-                <%= success %>
-            </div>
-        <% } %>
-    </div>
-    
-    <div id="landing-header">
- 		<h1>Welcome to Ahoy World!</h1>
-		<a href="/scenes" class="btn btn-lg btn-success">Find your scene</a>
-    </div>
-    
-    <ul class="slideshow">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
 
-<%- include("partials/footer.js") %>
+<html data-wf-page="5f074eabeef810ed8de2414f" data-wf-site="5f074eaae4ef4e3de5e86fe3">
+<head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"></link>
+        <link rel="stylesheet" href="/stylesheets/landing.css"></link>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  
+  
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <!-- <link href="css/leons-trendy-project-298c34.webflow.css" rel="stylesheet" type="text/css"> -->
+  
+  <title>Ahoy World</title>
+</head>
+<body class="body">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light  sticky-top">
+    
+        <a class="navbar-brand " href="/" >
+        <img src="/images/Ahoy-world-logo-2.png" width="111"  alt="" loading="lazy"></img>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav ">
+                <li class="nav-item active mid-btn">
+                    <a class="nav-link"  data-toggle="modal" data-target="#staticBackdrop" href="#">Sign in </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                
+            <ul class="navbar-nav ">
+                    
+            <% if(!currentUser){ %>
+                
+
+                <li class="nav-item active">
+                    <a class="nav-link"  data-toggle="modal" data-target="#staticBackdrop" href="#">Sign in </a>
+                </li>
+                <li class="nav-item active"></li>
+                    <a class="nav-link dark-btn" id="dark-btn" data-toggle="modal" data-target="#staticBackdrop1" href="#">Become a AhoyTraveler </a>
+                </li>
+                <% } else { %>
+
+                <div class="dropdown"  id="markRead">
+                            
+                    <button  class="btn btn-secondary dropdown-toggle"  type="submit" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i  class="far fa-envelope" data-toggle="tooltip" data-placement="top" title="Notifications"></i> <span class="badge" id="demo"> <%= notifications.length %></span>
+                    </button>
+                            
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li>
+                            <a class="dropdown-item" href="/notifications">See passed Notifications</a>
+                    </li>
+                            <% notifications.forEach(function(notification) { %>
+                            <li>                                     
+                                <a class="dropdown-item" href="<%=notification.goTo%>">
+                                    <%= `${notification.username} - ${notification.message}` %>
+                                </a>
+                            </li>
+                        <% })%>
+                    </ul>
+                </div>
+                
+                
+
+        
+                
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= currentUser.username%> <span class="badge"> </span>
+                    <img src="<%=currentUser.avatar%>" class="card-img-top avatar" alt="..."></img>
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" href="/users/<%= currentUser._id%>">Account</a>
+                        </li>
+                            
+                        <li>                                     
+                            <a class="dropdown-item" href="/logout">
+                            Log out
+                            </a>
+                        </li>
+                    </ul>
+                </div>            
+            <% } %>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+
+
+  <div class="section-1-container">
+    <div class="slider-container">
+      <div class="slider-animation cc-work-1 slideshow">
+            
+                <ul >
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+
+      </div>
+    </div>
+    <div class="right-content">
+      <div class="div-block-4">
+        <div class="content-text-title"><h1 href="#" class="ahoy-title">A community of <br>travelers and <br>story tellers</h1></div>
+        <div class="form-container">
+          <div class="form-block w-form">
+            <form id="email-form" name="email-form" data-name="Email Form" class="form"><input type="text" class="w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="Search..." id="name-2"></form>
+            
+          </div>
+        </div>
+      </div>
+      <div class="main-featured-content">
+        <div class="feature-title-container"><a href="#" class="featured-title">Featured Posts</a></div>
+        <div class="feature-img-container">
+          <div class="featured-img"><img src="images/placeholder-1.svg" alt="" class="image-featured"></div>
+          <div class="featured-img"><img src="images/placeholder-1.svg" alt="" class="image-featured"></div>
+          <div class="featured-img"><img src="images/placeholder-1.svg" alt="" class="image-featured"></div>
+          <div class="featured-img"><img src="images/placeholder-1.svg" alt="" class="image-featured"></div>
+        </div>
+      </div>
+      <div class="button-link">
+        <h1 class="heading-7">See all posts</h1>
+      </div>
+    </div>
+  </div>
+  <div class="section-popular">
+    <div class="section-popular-container">
+      <div class="popular-posts-container">
+        <div class="popular-title">
+          <div class="name-text">Most Popular</div>
+          <div class="under-mark-across"></div>
+        </div>
+        <div class="popular-item-container">
+          <div class="popular-item-container-img">
+            <div class="category-tag-waterfall">
+              <h1 class="heading-4">Waterfall</h1>
+            </div><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="image-2"></div>
+          <div class="categori-description-block">
+            <h1 class="category-title">Heading</h1>
+            <div class="category-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </div>
+          </div>
+        </div>
+        <div class="popular-item-container">
+          <div class="popular-item-container-img">
+            <div class="category-tag-island">
+              <h1 class="heading-4">Island</h1>
+            </div><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="image-2"></div>
+          <div class="categori-description-block">
+            <h1 class="category-title">Heading</h1>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </div>
+          </div>
+        </div>
+        <div class="popular-item-container">
+          <div class="popular-item-container-img">
+            <div class="category-tag-lake">
+              <h1 class="heading-4">Lake</h1>
+            </div><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="image-2"></div>
+          <div class="categori-description-block">
+            <h1 class="category-title">Heading</h1>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+          </div>
+        </div>
+        <div class="button-link">
+          <h1 class="heading-7">See all posts</h1>
+        </div>
+      </div>
+      <div class="popular-travelers-container">
+        <div class="travelers-block">
+          <div class="popular-title">
+            <div class="name-text">High Rank Ahoy-Travelers</div>
+            <div class="under-mark-across"></div>
+          </div>
+          <div class="travelers-item-block">
+            <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name">Mary Brown</h1>
+              <h1 class="traveler-place">Connecticut, USA</h1>
+            </div>
+          </div>
+          <div class="travelers-item-block">
+            <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name">Mary Brown</h1>
+              <h1 class="traveler-place">Connecticut, USA</h1>
+            </div>
+          </div>
+          <div class="travelers-item-block">
+            <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name">Mary Brown</h1>
+              <h1 class="traveler-place">Connecticut, USA</h1>
+            </div>
+          </div>
+          <div class="travelers-item-block">
+            <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name">Mary Brown</h1>
+              <h1 class="traveler-place">Connecticut, USA</h1>
+            </div>
+          </div>
+          <div class="travelers-item-block">
+            <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name">Mary Brown</h1>
+              <h1 class="traveler-place">Connecticut, USA</h1>
+            </div>
+          </div>
+        </div>
+        <div class="category-block">
+          <div class="category-container">
+            <div class="name-text">Search by Category Tags</div>
+            <div class="under-mark-across"></div>
+          </div>
+          <div class="category-tagg-container">
+            <div class="category-tag-item">
+              <h1 class="heading-5">Waterfall</h1>
+            </div>
+            <div class="category-tag-item">
+              <h1 class="heading-5">Lake</h1>
+            </div>
+            <div class="category-tag-item">
+              <h1 class="heading-5">Forest</h1>
+            </div>
+            <div class="category-tag-item">
+              <h1 class="heading-5">Island</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="subscribe-section">
+    <div class="subscribe-container">
+      <div class="subscribe-bg-block">
+        <div class="subscribe-bg-img"></div>
+        <div class="subscribe-bg-white"></div>
+      </div>
+      <div class="subscribe-content-container">
+        <div class="subscribe-text-container">
+          <h1 class="subscribe-text">Sign up now and become an Ahoy Traveler</h1>
+        </div>
+        <div class="subscribe-form-container">
+          <div class="w-form">
+            <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="form-2"><label for="name-3">user name</label><input type="text" class="w-input" maxlength="256" name="name-3" data-name="Name 3" placeholder="" id="name-3"><label for="email">Email Address</label><input type="email" class="w-input" maxlength="256" name="email" data-name="Email" placeholder="" id="email" required=""><label for="email-3">password</label><input type="email" class="w-input" maxlength="256" name="email-2" data-name="Email 2" placeholder="" id="email-2" required=""><input type="submit" value="Sign Up" data-wait="Please wait..." class="submit-button w-button"></form>
+            <div class="w-form-done">
+              <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div class="w-form-fail">
+              <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

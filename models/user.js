@@ -11,6 +11,15 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, unique: false, required: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
+    // badges: {
+    //     visited: {type: Number, default: 0},
+    //     dreamer: {limit: 0},
+    //     tourist: {limit: 5},
+    //     sightseer: {limit: 10},
+    //     voyager: {limit: 15},
+    //     navigator: {limit: 20},
+    //     globetrotter: {limit: 25}
+    // },
     notifications: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -22,7 +31,7 @@ const UserSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }
-    ]
+    ],
 });
 
 UserSchema.plugin(passaportLocalMongoose);

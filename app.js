@@ -12,8 +12,8 @@ const mongoose          = require('mongoose');
 const passport          = require('passport');
 const localStrategy     = require('passport-local');
 
+// const jsdom = require("jsdom");
 const flash = require('connect-flash'); // use to display msgs to user
-
 
 // import routes
 const commentRoutes = require('./routes/comments');
@@ -24,16 +24,20 @@ const Scene   = require('./models/scenes');
 const Comment = require('./models/comment');
 const User    = require('./models/user')
 const formidableMiddleware        = require('express-formidable');
-const middleware = require('./middleware');
+
+const events = require('events');
 
 
+
+
+const client    = require('./middleware/client')
 
 const app = express();
 
 app.use(flash());
 
 // App Config
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 // importing Models
@@ -105,7 +109,8 @@ app.use(scenesRoutes);
 app.use(reviewsRoutes)
 
 
-app.listen(3000, () => { 
+
+app.listen(9000, () => { 
     console.log('Ahoy Wolrd '); 
     console.log('Server listening on port 3000'); 
 });
@@ -168,3 +173,4 @@ app.listen(3000, () => {
 //             }) 
 //         });
 //     })
+

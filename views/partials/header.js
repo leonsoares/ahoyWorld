@@ -7,52 +7,55 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"></link>
     <link rel="stylesheet" href="/stylesheets/main.css"></link>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"></link>
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 </head>
 
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
-            <a class="navbar-brand " href="/">Ahoy World</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/" >
+        <img src="/images/Ahoy-world-logo-2.png" width="111"  alt="" loading="lazy"></img>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-            </button>
-        <div class="collapse navbar-collapse justify-content-end id="navbarNav">
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav ">
             <% if(!currentUser){ %>
                 <li class="nav-item active">
                     <a class="nav-link" data-toggle="modal" data-target="#staticBackdrop" href="#">Log in <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
+
                 <a class="nav-link" data-toggle="modal" data-target="#staticBackdrop1" href="#">Sign up <span class="sr-only">(current)</span></a>
-                </li>
             <% } else { %>
 
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="far fa-envelope"></i> <span class="badge"> <%= notifications.length %></span>
-                    </a>
-
+                <div class="dropdown"  id="markRead">
+                            
+                    <button  class="btn btn-secondary dropdown-toggle"  type="submit" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i  class="far fa-envelope" data-toggle="tooltip" data-placement="top" title="Notifications"></i> <span class="badge" id="demo"> <%= notifications.length %></span>
+                    </button>
+                           
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <li>
                          <a class="dropdown-item" href="/notifications">See passed Notifications</a>
                     </li>
                           <% notifications.forEach(function(notification) { %>
                             <li>                                     
-                                <a class="dropdown-item" href="/notifications/<%=notification._id %>">
-                                    <%= notification.username %> created a new Scene
+                                <a class="dropdown-item" href="<%=notification.goTo%>">
+                                    <%= `${notification.username} - ${notification.message}` %>
                                 </a>
                             </li>
                         <% })%>
-                
-                  
-                    
                     </ul>
                 </div>
+                
+                
 
       
                 
@@ -126,14 +129,13 @@
         </div>
         
             <button type="submit" class="btn btn-primary">Log in</button>
-     
+            
     </form>
       </div>
         <div class="modal-footer"></div>
             <p class="model-js">Don’t have an account? <a href="/register">Sign up</a></p>
+            <p class="model-js">Forgot password? <a href="/forgot">Reset password</a></p>
         </div>
-      
-      
     </div>
   </div>
 </div>
@@ -189,3 +191,4 @@
     </div>
   </div>
 </div>
+

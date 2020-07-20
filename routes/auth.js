@@ -5,7 +5,7 @@ const router = express.Router();
 const Scene   = require('../models/scenes');
 const Comment = require('../models/comment');
 const User    = require('../models/user');
-const Notifications = require('../models/notification');
+const Notification = require('../models/notification');
 const passport          = require('passport');
 const formidableMiddleware        = require('express-formidable');
 const bodyParser        = require('body-parser');
@@ -13,6 +13,9 @@ const async = require('async');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const middleware = require('../middleware');
+
+
+
 
 // Show Register form
 router.get('/register', (req, res) => {
@@ -42,9 +45,9 @@ router.post("/register", bodyParser.urlencoded({extended: true}), function (req,
     });
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
-            return res.send(err);
+            req.flash("error", err.message)
+            return res.redirect('/register');
         }
-
         // go to the next middleware
         next();
     });
@@ -98,24 +101,21 @@ router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
                 }
             }
         }
-        
-        // if(req.user._id === foundUser._id) foundUser = req.user
-        // console.log(req.user._id);
-        // console.log(foundUser._id)
-        // if(req.user._id === foundUser.id) foundUser = req.user
-        
+  
         Scene.find().where('author.id').equals(foundUser._id).exec(function(err, scenes){
             if (err || !scenes) {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
                 res.redirect('back')
             }
-            res.render('user/show', {user: foundUser, scenes: scenes, isFollowing})
+            Scene.find().where('saveScene').equals(req.user._id).exec(function(err, foundScenes){
+                if (err || !scenes) {
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    res.redirect('back')
+                }
+                res.render('user/show', {savedScene:foundScenes, user: foundUser, scenes: scenes, isFollowing})
+            });
         });
     });
-});
-
-router.get('/test', (req, res) =>{
-    res.send('test');
 });
 
 router.get('/follow/:id', middleware.isLoggedIn, (req, res) => {
@@ -125,9 +125,22 @@ router.get('/follow/:id', middleware.isLoggedIn, (req, res) => {
             res.redirect('/back');
         }
         foundUser.followers.push(req.user._id);
-        // req.user.following.push(foundUser._id);
-        // req.user.save();
-        foundUser.save();
+
+        let newNotification = {
+            username: req.user.username,
+            message: "Is following you.",
+            goTo: `/users/${req.user._id}`
+        }
+
+        Notification.create(newNotification, (err, createdNotif)=>{
+            if(err){
+                req.flash('error', err.message);
+            }
+                foundUser.notifications.push(createdNotif);
+                foundUser.save();
+        });
+
+        
         req.flash('sucess', `You are now following ${foundUser.username}.`);
         res.redirect(`/users/${req.params.id}`);
     });
@@ -139,15 +152,25 @@ router.get('/unfollow/:id', middleware.isLoggedIn, (req, res) => {
             req.flash('error', err.message);
             res.redirect('/back');
         }
-        
-        for(var i = 0; 0 < foundUser.followers.length; i++){
+        let newNotification = {
+            username: req.user.username,
+            message: "Unfollowed you.",
+            goTo: `/users/${req.user._id}`
+        }
+
+        for(var i = 0; i < foundUser.followers.length; i++){
             if(foundUser.followers[i].id === req.user.id){
                 foundUser.followers.splice(i, 1);
+                Notification.create(newNotification, (err, createdNotif) =>{
+                    if(err){
+                        req.flash('error', err.message);
+                    }
+                    foundUser.notifications.push(createdNotif);
+                    foundUser.save() 
+                });
                 break
             }
         }
-        foundUser.save()
-        
         req.flash('sucess', `You do not follow ${foundUser.username} anymore.`);
         res.redirect(`/users/${req.params.id}`);
     });
@@ -164,22 +187,56 @@ router.get('/notifications', middleware.isLoggedIn, (req, res) => {
             req.flash('error', err.message)
             res.redirect('back');
         }
-        let allNotifications = foundUser.allNotifications;
-        res.render('notifications/index', {allNotifications});
+        foundUser.notifications.forEach(function(notification){
+            notification.isRead = true;
+            notification.save();
+        })
+        // let allNotifications = foundUser.allNotifications;
+        res.render('notifications/index', {allNotifications: foundUser.notifications});
     });
 });
 
-router.get('/notifications/:id', middleware.isLoggedIn, (req, res) => {
-    Notifications.findById(req.params.id, (err, foundNotifi) => {
-        if(err){
-            req.flash('error', err.massage);
+// router.post('/clicked', (req, res) => {
+
+//     db.collection('clicks').save(click, (err, result) => {
+//       if (err) {
+//         return console.log(err);
+//       }
+//       console.log('click added to db');
+//       res.sendStatus(201);
+//     });
+//   });
+
+
+router.get('/clicked', middleware.isLoggedIn, (req, res) => {
+    User.findById(req.user._id).populate('notifications').exec((err, foundUser) => {
+        if (err) {
+            req.flash('error', err.message)
             res.redirect('back');
         }
-        foundNotifi.isRead = true;
-        foundNotifi.save();
-        res.redirect('/scenes/' + foundNotifi.sceneId)
+        foundUser.notifications.forEach(function(notification){
+            notification.isRead = true;
+            notification.save();
+        })
+        res.sendStatus(201);
     });
-})
+});
+
+router.get('/notifications/isread', middleware.isLoggedIn, (req, res) => {
+    User.findById(req.user._id).populate('notifications').exec((err, foundUser) => {
+        if (err) {
+            req.flash('error', err.message)
+            res.redirect('back');
+        }
+        foundUser.notifications.forEach(function(notification){
+            notification.isRead = true;
+            notification.save();
+        })
+        res.redirect('back')
+    });
+});
+
+
 
 
 // router.get('/users/:id', (req, res) => {
@@ -315,4 +372,7 @@ router.post('/reset/:token', bodyParser.urlencoded({extended: true}),function(re
     });
   });
 
+
+
+  
 module.exports = router

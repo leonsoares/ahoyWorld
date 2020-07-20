@@ -3,10 +3,10 @@
 <h1>Notifications</h1>
 
 <ul>
-	<% notifications.forEach(function(notification) { %>
+	<% allNotifications.forEach(function(notification) { %>
 	<li>
-		<a href="/scenes/<%= notification.sceneId %>">
-			<%= notification.username %> created a new scene %>
+		<a href="<%=notification.goTo%>">
+			<%= notification.username + " " + notification.message%>
 		</a>
 	</li>
 	<% }); %>

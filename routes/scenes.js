@@ -6,7 +6,7 @@ const Notification = require('../models/notification');
 const bodyParser        = require('body-parser');
 const User = require('../models/user');
 const Review = require('../models/reviews');
-
+// eval(require('locus')); DEBUGGIN PACKAGE
 const formidableMiddleware        = require('express-formidable');
 const middleware = require('../middleware');
 
@@ -26,18 +26,66 @@ var geocoder = NodeGeocoder(options);
 
 // scenes Routes 
 router.get('/', (req, res) =>{
+    
     res.render('landing')
 })
 
 // render all scenes:
 router.get('/scenes', (req , res) => {
-    Scene.find({}, (err, allScenes) => {
-        if (err) {
-            console.log('err')
-        } else {
-            res.render('scenes/index', {scenes:allScenes});
-        }
-    })
+    // eval(require('locus'));
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    
+    if(req.query.search){
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        Scene.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+            Scene.countDocuments().exec(function (err, count) {
+            if (err) {
+                console.log('err')
+            } else if(allScenes.length === 0) {
+                Scene.find({location: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+                    Scene.countDocuments().exec(function (err, count) {
+                    if (err) {
+                        console.log('err')
+                    } else {
+                        if(allScenes.length === 0){
+                        noMatch = `Sorry, we could not find any matches for: ${req.query.search}`
+                        res.render('scenes/index', {
+                            scenes:allScenes,
+                            noMatch: noMatch,
+                            current: pageNumber,
+                            pages: Math.ceil(count / perPage)
+                            });
+                        } else {
+
+                        res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+                        }
+                    }
+                })
+             })
+            }
+            else {
+                res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+            }
+            })
+        })
+    } else {
+            Scene.find().skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+                Scene.countDocuments().exec(function (err, count) {
+                if (err) {
+                    console.log('err')
+                } else {
+                    res.render('scenes/index', {
+                        scenes:allScenes,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage)
+                    });
+                
+                }
+            })
+        })
+    }
 });
 
 
@@ -115,7 +163,9 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
                     }
                     let newNotification = {
                         username: req.user.username,
-                        sceneId: foundScene._id
+                        sceneId: foundScene._id,
+                        message: "Created a new scene",
+                        goTo: `/scenes/${foundScene._id}`
                     }
                     if(foundUser.followers.length > 0){
                         for(const follower of foundUser.followers){
@@ -219,5 +269,72 @@ router.post('/scenes/:id/like', middleware.isLoggedIn, (req, res) => {
 
     })
 });
+
+
+
+// FLAG / Place Visited
+
+router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
+    Scene.findById(req.params.id, (err, foundScene) => {
+        if (err) {
+            req.flash('error', err.message);
+            return res.redirect('back');
+        }
+        let foundUserFlag = foundScene.flag.some(function (flag) {
+            return flag.equals(req.user._id);
+        });
+
+        if (foundUserFlag) {
+            // user already liked, removing like
+            foundScene.flag.pull(req.user._id);
+        } else {
+            // adding the new user like
+            foundScene.flag.push(req.user);
+        }
+
+            foundScene.save(function (err) {
+            if (err) {
+                console.log(err);
+                return res.redirect("/scenes");
+            }
+            return res.redirect("back");
+        });
+
+    });
+});
+
+router.post('/scenes/:id/saveScene', middleware.isLoggedIn, (req, res) => {
+    Scene.findById(req.params.id, (err, foundScene) => {
+        if (err) {
+            req.flash('error', err.message);
+            return res.redirect('back');
+        }
+        let foundUserSave = foundScene.saveScene.some(function (save) {
+            return save.equals(req.user._id);
+        });
+           
+        if (foundUserSave) {
+            // user already liked, removing like
+            foundScene.saveScene.pull(req.user._id);
+        } else {
+            // adding the new user like
+            foundScene.saveScene.push(req.user);
+        }
+
+            foundScene.save(function (err) {
+            if (err) {
+                console.log(err);
+                return res.redirect("/scenes");
+            }
+            return res.redirect("back");
+        });
+    });
+});
+
+
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router

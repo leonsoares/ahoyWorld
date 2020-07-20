@@ -36,9 +36,19 @@ const sceneSchema = new mongoose.Schema({
     rating: {
         type: Number,
         default: 0
-    }
+    },
+    flag: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
+    saveScene: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ]
 });
-
-// const Scene = mongoose.model('Scene', sceneSchema)
 
 module.exports = mongoose.model("Scene", sceneSchema)

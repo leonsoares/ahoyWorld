@@ -12,12 +12,14 @@
     "async": "^3.2.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
+    "dom-parser": "^0.1.6",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.2",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "express-sanitizer": "^1.0.5",
     "express-session": "^1.17.1",
+    "locus": "^2.0.4",
     "method-override": "^3.0.0",
     "mongoose": "^5.9.12",
     "node-geocoder": "^3.27.0",
@@ -28,6 +30,8 @@
     "sanitize": "^2.1.0"
   },
   "devDependencies": {
+    "jsdom": "16.2.2",
+    "jsdom-global": "3.0.2",
     "nodemon": "^2.0.4"
   }
 }
