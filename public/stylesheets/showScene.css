@@ -1,0 +1,394 @@
+.heading {
+    margin-top: 0px;
+    font-size: 50px;
+  }
+  
+  .div-block {
+    text-align: center;
+  }
+  
+  .div-block-2 {
+    position: relative;
+    overflow: hidden;
+    height: 50vh;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .image {
+    
+    width: 100%;
+    height: 100%;
+    transition: transform 7000ms ease-in;
+    transform-origin: center;
+    z-index: -1;
+  }
+
+  .div-block-2:hover .image{
+    z-index: -1;
+    transform: scale(1.2);
+  }
+
+ .reviews-block{
+  color: rgb(241, 207, 12); 
+
+   z-index: 5;
+   position: absolute;
+   top: auto;
+   right: auto;
+   bottom: 0%;
+   margin-left: 10px;
+ }
+  
+  .div-block-3 {
+    width: 90vw;
+    margin-top: 70px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .text-block {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .actions-box {
+    position: absolute;
+    z-index: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+  
+  .mark-visited {
+    margin-right: 5px;
+  }
+  
+  .icons {
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+  
+  .avatar {
+    width: 35px;
+  }
+
+  .save-scene {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+  
+  .likes {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+  
+  .category-tag-waterfall {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #1361a5;
+  }
+  
+  .category-tag-waterfall:hover {
+    background-color: #074377;
+  }
+  
+
+  .category-tag-mountain {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #e94a4a;
+  }
+  
+  .category-tag-mountain:hover {
+    background-color: #b42121;
+  }
+  
+  .category-tag-lake {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #0799af;
+  }
+  
+  .category-tag-lake:hover {
+    background-color: #056b7a;
+  }
+  
+  .category-tag-beach {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #928017;
+  }
+  
+  .category-tag-forest {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #0f9423;
+  }
+  
+  .category-tag-island {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #8829c4;
+  }
+  
+  .city {
+    z-index: 1;
+    margin: 5px 5px 5px 0px;
+    background-color: #e00ea8;
+    text-decoration: none;
+    text-transform: none;
+  }
+  
+  .city:hover {
+    background-color: #b30f87;
+  }
+  
+  .category-tag-city {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #e00ea8;
+  }
+  
+  .category-tag-city:hover {
+    background-color: #a30c7b;
+  }
+
+
+  .action-buttons{
+    display: inline-flex;
+    background: none;
+    border: none;
+    color: white;
+    text-shadow: 1px 2px black;
+  }
+  
+  .action-buttons:hover  {
+    color: rgb(233, 199, 8);
+  }
+  
+  .action-buttons-selected{
+    color: rgb(233, 199, 8)
+  }
+
+  .heading-4 {
+    margin: 0px 5px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  
+  .div-block-4 {
+    margin-top: 10px;
+  }
+  
+  .heading-5 {
+    display: inline-block;
+    margin: 0px 3px 0px auto;
+  }
+  
+  .div-block-5 {
+    display: block;
+    margin-top: 0px;
+    text-align: right;
+  }
+  
+  .div-block-6 {
+    margin-top: 30px;
+  }
+  
+  .div-block-7 {
+    display: block;
+    margin-bottom: 71px;
+  }
+  
+  .div-block-8 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 10px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #cecece;
+  }
+  
+  .div-block-9 {
+    margin: 10px;
+  }
+  
+  .traveler-prof-pic {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .traveler-place {
+    margin-top: 3px;
+    margin-bottom: 0px;
+    color: #68696d;
+    font-size: 15px;
+    line-height: 20px;
+  }
+  
+  .travelers-item-block {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    overflow: hidden;
+    width: 300px;
+    margin-right: 5px;
+    padding: 5px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 10px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .travelers-item-block:hover {
+    background-color: #fff;
+    box-shadow: 1px 0 2px 0 #000;
+  }
+  
+  .travelers-prof-pic-container {
+    display: block;
+    overflow: hidden;
+    width: 90px;
+    height: 90px;
+    border-radius: 100%;
+    text-align: center;
+  }
+  
+  .traveler-name {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 1.5em;
+    line-height: 20px;
+    font-weight: 500;
+  }
+  
+  .travelers-info-block {
+    display: inline-block;
+    width: 50%;
+    margin-left: 5px;
+  }
+  
+  .travelers-block {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+  
+  .div-block-10 {
+    margin-top: 50px;
+    padding: 5px;
+    background-color: #dfdede;
+    color: #333;
+  }
+  
+  .div-block-11 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border: 1px solid #333;
+    background-color: #fff;
+  }
+  
+  .heading-6 {
+    display: inline-block;
+    font-size: 28px;
+  }
+  
+  .button {
+    margin-right: 10px;
+  }
+  
+  .div-block-12 {
+    margin-top: 5px;
+  }
+  
+  .heading-7 {
+    display: block;
+    text-align: right;
+    text-decoration: none;
+  }
+  
+  .visiters-title {
+    display: inline;
+  }
+  
+  .heading-9 {
+    display: inline;
+  }
+  
+  @media screen and (max-width: 991px) {
+    .travelers-block {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 479px) {
+    .heading-7 {
+      text-align: center;
+    }
+  }

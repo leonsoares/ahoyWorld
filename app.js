@@ -27,12 +27,15 @@ const formidableMiddleware        = require('express-formidable');
 
 const events = require('events');
 
-
-
-
 const client    = require('./middleware/client')
 
 const app = express();
+// Passport Config
+app.use(require("express-session")({
+    secret: 'This is something',
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.use(flash());
 
@@ -47,13 +50,7 @@ const seedDB  = require('./seeds')
 
 
 
-// Passport Config
-app.use(require("express-session")({
-    secret: 'This is something',
-    resave: false,
-    saveUninitialized: false
 
-}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -92,14 +89,20 @@ app.use(require('sanitize').middleware);
 
 app.use(methodOverride("_method"))
 
-mongoose.connect("mongodb://localhost/ahoy_world", {useNewUrlParser: true, useUnifiedTopology: true});
+
+// mongoose.connect("mongodb://localhost/ahoy_world", {useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect(process.env.MONGO_API_KEY, {useNewUrlParser: true, useUnifiedTopology: true});
+
+mongoose
+     .connect(process.env.MONGO_API_KEY, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+     .then(() => console.log( 'Database Connected' ))
+     .catch(err => console.log( err ));
 
 // app.use(formidableMiddleware());
-// mongoose.connect("mongodb://localhost/ahoy_world", { useNewUrlParser: true });
-// mongoose.createConnection("mongodb://localhost/ahoy_world", { useUnifiedTopology: true });
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
+
+// mongoose.set('useFindAndModify', false);
+// mongoose.set('useCreateIndex', true);
+// mongoose.set('useUnifiedTopology', true);
 
 // app.use(bodyParser.urlencoded({extended: true}));
 
@@ -112,7 +115,7 @@ app.use(reviewsRoutes)
 
 app.listen(9000, () => { 
     console.log('Ahoy Wolrd '); 
-    console.log('Server listening on port 3000'); 
+    console.log('Server listening on port 9000'); 
 });
 
 // create application/json parser

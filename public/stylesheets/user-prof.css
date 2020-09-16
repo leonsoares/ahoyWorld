@@ -1,0 +1,525 @@
+.div-block {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 90vh;
+    margin-top: 40px;
+  }
+  
+  .user-info-div {
+    display:flex;
+    flex-direction: column;
+    width: 30%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #f1f1f1;
+    text-align: center;
+  }
+  .memberSince{
+    display: inline-block;
+    margin-top: auto;
+  }
+  
+  .user-post-cont {
+    overflow: auto;
+    width: 70%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #a39d9d;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: inset 0 0 11px -20px #000;
+  }
+  
+  .user-img-cont {
+    display: inline-block;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+    border-radius: 49%;
+  }
+
+  .user-img-avatar{
+    
+    width: 100px;
+    height: 100px;
+  }
+  
+  .user-info-cont {
+    display: inline-block;
+    width: 90%;
+  }
+  
+  .user-name {
+    margin-bottom: 0px;
+    font-size: 25px;
+    line-height: 31px;
+  }
+  
+  .user-location {
+    display: inline-block;
+    margin-top: 0px;
+    color: #757474;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  .category-tag-island {
+    position: absolute;
+    right: 1px;
+    display: block;
+    margin: 5px 5px 5px 0px;
+    background-color: #0abda8;
+  }
+  
+  .popular-posts-container {
+    display: block;
+    width: 95%;
+    height: auto;
+    margin-top: 15px;
+    margin-left: 20px;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    -ms-grid-row-align: auto;
+    align-self: auto;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
+  }
+  .fa-facebook{
+      color: #074377;
+  }
+  
+ 
+
+  .fa-instagram{
+      color:#C13584;
+  }
+
+
+  .popular-item-container-img {
+    position: relative;
+    overflow: hidden;
+    width: 50%;
+    height: 250px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
+  }
+  
+  .category-tag-waterfall {
+    position: absolute;
+    right: 1px;
+    margin: 5px 5px 5px 0px;
+    background-color: #4a7fe9;
+  }
+  
+  .category-tag-lake {
+    position: absolute;
+    right: 1px;
+    margin: 5px 5px 5px 0px;
+    background-color: #4a7fe9;
+  }
+  
+  .category-title {
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 25px;
+    line-height: 28px;
+  }
+  
+  .categori-description-block {
+    width: 65%;
+    margin-left: 10px;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    -ms-grid-row-align: auto;
+    align-self: auto;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+  
+  .popular-item-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 10px;
+  }
+  
+  .popular-item-container:hover {
+    background-color: #fff;
+    box-shadow: 1px 1px 3px 0 #000;
+  }
+  
+  .category-description {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  .search-tag {
+    margin: 0px 5px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  
+  .image-2 {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+  
+  .heading-7 {
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 20px;
+    line-height: 20px;
+  }
+  
+  .user-social-media-cont {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  
+  .user-title {
+    margin-bottom: 10px;
+  }
+  
+  .user-prof-container {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+  
+  .div-block-9 {
+    margin-top: 20px;
+  }
+  
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover{
+
+    text-decoration: none;
+    color: inherit;
+}
+
+  .social-btns{
+    padding-bottom: 20px;
+  }
+  
+  .category-tag-forest {
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #0f9423;
+  }
+  
+  .category-tag-forest:hover {
+  
+    background-color: #076b16;
+  }
+  
+  .category-tag-island {
+    z-index: 1;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #8829c4;
+  }
+  
+  
+  .category-tag-waterfall {
+      margin: 0;
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #1361a5;
+  }
+  
+  .category-tag-waterfall:hover {
+    background-color: #074377;
+  }
+  
+  .category-tag-beach {
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #928017;
+  }
+  
+  .category-tag-city {
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #e00ea8;
+  }
+  
+  .category-tag-city:hover {
+    background-color: #a30c7b;
+  }
+  
+  .category-tag-mountain {
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #e94a4a;
+  }
+  
+  .category-tag-mountain:hover {
+    background-color: #b42121;
+  }
+  
+  .category-tag-lake {
+    position: absolute;
+    left: auto;
+    top: 0%;
+    right: 0%;
+    bottom: auto;
+    padding: 3px 5px;
+    background-color: #0799af;
+  }
+  
+  .category-tag-lake:hover {
+    background-color: #056b7a;
+  }
+
+  
+  .user-text-info {
+    width: 100%;
+    word-wrap: break-word;
+    margin-top: 5px;
+    color: #5a5a5a;
+  }
+  
+  .user-places-cont {
+    display: inline-block;
+    width: 90%;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    text-align: left;
+  }
+  
+  .user-social-fb {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    background-color: #375da0;
+  }
+  
+  .user-social-insta {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    background-color: #44a055;
+  }
+  
+  .user-social-linked {
+    width: 40px;
+    height: 40px;
+    background-color: #f08731;
+  }
+  
+  .data-text {
+    display: inline;
+    margin-top: 10px;
+    color: #000;
+    font-size: 15px;
+    line-height: 21px;
+  }
+  
+  .user-email-cont {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .div-block-17 {
+    margin-top: 10px;
+  }
+  
+  .user-email {
+    display: inline-block;
+    margin-top: 0px;
+    color: #757474;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  .user-places-data {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    color: #fff;
+  }
+  
+  .and-more {
+    display: inline;
+    color: rgb(8, 144, 168);
+    font-size: 15px;
+    line-height: 21px;
+  }
+  
+  .user-frame {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  @media screen and (max-width: 991px) {
+    .popular-posts-container {
+      -webkit-align-self: flex-start;
+      -ms-flex-item-align: start;
+      align-self: flex-start;
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 auto;
+      -ms-flex: 0 auto;
+      flex: 0 auto;
+    }
+    .popular-item-container-img {
+      width: 60%;
+    }
+    .category-title {
+      display: inline;
+    }
+    .popular-item-container {
+      height: 200px;
+      margin-right: auto;
+      margin-left: auto;
+      -webkit-box-pack: start;
+      -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+      justify-content: flex-start;
+    }
+    .category-description {
+      display: block;
+    }
+  }
+  
+
+  .avatar {
+    width: 35px;
+  }
+  @media screen and (max-width: 767px) {
+    .div-block {
+      display: block;
+      padding-top: 0px;
+    }
+    .user-info-div {
+      width: 100%;
+      height: 90vh;
+      padding-top: 5px;
+    }
+    .user-post-cont {
+      width: 100%;
+    }
+    .popular-posts-container {
+      margin-right: auto;
+      margin-left: auto;
+    }
+    .popular-item-container-img {
+      display: block;
+      width: auto;
+      height: 50%;
+    }
+    .categori-description-block {
+      margin-right: auto;
+      margin-left: auto;
+      text-align: center;
+    }
+    .popular-item-container {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-bottom: 45px;
+      -webkit-flex-wrap: nowrap;
+      -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+    }
+    .category-description {
+      margin-bottom: 10px;
+    }
+    .image-2 {
+      width: 100%;
+      height: 250px;
+      -o-object-fit: cover;
+      object-fit: cover;
+    }
+    .user-prof-container {
+      margin-right: 0px;
+      margin-left: 0px;
+    }
+  }
+  
+  @media screen and (max-width: 479px) {
+    .popular-item-container-img {
+      width: 100%;
+      height: 200px;
+    }
+    .categori-description-block {
+      width: 90%;
+      margin-top: 10px;
+      margin-left: 0px;
+    }
+    .popular-item-container {
+      margin-bottom: 35px;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+    }
+  }

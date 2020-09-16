@@ -25,10 +25,16 @@ var geocoder = NodeGeocoder(options);
 
 
 // scenes Routes 
-router.get('/', (req, res) =>{
-    
-    res.render('landing')
-})
+router.get('/', (req, res) =>{   
+    Scene.find().where('author.id').equals("5f1b2ff044aa684d415946ea").exec(function(err, scenes){
+        console.log(scenes)
+        if (err || !scenes) {
+            req.flash('error', 'sorry, we could not find you are looking for. :/')
+            res.redirect('back')
+        }
+        res.render('landing', {featuredScenes: scenes});
+    });
+});
 
 // render all scenes:
 router.get('/scenes', (req , res) => {
@@ -40,6 +46,63 @@ router.get('/scenes', (req , res) => {
     if(req.query.search){
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         Scene.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+            Scene.countDocuments().exec(function (err, count) {
+            if (err) {
+                console.log('err')
+            } else if(allScenes.length === 0) {
+                Scene.find({location: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+                    Scene.countDocuments().exec(function (err, count) {
+                    if (err) {
+                        console.log('err')
+                    } else {
+                        if(allScenes.length === 0){
+                        noMatch = `Sorry, we could not find any matches for: ${req.query.search}`
+                        res.render('scenes/index', {
+                            scenes:allScenes,
+                            noMatch: noMatch,
+                            current: pageNumber,
+                            pages: Math.ceil(count / perPage)
+                            });
+                        } else {
+
+                        res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+                        }
+                    }
+                })
+             })
+            }
+            else {
+                res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+            }
+            })
+        })
+    } else {
+            Scene.find().skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+                Scene.countDocuments().exec(function (err, count) {
+                if (err) {
+                    console.log('err')
+                } else {
+                    res.render('scenes/index', {
+                        scenes:allScenes,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage)
+                    });
+                
+                }
+            })
+        })
+    }
+});
+
+router.get('/scenes/tag/:tag', formidableMiddleware(), (req , res) => {
+    // eval(require('locus'));
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    
+    if(req.params.tag){
+        const regex = new RegExp(escapeRegex(req.params.tag), 'gi');
+        Scene.find({sceneType: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
             Scene.countDocuments().exec(function (err, count) {
             if (err) {
                 console.log('err')
@@ -108,7 +171,8 @@ router.get('/scenes/:id', (req, res) => {
             res.redirect('back')
         } else {
             // render show template with that scene
-            res.render('scenes/show', {scene:foundScene})
+            let created = foundScene._id.getTimestamp().toDateString().split(' ', 4).join(' ')
+            res.render('scenes/show', {scene:foundScene, created} )
         }
     })
 })

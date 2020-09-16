@@ -1,4 +1,254 @@
-<%- include("../partials/header.js") %>
+<%- include("../partials/header-show-scene.js") %>
+
+
+  <div class="div-block-3">
+    <div class="div-block">
+      <h1 class="heading"><%=scene.name %></h1>
+      <% if(currentUser && scene.author._id === currentUser._id){ %>
+        <h6 class="card-title"> Post By @<a href="/test%>"><%= scene.author.username%> test</a></h6>
+        <% } else{ %>
+        <h6 class="card-title"> Post By @<a href="/users/<%= scene.author.id%>"><%= scene.author.username%></a></h6>
+    <% } %>
+      <h1 class="heading"><%=scene.location%></h1>
+      <div class="text-block">This is some text inside of a div block.
+        <br>This is some text inside of a div block. This is some text inside of a div block.
+      </div>
+    </div>
+    <div class="div-block-6">
+      <div class="div-block-2">
+        <div class="actions-box">
+            <form action="/scenes/<%= scene._id %>/flag" method="POST">
+              <% if (currentUser && scene.flag.some(function (flag) {
+                  return flag.equals(currentUser._id)
+              })) { %>
+  
+                  <button href="#" type="submit" class="action-buttons action-buttons-selected " data-toggle="tooltip" data-placement="top" title="You marked this place as visited">
+                      <i class="fas fa-map-marked-alt fa-2x"></i>
+                  </button>
+              <% } else { %>
+                  <button href="#" type="submit" class="action-buttons">
+                      <i class="far fa-map fa-2x" data-toggle="tooltip" data-placement="top" title="Mark as visited"></i>
+                  </button>
+              <% } %> 
+            </form>
+  
+            <form action="/scenes/<%= scene._id %>/saveScene" method="POST">
+              <% if (currentUser && scene.saveScene.some(function (saved) {
+                  return saved.equals(currentUser._id)
+              })) { %>
+  
+                  <button href="#" type="submit" class="mark-visited action-buttons action-buttons-selected" data-toggle="tooltip" data-placement="top" title="Remove it from your saved Places">
+                      <i class="fas fa-clipboard fa-2x"></i>
+                  </button>
+              <% } else { %>
+                  <button href="#" type="submit" class="mark-visited action-buttons">
+                      <i class="far fa-clipboard fa-2x" data-toggle="tooltip" data-placement="top" title="Save this place"></i>
+                  </button>
+              <% } %> 
+            </form>
+        </div>
+          <a href="#" class="category-tag-<%=scene.sceneType%> ">
+          <form action="/scenes/tag/<%=scene.sceneType%>" method="GET">
+            <button type="submit" class="btn btn-primary category-tag-<%=scene.sceneType%>"><%=scene.sceneType%></button>
+          </form>
+          </a><img src="<%= scene.image %>" alt="" class="image">
+          <div class="reviews-block">
+          <% if (scene.rating === 0) { %>
+            <h5>
+                <p>
+                    <span class="far fa-star"></span>
+                    <span class="far fa-star"></span>
+                    <span class="far fa-star"></span>
+                    <span class="far fa-star"></span>
+                    <span class="far fa-star"></span>
+                    <em>(<%= scene.reviews.length %> - ratings )</em>
+                  </p>
+            </h5>
+            
+              <% } else { %>
+              <p>
+                <span class="fa fa-star checked"></span>
+                <span class="far fa-star <% if (scene.rating > 1.5) { %> fa <% } %>"></span>
+                <span class="far fa-star <% if (scene.rating > 2.5) { %> fa <% } %>"></span>
+                <span class="far fa-star <% if (scene.rating > 3.5) { %> fa <% } %>"></span>
+                <span class="far fa-star <% if (scene.rating > 4.5) { %> fa <% } %>"></span>
+                <em>(<%= scene.reviews.length %> - ratings )</em>
+              </p>
+              <% } %>
+              
+          </div>
+    </div>
+      <div class="div-block-5">
+        <h5 class="heading-5">Created on </h5>
+       
+        <h5 class="heading-5"> <%= created %></h5>
+      </div>
+    </div>
+    <div class="div-block-4">
+      <div><%=scene.description%></div>
+    </div>
+    <div class="div-block-10">
+      <div>
+        <h1 class="visiters-title">Ahoy's Visiters to </h1>
+        <h1 class="visiters-title"><%=scene.name%>:</h1>
+      </div>
+      <div class="travelers-block">
+        <a href="#" class="travelers-item-block w-inline-block">
+          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+          <div class="travelers-info-block">
+            <h1 class="traveler-name">Mary Brown</h1>
+            <h1 class="traveler-place">Connecticut, USA</h1>
+          </div>
+        </a>
+        <a href="#" class="travelers-item-block w-inline-block">
+          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+          <div class="travelers-info-block">
+            <h1 class="traveler-name">Mary Brown</h1>
+            <h1 class="traveler-place">Connecticut, USA</h1>
+          </div>
+        </a>
+        <a href="#" class="travelers-item-block w-inline-block">
+          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+          <div class="travelers-info-block">
+            <h1 class="traveler-name">Mary Brown</h1>
+            <h1 class="traveler-place">Connecticut, USA</h1>
+          </div>
+        </a>
+        <a href="#" class="travelers-item-block w-inline-block">
+          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+          <div class="travelers-info-block">
+            <h1 class="traveler-name">Mary Brown</h1>
+            <h1 class="traveler-place">Connecticut, USA</h1>
+          </div>
+        </a>
+      </div>
+      <h1 class="heading-7">See all...</h1>
+    </div>
+    <div class="div-block-7">
+
+      <h1>Comments</h1>
+      <% scene.comments.forEach(function(comment){ %>
+        <div class="div-block-8">
+          <div class="div-block-9">
+            <h1 class="heading-6"><%= comment.author.username %></h1>
+          </div>
+          <div class="div-block-11">
+            <div>
+              <div>
+                  <%= comment.text %>
+              </div>
+            </div>
+            <div class="div-block-12"><a href="#" class="button w-button">
+                <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                  
+
+
+                  <a class="btn btn-xs btn-warning" type="button"  data-toggle="modal" data-target="#editComment"
+                     href="">Edit</a>
+                     <a class="btn btn-xs btn-warning" type="button"  data-toggle="modal" data-target="#deleteComment"
+                     href="">delete</a>
+                  <div class="modal fade" id="editComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form class="form-group col-md-auto" action="/scenes/<%=scene._id %>/comments/<%=comment.id%>?_method=PUT" method="POST" >
+                              <textarea class="form-control" type="textarea" rows="4" cols="4" maxlength="10" name="text"><%=comment.text%></textarea>
+                              <br>
+                              <br>
+                              
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                  <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <!-- modal delete -->
+                    <div class="modal fade" id="deleteComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Are you sure that 
+                                <br>you want to delete this comment?</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="delete-form" action="/scenes/<%=scene._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                                  <input type="submit" class="btn btn-xs btn-danger" value="Yes">
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                  
+                  <% } %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+
+
+      <div class="div-block-8">
+        <div class="div-block-9">
+          <h1 class="heading-6">Vanessa </h1>
+        </div>
+        <div class="div-block-11">
+          <div>
+            <div>Vestibulum commodo tincidunt nibh, scelerisque pharetra elit fringilla ut. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse faucibus ultrices mauris, non finibus magna semper ac. Vivamus auctor augue egestas, pellentesque dolor non, accumsan nunc. Nunc quis felis congue, molestie mi at, finibus quam. Cras ac sollicitudin est. Nam ut mi mi. Maecenas egestas sem vel massa ullamcorper auctor.</div>
+          </div>
+          <div class="div-block-12"><a href="#" class="button w-button">Edit</a><a href="#" class="w-button">Delete</a></div>
+        </div>
+      </div>
+      
+      <a href="#" class="w-button" type="button"  data-toggle="modal" data-target="#addComment">Add Comment</a></div>
+
+      <!-- modal Add comment -->
+      <div class="modal fade" id="addComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add your Comment to  <%= scene.name%></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <form class="form-group col-md-auto" action="/scenes/<%=scene._id%>/comments" method="POST">
+                    <textarea class="form-control" type="textarea" rows="4" cols="4" maxlength="100" name="text"></textarea>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-secondary" >Post</button>
+                  </form>
+                  
+              </div>
+              
+            </div>
+          </div>
+        </div>
+  </div>
+  
+
+
+
+
+
+
+
+
 
 
 <div class="row text-center" >
@@ -175,6 +425,9 @@
         </div>
     </div>
 
+    <!-- EditComment Modal -->
+
+
 <!-- map -->
     <div id="map"></div>
 
@@ -207,5 +460,6 @@
           </script>
           <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDIuLB4OpdqS823hdshWhlHZ04NSlySvvs&callback=initMap"></script>
 
+        
         
 <%- include("../partials/footer.js") %>

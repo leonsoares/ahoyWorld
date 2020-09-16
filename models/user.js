@@ -7,7 +7,14 @@ const UserSchema = new mongoose.Schema({
     password: String,
     avatar: { type: String, default: "/images/user.png"},
     firstName: String,
+    location:{
+        country: String,
+        state: String
+    },
     lastName: String,
+    facebook: String,
+    instagram: String,
+    description: String,
     email: { type: String, unique: false, required: false},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
@@ -32,6 +39,12 @@ const UserSchema = new mongoose.Schema({
             ref: 'User'
         }
     ],
+    following: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 });
 
 UserSchema.plugin(passaportLocalMongoose);

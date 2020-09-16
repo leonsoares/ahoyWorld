@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const sceneSchema = new mongoose.Schema({
     
     name: String,
+    sceneType: String,
     location: String,
     lat: Number,
     lng: Number,

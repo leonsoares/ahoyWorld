@@ -70,7 +70,7 @@ router.get('/login', (req, res) => {
 router.post('/login', bodyParser.urlencoded({extended: true}), passport.authenticate('local', 
     {   
         
-        successRedirect: '/scenes',
+        successRedirect: 'back',
         successFlash: ("sucess", "Welcome Back"),
         failureFlash: "Invalid user or password", 
         failureRedirect: '/login'}),
@@ -86,15 +86,17 @@ router.get('/logout', bodyParser.urlencoded({extended: true}), (req, res) => {
 });
 
 router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
-    User.findById(req.params.id).populate('followers').exec((err, foundUser) => {
+    User.findById(req.params.id).populate('followers').populate('following').exec((err, foundUser) => {
         if (err || !foundUser) {
             req.flash('error', 'sorry, we could not find the user you are looking for. :/')
             res.redirect('back')
         } 
-        let isFollowing = false
+        
+        let memberSince = foundUser._id.getTimestamp().toDateString().split(' ', 4);
 
+        let isFollowing = false
         if(req.user._id !== foundUser._id && foundUser.followers.length > 0){
-            for(var i = 0; 0 < foundUser.followers.length; i++){
+            for(var i = 0; i < foundUser.followers.length; i++){
                 if(foundUser.followers[i].id === req.user.id){
                     isFollowing = true
                     break
@@ -112,7 +114,14 @@ router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
                     req.flash('error', 'sorry, we could not find you are looking for. :/')
                     res.redirect('back')
                 }
-                res.render('user/show', {savedScene:foundScenes, user: foundUser, scenes: scenes, isFollowing})
+                Scene.find().where('flag').equals(req.user._id).exec(function(err, flag){
+                    if (err || !scenes) {
+                        req.flash('error', 'sorry, we could not find you are looking for. :/')
+                        res.redirect('back')
+                    }
+                    
+                    res.render('user/show', {savedScene:foundScenes, flag, user: foundUser, scenes: scenes, isFollowing, memberSince})
+                });
             });
         });
     });
@@ -125,6 +134,17 @@ router.get('/follow/:id', middleware.isLoggedIn, (req, res) => {
             res.redirect('/back');
         }
         foundUser.followers.push(req.user._id);
+
+        User.findById(req.user._id, (err, currentUser) => {
+            if(err){
+                req.flash('error', err.message);
+                res.redirect('/back');
+            }
+            currentUser.following.push(foundUser._id);
+            currentUser.save();
+        });
+
+
 
         let newNotification = {
             username: req.user.username,
@@ -147,16 +167,33 @@ router.get('/follow/:id', middleware.isLoggedIn, (req, res) => {
 });
 
 router.get('/unfollow/:id', middleware.isLoggedIn, (req, res) => {
-    User.findById(req.params.id).populate('followers').exec((err, foundUser) => {
+    User.findById(req.params.id).populate('followers', 'following').exec((err, foundUser) => {
         if(err || !foundUser){
             req.flash('error', err.message);
             res.redirect('/back');
         }
+        
         let newNotification = {
             username: req.user.username,
             message: "Unfollowed you.",
             goTo: `/users/${req.user._id}`
         }
+
+        User.findById(req.user.id, (err, currentUser) => {
+            if(err){
+                req.flash('error', err.message);
+                res.redirect('/back');
+            }
+            for(var i = 0; i < currentUser.following.length; i++){
+                if(currentUser.following[i].id === foundUser._id){
+                    currentUser.following.splice(i, 1); 
+                    break
+                }
+            }
+            currentUser.save() 
+        });
+
+        
 
         for(var i = 0; i < foundUser.followers.length; i++){
             if(foundUser.followers[i].id === req.user.id){
@@ -311,6 +348,59 @@ router.post('/forgot', bodyParser.urlencoded({extended: true}), (req, res) => {
     });
 });
 
+router.post('/users/:id/edit', formidableMiddleware(), (req, res) => {
+
+    function validURL(str) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(str);
+      }
+
+    User.findById(req.params.id, (err, foundUser) => {
+        if (err || !foundUser) {
+            req.flash('error', 'sorry, we could not find the user you are looking for. :/')
+            res.redirect('back')
+        } 
+        if(req.fields.facebook !== foundUser.facebook) {
+            if(validURL(req.fields.facebook) !== true){
+                foundUser.facebook = req.fields.facebook
+            }
+        }
+
+        if(req.fields.instagram !== foundUser.instagram){
+            if(validURL(req.fields.instagram) !== true){
+                foundUser.instagram = req.fields.instagram
+            }
+        }
+
+        if(req.fields.description !== foundUser.description) foundUser.description = req.fields.description
+        if(req.fields.avatar !== foundUser.avatar && req.fields.avatar !== ""){
+            if(validURL(req.fields.avatar)){
+                foundUser.avatar = req.fields.avatar
+            }
+        }
+
+        if(req.fields.country !== foundUser.location.country && req.fields.country !== ""){
+            foundUser.location.country = req.fields.country
+        }
+        if(req.fields.state !== foundUser.location.state && req.fields.state !== ""){
+            foundUser.location.state = req.fields.state
+        } else {
+            foundUser.location.state = ""
+        }
+
+
+        if(req.fields.email !== foundUser.email && req.fields.state !== "") foundUser.email = req.fields.email
+        if(req.fields.description !== foundUser.description) foundUser.description = req.fields.description
+        
+        foundUser.save();
+        res.redirect('back')
+    });
+});
 
 router.get('/reset/:token', (req, res) => {
     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now()}}, (err, foundUser) => {

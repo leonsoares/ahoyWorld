@@ -1,119 +1,522 @@
-/* style the whole app here */
+.scenes-all-posts {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+}
 
-#map {
-    height: 400px;
+
+.form-container{
+  height:auto;
+  padding: 0;
+  
+}
+.form-control{
+  width: 70%;
+  padding: 0;
+  height: ;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.btn-search{
+  display: inline;
+  margin-bottom: 5px;
+  
+}
+
+.popular-title {
+  display: block;
+  width: 50%;
+  margin-top: auto;
+  margin-bottom: auto;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+}
+
+.scene-item-container-img {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 80%;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+}
+
+.scene-item-container-img .icon-1{
+  z-index: -1;
+  transition: transform 3000ms ease-in;
+  transform-origin: center;
+}
+.scene-item-container-img:hover .icon-1{
+  z-index: -1;
+  transform: scale(1.2);
+}
+.tags-container{
+  display: inline-flex;
+}
+
+.action-buttons{
+  background: none;
+  border: none;
+  color: white;
+  text-shadow: 1px 2px black;
+}
+
+.action-buttons:hover  {
+  color: rgb(233, 199, 8);
+}
+
+.action-buttons-selected{
+  color: rgb(233, 199, 8)
+}
+
+.category-title {
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px 5px;
+  font-size: 25px;
+  line-height: 28px;
+}
+
+a:hover .category-title  {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.name-text {
+  display: inline;
+  font-family: Ubuntu, Helvetica, sans-serif;
+  font-size: 50px;
+  line-height: 58px;
+  font-weight: 400;
+}
+
+.categori-description-block {
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+  padding-bottom: 10px;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  -ms-grid-row-align: auto;
+  align-self: auto;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: #fff;
+  text-shadow: 1px 1px #000;
+  text-align: left;
+  text-decoration: none;
+}
+
+.scene-item-container {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  width: 24%;
+  height: 75vh;
+  margin-bottom: 25px;
+  margin-left: 9px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 10px;
+  text-decoration: none;
+  background-color: #fff;
+}
+
+
+
+.under-mark-across {
+  width: 60%;
+  height: 1px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  background-color: transparent;
+  background-image: -webkit-gradient(linear, left top, right top, from(#797575), to(transparent));
+  background-image: linear-gradient(90deg, #797575, transparent);
+}
+
+.category-description {
+  display: block;
+  margin: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.icon-1 {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.scenes-container {
+  width: 95vw;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 15px;
+  background-color: #dfdfdf;
+}
+
+.index-scenes-conainer {
+  margin-top: 7%;
+}
+
+.form {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.text-field {
+  margin-bottom: 0px;
+}
+
+.form-block {
+  display: block;
+}
+
+.title-search-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: 50px;
+  margin-bottom: 35px;
+  margin-left: 50px;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.link-block {
+  color: #333;
+  text-decoration: none;
+}
+
+.actions-box {
+  position: absolute;
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.mark-visited {
+  /* width: 30px;
+  height: 30px; */
+  margin-right: 5px;
+}
+
+.icons {
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.save-scene {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+.likes {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+.beach {
+  margin: 5px 5px 5px 0px;
+  margin-left: 0px;
+  background-color: #928017;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.beach:hover {
+  background-color: #695b09;
+}
+
+.lake {
+  margin: 5px 5px 5px 0px;
+  background-color: #0799af;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.lake:hover {
+  background-color: #076d7c;
+}
+
+.forest {
+  margin: 5px 5px 5px 0px;
+  background-color: #0f9423;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.forest:hover {
+  background-color: #076b16;
+  z-index: 0;
+}
+
+.island {
+  margin: 5px 5px 5px 0px;
+  background-color: #8829c4;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.island:hover {
+  background-color: #530a81;
+}
+
+.avatar {
+  width: 35px;
+}
+
+.city {
+  z-index: 1;
+  margin: 5px 5px 5px 0px;
+  background-color: #e00ea8;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.city:hover {
+  background-color: #b30f87;
+}
+
+.mountain {
+  margin: 5px 5px 5px 0px;
+  background-color: #e94a4a;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.mountain:hover {
+  background-color: #ac1b1b;
+}
+
+.waterfall {
+  margin: 5px 5px 5px 0px;
+  text-decoration: none;
+}
+
+.waterfall:hover {
+  background-color: #1361a5;
+}
+
+.heading-4 {
+  margin: 0px 5px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.category-tag-forest {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  padding: 3px 5px;
+  background-color: #0f9423;
+}
+
+.category-tag-forest:hover {
+
+  background-color: #076b16;
+}
+
+.category-tag-island {
+  z-index: 1;
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  padding: 3px 5px;
+  background-color: #8829c4;
+}
+
+
+.category-tag-waterfall {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  padding: 3px 5px;
+  background-color: #1361a5;
+}
+
+.category-tag-waterfall:hover {
+  background-color: #074377;
+}
+
+.category-tag-beach {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  padding: 3px 5px;
+  background-color: #928017;
+}
+
+.category-tag-city {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  padding: 3px 5px;
+  background-color: #e00ea8;
+}
+
+.category-tag-city:hover {
+  background-color: #a30c7b;
+}
+
+.category-tag-mountain {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  padding: 3px 5px;
+  background-color: #e94a4a;
+}
+
+.category-tag-mountain:hover {
+  background-color: #b42121;
+}
+
+.category-tag-lake {
+  position: absolute;
+  left: auto;
+  top: 0%;
+  right: 0%;
+  bottom: auto;
+  padding: 3px 5px;
+  background-color: #0799af;
+}
+
+.category-tag-lake:hover {
+  background-color: #056b7a;
+}
+
+
+
+@media screen and (min-width: 1920px) {
+  .category-tag-forest {
+    font-size: 20px;
+    line-height: 27px;
+  }
+  .category-tag-waterfall {
+    font-size: 20px;
+    line-height: 27px;
+  }
+  .category-tag-beach {
+    font-size: 20px;
+    line-height: 27px;
+  }
+  .category-tag-city {
+    font-size: 20px;
+    line-height: 27px;
+  }
+  .category-tag-mountain {
+    font-size: 20px;
+    line-height: 27px;
+  }
+  .category-tag-lake {
+    font-size: 20px;
+    line-height: 27px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .scenes-all-posts {
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
+  }
+  .category-title {
+    display: inline;
+  }
+  .scene-item-container {
+    width: 30%;
+    margin-right: 9px;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+  }
+  .category-description {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .scene-item-container {
     width: 100%;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+  }
 }
 
-body{
-    background-color: white;
-}
-
-.checked {
-    color: orange;
-}
-
-.card {
-    margin-right: 15px;
-}
-.avatar{
-    width: 35px;
-}
-
-.model-js{
-    margin-left: 10px;
-}
-
-
-.scenes-bg{
-    background-image: url("/images/appConfig/981.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover
-}
-
-/* -----------  Animation ------------ */
-body {
-    /* background-color: #000 */
-}
-
-
-
-#landing-header {
-    z-index: 1;
-    position: relative;
-    text-align: center;
-    padding-top: 40vh;
+@media screen and (max-width: 479px) {
+  .categori-description-block {
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 0px;
   }
-
-  #landing-header h1 {
-    color: #fff;
+  .scene-item-container {
+    margin-bottom: 35px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
   }
-
-  .slideshow { 
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .slideshow li { 
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-size: cover;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    opacity: 0;
-    z-index: 0;
-    animation: imageAnimation 50s linear infinite; 
-  }
-
-  .slideshow li:nth-child(1) { 
-    background-image: url(/images/Bamboo_Forest.jpg) 
-  }
-  .slideshow li:nth-child(2) { 
-    background-image: url(/images/santorini.jpg);
-    animation-delay: 10s; 
-  }
-  .slideshow li:nth-child(3) { 
-    background-image: url(/images/Tianzi_Mountains.jpg);
-    animation-delay: 20s; 
-  }
-  .slideshow li:nth-child(4) { 
-    background-image: url(/images/lisbon.jpg);
-    animation-delay: 30s; 
-  }
-  .slideshow li:nth-child(5) { 
-    background-image: url(/images/venice.jpg);
-    animation-delay: 40s; 
-  }
-
-  @keyframes imageAnimation { 
-    0% { 
-      opacity: 0; 
-      animation-timing-function: ease-in;
-    }
-    10% {
-      opacity: 1;
-      animation-timing-function: ease-out;
-    }
-    20% {
-      opacity: 1
-    }
-    30% {
-      opacity: 0
-    }
-  }
-
-  /* Older browser support - .no-cssanimations class added by modernizr */
-.no-cssanimations .slideshow li {
-	opacity: 1;
 }

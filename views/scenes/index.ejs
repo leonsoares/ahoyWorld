@@ -1,156 +1,182 @@
-<%- include("../partials/header.js") %>
+<%- include("../partials/header-index-scenes.js") %>
 
 
 
-<header class="jumbotron scenes-bg">
-        <h1>Find here your next amanzing trip</h1>
-      <%  if(currentUser){ %>
-            <a class="btn btn-primary btn-large" href="/scenes/new">Add scene</a>
-        <% } else {%>
-            <form  class="form-group col-md-auto" class="form-inline" action="/scenes" method="GET">
-                <div class="form-group">
-                    <input type="text" name="search" class="form-control" placeholder="Find you next destination">
-                    <input type="submit"> <i class="fas fa-search-location"></i>
-                </div>
-            </form>
-        <% }%>
-        
-</header>
+<div class="index-scenes-conainer">
+    <div class="title-search-container">
+      <div class="popular-title">
+        <div class="name-text">All Places</div>
+        <div class="under-mark-across"></div>
+      </div>
+      <div class="form-container">
+          <div class="form-block w-form">
+              <form action="/scenes" method="GET">
+                  <input type="text" name="search" class="form-control" placeholder=" search by place or tag" id="inputPassword">
+                  <button type="submit" class="btn btn-primary btn-search">Search</button>
+              </form>        
+          </div>
+          <div class="tags-container">
+              <form action="/scenes/tag/beach" method="GET">
+                <button type="submit" class="btn btn-primary beach">beach</button>  
+              </form>
 
+              <form action="/scenes/tag/waterfall" method="GET">
+                <button type="submit" class="btn btn-primary waterfall">waterfall</button>
+              </form>
 
-<div class="container">
+              <form action="/scenes/tag/forest" method="GET">
+                <button type="submit" class="btn btn-primary forest">forest</button>
+              </form>
+
+              <form action="/scenes/tag/island" method="GET">
+                <button type="submit" class="btn btn-primary island">island</button>
+              </form>
+
+              <form action="/scenes/tag/mountain" method="GET">
+                <button type="submit" class="btn btn-primary mountain">mountain</button>
+              </form>
+
+              <form action="/scenes/tag/city" method="GET">
+                <button type="submit" class="btn btn-primary city">city</button>
+              </form>
+
+              <form action="/scenes/tag/lake" method="GET">
+                <button type="submit" class="btn btn-primary lake">lake</button>
+              </form>
+
+            
+          </div>
+      </div>
+    </div>
     
-    <div class="row text-center" >
-        <% if(scenes.length === 0){ %>
-            <div class="card-title">
-                    <h4><%= noMatch %></h4>
-            </div>
-        <% }%>
+    <div class="scenes-container">
+    <% if(scenes.length === 0){ %>
+        <div class="card-title">
+                <!-- <h4> noMatch </h4> -->
+        </div>
+    <% }%>
+
+    
+      <div class="scenes-all-posts">
+        
         <% scenes.forEach((scene) => { %>
-            <div class="col-md-3 col-sm-6 card">
-                <div>
-                    <div class="thumbnail">
-                        <div class="card-title">
-                                <h4><%= scene.name %> - <%= scene.location %></h4>
-                        </div>
-                        <img src="<%= scene.image %>" class="card-img-top"" alt="">
-                        
-                        <% if (scene.rating === 0) { %>
-                            <em>No reviews yet.</em>
-                            <% } else { %>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star <% if (scene.rating > 1.5) { %> checked <% } %>"></span>
-                            <span class="fa fa-star <% if (scene.rating > 2.5) { %> checked <% } %>"></span>
-                            <span class="fa fa-star <% if (scene.rating > 3.5) { %> checked <% } %>"></span>
-                            <span class="fa fa-star <% if (scene.rating > 4.5) { %> checked <% } %>"></span>
-                            <% } %>
-                        
-                    </div>
-                    <p class="card-text"><%= scene.description %></p>
-                    <!-- FLAG/ MARK AS VISITED-->
-                    <div>
-                        <div style="padding-bottom: 10px;">
-                                <form action="/scenes/<%= scene._id %>/flag" method="POST">
-                                    <div class="btn-group">
-                                        <% if (currentUser && scene.flag.some(function (flag) {
-                                            return flag.equals(currentUser._id)
-                                        })) { %>
-                                            <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Unvisite">
-                                                    <i class="fas fa-flag"></i>
-                                            </button>
-                                        <% } else { %>
-                                            <button class="btn btn-sm btn-secondary">
-                                                    <i class="far fa-flag" data-toggle="tooltip" data-placement="top" title="Flag as visited"></i>
-                                            </button>
-                                        <% } %>
-                                    </div>
-                                </form>
-                            </div>
-                        
-                        
-                        <span class="badge label-primary"><i class="fas fa-thumbs-up"></i> <%= scene.likes.length %></span>
-                     </div>
+        <div class="scene-item-container">
+          <div class="actions-box">
+                <form action="/scenes/<%= scene._id %>/flag" method="POST">
+                    <% if (currentUser && scene.flag.some(function (flag) {
+                        return flag.equals(currentUser._id)
+                    })) { %>
 
-                     <!-- SAVE-->
-                    <div>
-                            <div style="padding-bottom: 10px;">
-                                    <form action="/scenes/<%= scene._id %>/saveScene" method="POST">
-                                        <div class="btn-group">
-                                            <% if (currentUser && scene.saveScene.some(function (save) {
-                                                return save.equals(currentUser._id)
-                                            })) { %>
-                                                <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Save scene">
-                                                        <i class="fas fa-archive"></i>
-                                                </button>
-                                            <% } else { %>
-                                                <button class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Save scene">
-                                                        <i class="fas fa-archive"></i>
-                                                </button>
-                                            <% } %>
-                                        </div>
-                                    </form>
-                                </div>
-                            
-                            
-                         </div>
+                        <button href="#" type="submit" class="mark-visited action-buttons action-buttons-selected w-inline-block" data-toggle="tooltip" data-placement="top" title="You marked this place as visited">
+                            <i class="fas fa-map-marked-alt fa-2x"></i>
+                        </button>
+                    <% } else { %>
+                        <button href="#" type="submit" class="mark-visited action-buttons w-inline-block">
+                            <i class="far fa-map fa-2x" data-toggle="tooltip" data-placement="top" title="Mark as visited"></i>
+                        </button>
+                    <% } %> 
+                </form>
 
-                </div>
-                <a href="/scenes/<%= scene._id%>" target="_blank" rel="noopener noreferrer">See more</a>
-            </div> 
+                <form action="/scenes/<%= scene._id %>/saveScene" method="POST">
+                  <% if (currentUser && scene.saveScene.some(function (saved) {
+                      return saved.equals(currentUser._id)
+                  })) { %>
+
+                      <button href="#" type="submit" class="mark-visited action-buttons action-buttons-selected w-inline-block" data-toggle="tooltip" data-placement="top" title="Remove it from your saved Places">
+                          <i class="fas fa-clipboard fa-2x"></i>
+                      </button>
+                  <% } else { %>
+                      <button href="#" type="submit" class="mark-visited action-buttons  w-inline-block">
+                          <i class="far fa-clipboard fa-2x" data-toggle="tooltip" data-placement="top" title="Save this place"></i>
+                      </button>
+                  <% } %> 
+              </form>
+
+        </div>
+
+          <div class="scene-item-container-img"><a href="/scenes/<%-scene.id%>"><img src="<%= scene.image %>" alt="" class="icon-1"></a>
+            <a href="/scenes/<%-scene.id%>" class="category-tag-<%=scene.sceneType%> w-inline-block">
+              <h1 class="heading-4"><%=scene.sceneType%></h1>
+            </a>
+            <a href="/scenes/<%-scene.id%>" class="categori-description-block w-inline-block">
+              <h1 class="category-title"><%= scene.name %></h1>
+              <h4 class="category-title"><%= scene.location %></h4>
+            </a>
+          </div>
+          
+            <div class="category-description">
+              <%= scene.description.substring(0,215)%><a href="/scenes/<%-scene.id%>">[...]</a>
+            </div>   
+          
+        </div>
         <% }); %>
         
+      </div>
+
     </div>
+  </div>
 
-    <h4>scenes page</h4>
-
-
-    <a href="/">back</a>
-    <br>
-    
-    <nav aria-label="Page navigation">
-            <% if (pages && pages > 0) { %>
-            <ul class="pagination justify-content-center">
-                <% if (current == 1) { %>
-                <li class="page-item disabled"><a class="page-link">First</a></li>
-                <% } else { %>
-                <li><a class="page-link" href="/scenes">First</a></li>
-                <% } %>
-         
-                <% if (current == 1) { %>
-                <li class="page-item disabled"><a class="page-link">«</a></li>
-                <% } else { %>
-                <li><a class="page-link" href="/scenes?page=<%= Number(current) - 1 %>">«</a></li>
-                <% } %>
-         
-                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                <% if (i !== 1) { %>
-                <li class="page-item disabled"><a class="page-link">...</a></li>
-                <% } %>
-                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                <% if (i == current) { %>
-                <li class="active"><a class="page-link"><%= i %></a></li>
-                <% } else { %>
-                <li><a class="page-link" href="/scenes?page=<%= i %>"><%= i %></a></li>
-                <% } %>
-                <% if (i == Number(current) + 4 && i < pages) { %>
-                <li class="page-item disabled"><a class="page-link">...</a></li>
-                <% } %>
-                <% } %>
-         
-                <% if (current == pages) { %>
-                <li class="page-item disabled"><a class="page-link">»</a></li>
-                <% } else { %>
-                <li><a class="page-link" href="/scenes?page=<%= Number(current) + 1 %>">»</a></li>
-                <% } %>
-         
-                <% if (current == pages) { %>
-                <li class="page-item disabled"><a class="page-link">Last</a></li>
-                <% } else { %>
-                <li><a class="page-link" href="/scenes?page=<%= pages %>">Last</a></li>
-                <% } %>
-            </ul>
+  <nav aria-label="Page navigation">
+        <% if (pages && pages > 0) { %>
+        <ul class="pagination justify-content-center">
+            <% if (current == 1) { %>
+            <li class="page-item disabled"><a class="page-link">First</a></li>
+            <% } else { %>
+            <li><a class="page-link" href="/scenes">First</a></li>
             <% } %>
-        </nav>
-    
-    <%- include("../partials/footer.js") %>
-</div>
+     
+            <% if (current == 1) { %>
+            <li class="page-item disabled"><a class="page-link">«</a></li>
+            <% } else { %>
+            <li><a class="page-link" href="/scenes?page=<%= Number(current) - 1 %>">«</a></li>
+            <% } %>
+     
+            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% if (i !== 1) { %>
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+            <% if (i == current) { %>
+            <li class="active"><a class="page-link"><%= i %></a></li>
+            <% } else { %>
+            <li><a class="page-link" href="/scenes?page=<%= i %>"><%= i %></a></li>
+            <% } %>
+            <% if (i == Number(current) + 4 && i < pages) { %>
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% } %>
+     
+            <% if (current == pages) { %>
+            <li class="page-item disabled"><a class="page-link">»</a></li>
+            <% } else { %>
+            <li><a class="page-link" href="/scenes?page=<%= Number(current) + 1 %>">»</a></li>
+            <% } %>
+     
+            <% if (current == pages) { %>
+            <li class="page-item disabled"><a class="page-link">Last</a></li>
+            <% } else { %>
+            <li><a class="page-link" href="/scenes?page=<%= pages %>">Last</a></li>
+            <% } %>
+        </ul>
+        <% } %>
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

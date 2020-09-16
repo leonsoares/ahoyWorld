@@ -11,14 +11,12 @@
 </footer>
 <script >
     
-    document.getElementById("markRead").addEventListener("click", function(){
-        fetch('/clicked', {method: 'GET'})
-          .then(function() {
-            document.getElementById("demo").innerHTML = 0
-          })
-          
-});
-  
-    
+  document.getElementById("markRead").addEventListener("click", function(){
+      fetch('/clicked', {method: 'GET'})
+        .then(function() {
+          document.getElementById("demo").innerHTML = 0
+        })
+  });
 </script>
+
 </html>
