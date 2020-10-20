@@ -93,8 +93,15 @@ app.use((req, res) => {
     res.status(404).render("notFoundPage")
 })
 
+const port = process.env.PORT || 8000;
 
-app.listen(8000, () => { 
+app.listen(port, () => { 
     console.log('Ahoy Wolrd '); 
-    console.log('Server listening on port 8000'); 
+    console.log(`Server listening on port ${port}`); 
 });
+
+// for development:
+// app.listen(8000, () => { 
+//     console.log('Ahoy Wolrd '); 
+//     console.log('Server listening on port 8000'); 
+// });
