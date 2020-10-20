@@ -4,7 +4,10 @@ const sceneSchema = new mongoose.Schema({
     
     name: String,
     sceneType: String,
-    location: String,
+    location:{
+        country: String,
+        state: String,
+    },
     lat: Number,
     lng: Number,
     description: String,
@@ -16,6 +19,9 @@ const sceneSchema = new mongoose.Schema({
         },
         username: String
     },
+
+    lat: Number,
+    lng: Number,
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -49,7 +55,9 @@ const sceneSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }
-    ]
+    ],
+    isPopular: { type: Boolean, default:false }
+    
 });
 
 module.exports = mongoose.model("Scene", sceneSchema)

@@ -1,35 +1,70 @@
+.container-fluid{
+  position: fixed;
+  z-index: 1;
+}
+.page-container{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(41, 42, 45);
+}
+.menubar{
+  z-index: 2;
+}
+
 .div-block {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     height: 90vh;
+    min-height: 90vh;
     margin-top: 40px;
+    padding-bottom: 30px; 
   }
+  .avatar {
+    width: 35px;
+  }
+
   
+
   .user-info-div {
     display:flex;
     flex-direction: column;
     width: 30%;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    background-color: #f1f1f1;
+    background-color: #363538;
     text-align: center;
   }
   .memberSince{
+    padding-top:20px; 
     display: inline-block;
     margin-top: auto;
+    color:#eeee;
   }
   
   .user-post-cont {
-    overflow: auto;
+    overflow: scroll;
     width: 70%;
     border-style: solid;
     border-width: 1px;
-    border-color: #a39d9d;
+    border-color: #000000;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: inset 0 0 11px -20px #000;
+    background-color: rgb(44, 44, 43);
+
+  }
+  .user-no-posts{
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eeee;
   }
   
   .user-img-cont {
@@ -39,7 +74,8 @@
     height: 100px;
     margin-top: 10px;
     border-radius: 49%;
-  }
+    box-shadow: 1px 1px 2px 2px #1f1e1e;
+    }
 
   .user-img-avatar{
     
@@ -50,6 +86,8 @@
   .user-info-cont {
     display: inline-block;
     width: 90%;
+    color: #eeee;
+
   }
   
   .user-name {
@@ -57,15 +95,17 @@
     font-size: 25px;
     line-height: 31px;
   }
+
+
+  
   
   .user-location {
     display: inline-block;
     margin-top: 0px;
-    color: #757474;
     font-size: 14px;
     line-height: 20px;
   }
-  
+  come here
   .category-tag-island {
     position: absolute;
     right: 1px;
@@ -118,14 +158,9 @@
     background-color: #4a7fe9;
   }
   
-  .category-tag-lake {
-    position: absolute;
-    right: 1px;
-    margin: 5px 5px 5px 0px;
-    background-color: #4a7fe9;
-  }
   
   .category-title {
+  
     display: inline-block;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -134,6 +169,7 @@
   }
   
   .categori-description-block {
+    color: #eeee;
     width: 65%;
     margin-left: 10px;
     -webkit-align-self: auto;
@@ -144,9 +180,23 @@
     -webkit-flex: 0 0 auto;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
+    
+  }
+
+  .actionsScenesbtn{
+    position: absolute;
+    left: auto;
+    top: auto;
+    margin-right:10px;
+    margin-bottom: 10px;
+    right: 0%;
+    bottom: 0%;
+    display: none;
+
   }
   
   .popular-item-container {
+    position:relative;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -164,12 +214,18 @@
     -ms-flex-align: center;
     align-items: center;
     border-radius: 10px;
+    
   }
   
   .popular-item-container:hover {
-    background-color: #fff;
     box-shadow: 1px 1px 3px 0 #000;
   }
+
+  .popular-item-container:hover .actionsScenesbtn {
+    display: inline-block;
+  }
+
+
   
   .category-description {
     display: block;
@@ -211,10 +267,12 @@
   }
   
   .user-title {
+    color:#eeee;
     margin-bottom: 10px;
   }
   
   .user-prof-container {
+    padding-top: 50px; 
     margin-right: 20px;
     margin-left: 20px;
   }
@@ -266,7 +324,7 @@ a:hover{
   
   
   .category-tag-waterfall {
-      margin: 0;
+    margin: 0;
     position: absolute;
     left: auto;
     top: 0%;
@@ -337,7 +395,7 @@ a:hover{
     width: 100%;
     word-wrap: break-word;
     margin-top: 5px;
-    color: #5a5a5a;
+    color: rgba(204, 203, 203, 0.933);
   }
   
   .user-places-cont {
@@ -372,7 +430,7 @@ a:hover{
   .data-text {
     display: inline;
     margin-top: 10px;
-    color: #000;
+    color: #eeee;
     font-size: 15px;
     line-height: 21px;
   }
@@ -390,7 +448,7 @@ a:hover{
   .user-email {
     display: inline-block;
     margin-top: 0px;
-    color: #757474;
+    color: #eeee;
     font-size: 14px;
     line-height: 20px;
   }
@@ -399,7 +457,7 @@ a:hover{
     display: block;
     margin-top: 20px;
     margin-bottom: 0px;
-    color: #fff;
+    color: #eeee;
   }
   
   .and-more {
@@ -414,52 +472,20 @@ a:hover{
     margin-right: auto;
     margin-left: auto;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: rgb(44,44,43);
   }
   
   @media screen and (max-width: 991px) {
-    .popular-posts-container {
-      -webkit-align-self: flex-start;
-      -ms-flex-item-align: start;
-      align-self: flex-start;
-      -webkit-box-flex: 0;
-      -webkit-flex: 0 auto;
-      -ms-flex: 0 auto;
-      flex: 0 auto;
+    .user-info-div{
+      width: 50%;
+      height: auto;
     }
-    .popular-item-container-img {
-      width: 60%;
+    .user-post-cont {
+      width: 40%;
     }
-    .category-title {
-      display: inline;
-    }
-    .popular-item-container {
-      height: 200px;
-      margin-right: auto;
-      margin-left: auto;
-      -webkit-box-pack: start;
-      -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-      justify-content: flex-start;
-    }
+    
     .category-description {
       display: block;
-    }
-  }
-  
-
-  .avatar {
-    width: 35px;
-  }
-  @media screen and (max-width: 767px) {
-    .div-block {
-      display: block;
-      padding-top: 0px;
-    }
-    .user-info-div {
-      width: 100%;
-      height: 90vh;
-      padding-top: 5px;
     }
     .user-post-cont {
       width: 100%;
@@ -471,7 +497,7 @@ a:hover{
     .popular-item-container-img {
       display: block;
       width: auto;
-      height: 50%;
+      height: 250px;
     }
     .categori-description-block {
       margin-right: auto;
@@ -487,6 +513,23 @@ a:hover{
       -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
     }
+  }
+
+  .avatar {
+    width: 35px;
+  }
+  @media screen and (max-width: 767px) {
+    .div-block {
+      flex-direction: column;
+      padding-top: 0px;
+    }
+    
+    .user-info-div {
+      width: 100%;
+      height: auto;
+      padding-top: 5px;
+    }
+    
     .category-description {
       margin-bottom: 10px;
     }
@@ -501,6 +544,8 @@ a:hover{
       margin-left: 0px;
     }
   }
+
+  
   
   @media screen and (max-width: 479px) {
     .popular-item-container-img {

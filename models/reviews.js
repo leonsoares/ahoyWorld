@@ -16,10 +16,6 @@ var reviewSchema = new mongoose.Schema({
             message: "{VALUE} is not an integer value."
         }
     },
-    // review text
-    text: {
-        type: String
-    },
     // author id and username fields
     author: {
         id: {
@@ -27,6 +23,7 @@ var reviewSchema = new mongoose.Schema({
             ref: "User"
         },
         username: String
+        
     },
     // campground associated with the review
     scene: {

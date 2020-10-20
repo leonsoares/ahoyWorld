@@ -56,6 +56,7 @@ router.post("/scenes/:id/reviews", middleware.isLoggedIn, middleware.checkReview
             // calculate the new average review for the scene
             scene.rating = calculateAverage(scene.reviews);
             //save Scene
+ 
             scene.save();
             req.flash("success", "Your review has been successfully added.");
             res.redirect('/scenes/' + scene._id);
@@ -75,22 +76,69 @@ router.get("/scenes/:id/reviews/:review_id/edit", middleware.isLoggedIn, middlew
 });
 
 // Reviews Update
-router.put("/scenes/:id/reviews/:review_id", middleware.isLoggedIn, middleware.checkReviewOwnership, bodyParser.urlencoded({extended: true}), function (req, res) {
-    Review.findByIdAndUpdate(req.params.review_id, req.body.review, {new: true}, function (err, updatedReview) {
+// router.put("/scenes/:id/reviews/edit", middleware.isLoggedIn, bodyParser.urlencoded({extended: true}), function (req, res) {
+
+//     Review.findOneAndUpdate().where("author.id").equals(req.user.id).exec({$set: {rating: parseInt(req.body.review.rating)}}, function (err, updatedReview) {
+//         if (err) {
+//             req.flash("error", err.message);
+//             return res.redirect("back");
+//         }
+//         console.log("you selected - "  + req.body.review.rating)
+
+//         console.log("updatedReview.rating is - " + updatedReview.rating)
+//         // updatedReview.rating = parseInt(req.body.review.rating)
+//         // updatedReview.save()
+//         console.log("updatedReview.rating has been change and now is - " + updatedReview.rating)
+
+
+//         Scene.findByIdAndUpdate(req.params.id).populate("reviews").exec(function (err, scene) {
+//             if (err) {
+//                 req.flash("error", err.message);
+//                 return res.redirect("back");
+//             }
+//             // recalculate review average
+//             console.log("this is the length - " + scene.reviews)
+
+//             console.log("scene.rating now is - " + scene.rating)
+
+//             scene.rating = calculateAverage(scene.reviews);
+//             console.log("scene.rating has been change and now is - " + scene.rating)
+
+//             console.log("this is the length - " + scene.reviews)
+
+
+//             //save changes
+            
+//             scene.save()
+//             req.flash("success", "Your review was successfully edited.");
+//             res.redirect('/scenes/' + scene._id);
+//         });
+//     });
+// });
+
+router.put("/scenes/:id/reviews/edit", middleware.isLoggedIn, bodyParser.urlencoded({extended: true}), function (req, res) {
+
+    Review.findOneAndUpdate({"author.id": req.user.id}, {$set: {rating: parseInt(req.body.review.rating)}}, {new: true}, function (err, updatedReview) {
         if (err) {
             req.flash("error", err.message);
             return res.redirect("back");
         }
+        updatedReview.save()
+
         Scene.findById(req.params.id).populate("reviews").exec(function (err, scene) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
+            scene.reviews.forEach(function(review){
+                if(review.author.id == req.user.id){
+                    review.rating = parseInt(req.body.review.rating)
+                    scene.rating = calculateAverage(scene.reviews);
+                    scene.save()
+                }
+            })
             // recalculate review average
-            scene.rating = calculateAverage(scene.reviews);
-            //save changes
-            scene.save();
-            req.flash("success", "Your review was successfully edited.");
+            req.flash("success", "Thank for rating this location");
             res.redirect('/scenes/' + scene._id);
         });
     });

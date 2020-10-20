@@ -1,0 +1,233 @@
+
+
+<div class="modal fade " id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-size table-dark">
+    <div class="modal-content ">
+      <div class="modal-header table-dark">
+        <h5 class="modal-title" id="staticBackdropLabel">Log in</h5>
+        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body table-dark">
+        
+        <form action="/login" method="POST">
+          <% if(error && error.length > 0){ %> 
+              <p><%= error %></p>
+          <%}%>
+          
+          <div class="form-group row justify-content-md-center">
+              <div class="col-sm-10 ">
+                <input type="text" name="username" class="form-control" placeholder="username">
+              </div>
+            </div>
+
+            
+            <div class="form-group row justify-content-md-center">
+              <div class="col-sm-10">
+                <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password">
+              </div>
+            </div>
+          
+        
+
+        <div class="form-group row justify-content-md-center">
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary form-control">Login</button>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+            <p class="model-js">Don’t have an account? <a href="/register">Sign up</a></p>
+            <p class="model-js">Forgot password? <a href="/forgot">Reset password</a></p>
+        </div>
+      
+        </form>
+      </div>
+      </div>
+    </div>
+  </div> 
+</div>
+      
+
+
+
+
+<div class="modal fade" id="staticBackdrop1" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-size ">
+  
+    <div class="modal-content ">
+      <div class="modal-header table-dark">
+        <h5 class="modal-title" id="staticBackdropLabel">Sign up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body table-dark">
+      <form action="/register" method="POST">
+        <div class="form-group row justify-content-md-center">
+          <div class="col-sm-10">
+            <input type="text" name="username" class="form-control" placeholder="username">
+          </div>
+        </div>
+
+        <div class="form-group row justify-content-md-center">
+          <div class="col-sm-10 ">
+            <input type="email" name="email" class="form-control" placeholder="email">
+          </div>
+        </div>
+
+        <div class="form-group row justify-content-md-center">
+          <div class="col-sm-10">
+            <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password">
+          </div>
+        </div>
+        
+        
+        <div class="form-group row justify-content-md-center">
+          <div class="col-sm-10">
+            <button href="/register" class="btn btn-primary form-control">Sign Up</button>
+          </div>
+        </div>
+
+        <div class="modal-footer "></div>
+            <p class="model-js" data-toggle="modal" data-target="#staticBackdrop">Already have an account? <a href="/login">Log in</a></p>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add New Scene Modal -->
+
+<div class="modal fade" id="addNewScene" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header table-dark">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Scene</h5>
+        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body table-dark">
+      
+      <form  action="/scenes" method="POST" enctype="multipart/form-data">
+          <div class="form-group ">
+              <h6> Pick a tag that best describes your scene:</h6>
+              
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" required/><label class="form-check-label" for="Beach">Beach</label> 
+              </div>
+              
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" /><label class="form-check-label" for="Waterfall">Waterfall</label> 
+              </div>
+
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest"/><label class="form-check-label" for="Forest">Forest</label> 
+              </div>
+
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island"/><label class="form-check-label" for="Island">Island</label>
+              </div>
+
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City"/><label class="form-check-label" for="City">City</label> 
+              </div> 
+
+              <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake"/><label class="form-check-label" for="Lake">Lake</label> 
+              </div>
+          </div>
+          <br>
+              
+          <div class="form-group ">
+              <label  for="title">Scene Title</label> <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Use a meaninful title that will help locate your post on the map"></i>
+              <input type="text" id="name" class="form-control " value="" maxlength="40" name="name" required>
+          </div>
+
+              
+              
+              <div class="form-group">
+                  <label for="country">Scene Location:</label>
+                  <select name="country" class="form-control countries order-alpha" id="countryId" required>
+                      <option value="">Select Country:</option>
+                  </select>
+                  <select name="state" class="form-control states order-alpha" id="stateId" required>
+                      <option value="">Select State:</option>
+                  </select>
+                  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+                  <script src="//geodata.solutions/includes/countrystate.js"></script>
+              </div>
+
+              <br>
+              <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Scene Description</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" required></textarea>
+              </div>
+              
+
+              <div class="form-group">
+                  <label for="image">Image</label>
+                  <input type="url" name="image" placeholder="url"  class="form-control" placeholder="" id="image" required>
+              </div>
+
+
+
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Post</button>
+                </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- messages Modal -->
+  <div class="modal fade" id="messages" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header table-dark">
+          <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body table-dark">
+          <%if(currentUser && notifications.lenght){%>
+            <% notifications.forEach(function(notification) { %>
+              <a class="dropdown-item" href="<%=notification.goTo%>"><%= `${notification.username} - ${notification.message}` %></a>
+            <% })%>
+            <%} else{%>
+              No Notification
+            <%}%>
+        </div>
+        <div class="modal-footer table-dark">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

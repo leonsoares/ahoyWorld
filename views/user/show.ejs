@@ -1,209 +1,357 @@
-<%- include("../partials/user-prof.js") %>
+<%- include("../partials/header.ejs")%>
+<%- include("../partials/navBar.ejs")%>
+<link rel="stylesheet" href="/stylesheets/user-prof.css"></link>
 
-
-
-
-<div class="user-prof-container">
-    <div class="div-block">
-      <div class="user-info-div">
-        <div class="div-block-9">
-          <div class="user-frame">
-            <div class="user-img-cont"><img src="<%=user.avatar%>" alt="" class="user-img-avatar"></div>
-            <div class="user-info-cont">
-              <h1 class="user-name">@<%= user.username %></h1>
-              <%if(user.location.country && user.location.state ){ %>
-                <h1 class="user-location"><%= user.location.state %></h1> - 
-                <h1 class="user-location"><%= user.location.country %></h1>
-                <% } else if (user.location.country && !user.location.state){ %>
+  <div class="page-container">
+  <div class="user-prof-container">
+      <div class="div-block">
+        <div class="user-info-div">
+          <div class="div-block-9">
+            <div class="user-frame">
+              <div class="user-img-cont"><img src="<%=user.avatar%>" alt="" class="user-img-avatar"></div>
+              <div class="user-info-cont">
+                <h1 class="user-name">@<%= user.username %></h1>
+                <%if(user.location.country && user.location.state ){ %>
+                  <h1 class="user-location"><%= user.location.state %></h1> - 
                   <h1 class="user-location"><%= user.location.country %></h1>
-                  <% } else {%>
-                    <h1 class="user-location">AhoyWorld</h1> 
-                  <% }%>
-            </div>
-            <div >
-              <%if(user.facebook !== "facebook.com/" || user.facebook !== ""){ %>
-              <a href="http://facebook.com/<%=user.facebook%> %>" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
-              <% } else { %>
-                <a href="http://facebook.com/" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
-              <% } %>
-
-
-              <%if(user.instagram !==  "instagram.com/" || user.instagram !== ""){ %>
-                <a href="http://instagram.com/<%=user.instagram%>" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
-              <% } else { %>
-                  <a href="http://instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
-              <% } %>
-
-            </div>
-
-            <div class="user-email-cont">
-              <h1 class="user-email"><%= user.email %></h1>
-            </div>
-
-            <div class="social-btns">
-              <div class="btn-edit-text">
-              <%  if(currentUser && user.id === currentUser.id){ %>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Edit
-                </button>              
-              <% }  %>
-              <%  if(currentUser && user.id != currentUser._id){ %>
-                <% if(isFollowing !== true) { %>
-                  <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow</button></a>
-                  <% } else { %>
-                    <a href="/unfollow/<%= user.id %>"><button class="btn btn-primary">unfollow</button></a>
+                  <% } else if (user.location.country && !user.location.state){ %>
+                    <h1 class="user-location"><%= user.location.country %></h1>
+                    <% } else {%>
+                      <h1 class="user-location">AhoyWorld</h1> 
+                    <% }%>
+              </div>
+              <div >
+                <%if(user.facebook !== "facebook.com/" || user.facebook !== ""){ %>
+                <a href="http://facebook.com/<%=user.facebook%> %>" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
+                <% } else { %>
+                  <a href="http://facebook.com/" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
                 <% } %>
-              <% } %>
-              
+
+
+                <%if(user.instagram !==  "instagram.com/" || user.instagram !== ""){ %>
+                  <a href="http://instagram.com/<%=user.instagram%>" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+                <% } else { %>
+                    <a href="http://instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+                <% } %>
+
+              </div>
+
+              <div class="user-email-cont">
+                <h1 class="user-email"><%= user.email %></h1>
+              </div>
+
+              <div class="social-btns">
+                <div class="btn-edit-text">
+                <%  if(currentUser && user.id === currentUser.id){ %>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      Edit
+                  </button>              
+                <% }  %>
+                <%  if(currentUser && user.id != currentUser._id){ %>
+                  <% if(isFollowing !== true) { %>
+                    <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow</button></a>
+                    <% } else { %>
+                      <a href="/unfollow/<%= user.id %>"><button class="btn btn-primary">unfollow</button></a>
+                  <% } %>
+                <% } %>
+                
+                </div>
               </div>
             </div>
-          </div>
-          <div class="user-info-cont">
-              <%if(user.description){ %> 
-                <div class="user-text-info"><%= user.description %></div>
-                <% } else { %>
-                  <div class="user-text-info">What kind of AhoyTraveler am I?</div>
-                  <% }%>
-          </div>
-          <div class="user-places-cont">
-            <div class="user-places-data">
-              <h1 class="data-text">Places Visited: </h1>
-              <% if(flag.length > 2){ %>
-                <h1 class="data-text"> 
-                  <a class="and-more" href="../scenes/<%=flag[0].id%>"><%=flag[0].name%>,</a>
-                  <a class="and-more" href="../scenes/<%=flag[1].id%>"><%=flag[1].name%></a> 
-                  <a href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllVisited" > and <%= flag.length - 2%> more...</a>
-                </h1>
-
-                <% } else if(flag.length === 0){ %>
-                  <h1 class="data-text"> 
-                      No places visited yet.
-                    </h1>
-                <% } else  { %>
-                  
-                  <% flag.forEach((flaged) => {%>
-                  <h1 class="data-text"> 
-                    <a class="and-more" href="../scenes/<%=flag.id%>"><%=flaged.name%>,</a>
-                  </h1>
-                  <% }); %>
-                <% } %>
-            </div> 
-            <div class="user-places-data">
-              <h1 class="data-text">Places Saved: </h1>
-              <% if(savedScene.length > 2){ %>
-                <h1 class="data-text"> 
-                  <a class="and-more" href="../scenes/<%=savedScene[0].id%>"><%=savedScene[0].name%>,</a>
-                  <a class="and-more" href="../scenes/<%=savedScene[1].id%>"><%=savedScene[1].name%></a> 
-                  <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllSaved"> and <%= savedScene.length - 2%> more...</a>
-                </h1>
-
-                <% } else if(savedScene.length === 0){ %>
-                  <h1 class="data-text"> 
-                      No places saved yet.
-                  </h1>
-                <% } else  { %>
-                  
-                  <% savedScene.forEach((scene) => {%>
-                  <h1 class="data-text"> 
-                    <a class="and-more" href="../scenes/<%=scene.id%>"><%=scene.name%>,</a>
-                  </h1>
-                  <% }); %>
-                <% } %>
+            <div class="user-info-cont">
+                <%if(user.description){ %> 
+                  <div class="user-text-info"><%= user.description %></div>
+                  <% } else { %>
+                    <div class="user-text-info">What kind of AhoyTraveler am I?</div>
+                    <% }%>
             </div>
-              
-            <div class="user-places-data">
-                <h1 class="data-text">Followed by:</h1>
-                <% if(user.followers.length > 2){ %>
+            <div class="user-places-cont">
+              <div class="user-places-data">
+                <h1 class="data-text">Places Visited: </h1>
+                <% if(flag.length > 2){ %>
                   <h1 class="data-text"> 
-                    <a class="and-more" href="../users/<%=user.followers[0].id%>"><%=user.followers[0].name%>,</a>
-                    <a class="and-more" href="../users/<%=user.followers[1].id%>"><%=user.followers[1].name%></a> 
-                    <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllFollowers"> and <%= user.followers.length - 2%> more...</a>
+                    <a class="and-more" href="../scenes/<%=flag[0].id%>"><%=flag[0].name%>,</a>
+                    <a class="and-more" href="../scenes/<%=flag[1].id%>"><%=flag[1].name%></a> 
+                    <a class="and-more" href="#" type="button" data-toggle="modal" data-target="#showAllVisited" > and <%= flag.length - 2%> more...</a>
                   </h1>
-                  <% } else if(user.followers.length === 0){ %>
+
+                  <% } else if(flag.length === 0){ %>
                     <h1 class="data-text"> 
-                         No followers yet.
+                        No places visited yet.
                       </h1>
                   <% } else  { %>
                     
-                    <% user.followers.forEach((follower) => {%>
+                    <% flag.forEach((flaged) => {%>
                     <h1 class="data-text"> 
-                      <a class="and-more" href="../users/<%=follower.id%>"><%=follower.username%>,</a>
+                      <a class="and-more" href="../scenes/<%=flaged.id%>"><%=flaged.name%>,</a>
                     </h1>
                     <% }); %>
                   <% } %>
-            </div>
-            <div class="user-places-data">
-              <h1 class="data-text">Following: </h1>
-              <% if(user.following.length > 2){ %>
-                <h1 class="data-text"> 
-                  <a class="and-more" href="../users/<%=user.following[0].id%>"><%=user.following[0].name%>,</a>
-                  <a class="and-more" href="../users/<%=user.following[1].id%>"><%=user.following[1].name%></a> 
-                  <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllFollowing"> and <%= user.following.length - 2%> more...</a>
-                </h1>
-                
-                <% } else if(user.following.length === 0){ %>
+              </div> 
+              <div class="user-places-data">
+                <h1 class="data-text">Places Saved: </h1>
+                <% if(savedScene.length > 2){ %>
                   <h1 class="data-text"> 
-                       Not following anyone yet.
-                    </h1>
-                <% } else  { %>
-                  
-                  <% user.following.forEach((follow) => {%>
-                  <h1 class="data-text"> 
-                    <a class="and-more" href="../users/<%=follow.id%>"><%=follow.username%>,</a>
+                    <a class="and-more" href="../scenes/<%=savedScene[0].id%>"><%=savedScene[0].name%>,</a>
+                    <a class="and-more" href="../scenes/<%=savedScene[1].id%>"><%=savedScene[1].name%></a> 
+                    <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllSaved"> and <%= savedScene.length - 2%> more...</a>
                   </h1>
-                  <% }); %>
-                <% } %>
+
+                  <% } else if(savedScene.length === 0){ %>
+                    <h1 class="data-text"> 
+                        No places saved yet.
+                    </h1>
+                  <% } else  { %>
+                    
+                    <% savedScene.forEach((scene) => { %>
+                    <h1 class="data-text"> 
+                      <a class="and-more" href="../scenes/<%=scene.id%>"><%=scene.name%>,</a>
+                    </h1>
+                    <% }); %>
+                  <% } %>
+              </div>
                 
+              <div class="user-places-data">
+                  <h1 class="data-text">Followed by:</h1>
+                  <% if(user.followers.length > 2){ %>
+                    <h1 class="data-text"> 
+                      <a class="and-more" href="../users/<%=user.followers[0].id%>"><%=user.followers[0].name%>,</a>
+                      <a class="and-more" href="../users/<%=user.followers[1].id%>"><%=user.followers[1].name%></a> 
+                      <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllFollowers"> and <%= user.followers.length - 2%> more...</a>
+                    </h1>
+                    <% } else if(user.followers.length === 0){ %>
+                      <h1 class="data-text"> 
+                          No followers yet.
+                        </h1>
+                    <% } else  { %>
+                      
+                      <% user.followers.forEach((follower) => {%>
+                      <h1 class="data-text"> 
+                        <a class="and-more" href="../users/<%=follower.id%>"><%=follower.username%>,</a>
+                      </h1>
+                      <% }); %>
+                    <% } %>
+              </div>
+              <div class="user-places-data">
+                <h1 class="data-text">Following: </h1>
+                <% if(user.following.length > 2){ %>
+                  <h1 class="data-text"> 
+                    <a class="and-more" href="../users/<%=user.following[0].id%>"><%=user.following[0].name%>,</a>
+                    <a class="and-more" href="../users/<%=user.following[1].id%>"><%=user.following[1].name%></a> 
+                    <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllFollowing"> and <%= user.following.length - 2%> more...</a>
+                  </h1>
+                  
+                  <% } else if(user.following.length === 0){ %>
+                    <h1 class="data-text"> 
+                        Not following anyone yet.
+                      </h1>
+                  <% } else  { %>
+                    
+                    <% user.following.forEach((follow) => {%>
+                    <h1 class="data-text"> 
+                      <a class="and-more" href="../users/<%=follow.id%>"><%=follow.username%>,</a>
+                    </h1>
+                    <% }); %>
+                  <% } %>
+                  
+              </div>
+              
             </div>
             
           </div>
+          <div class="memberSince">
+              <h6 class="member-title"> member since:</h6>
+              <h6 class="member-title"><%=memberSince[1]%>, <%=memberSince[3]%></h6>
+
+          </div>
           
         </div>
-        <div class="memberSince">
-            <h6 class="member-title"> member since:</h6>
-            <h6 class="member-title"><%=memberSince[1]%>, <%=memberSince[3]%></h6>
-
-        </div>
         
-      </div>
-      
-      <div class="user-post-cont">
-        <div class="popular-posts-container">
-          <div class="user-title">
-            <h1 class="heading-7">@<%= user.username %>'s posts:</h1>
-          </div>
-          <% scenes.forEach(function(scene){ %>
-          <a href="/scenes/<%-scene.id%>">
-            <div class="popular-item-container">
-              <div class="popular-item-container-img">
-                <div class="category-tag-<%=scene.sceneType%>">
-                  <h1 class="search-tag"><%=scene.sceneType%></h1>
-                </div><img src="<%= scene.image %>" alt="" class="image-2"></div>
-              <div class="categori-description-block">
-                <h1 class="category-title"><%= scene.name %></h1>
-                <div class="category-description"><%= scene.description.substring(0,215)%>[...] </div>
+        <div class="user-post-cont">
+            <% if (scenes.length === 0){ %>
+              <div class="user-no-posts">
+                  <h1 class="heading-7 no-posts-title">@<%= user.username%> have not posted anything yet</h1>
+
               </div>
+
+              <% } else { %>
+          <div class="popular-posts-container">
+            <div class="user-title">
+              <h1 class="heading-7">@<%= user.username %>'s posts:</h1>
             </div>
-          </a>
-          <% }) %>
+            
+              
+            
+            <% scenes.forEach(function(scene){ %>
+            
+              <div class="popular-item-container">
+                  
+                <div class="popular-item-container-img">
+                  <div class="category-tag-<%=scene.sceneType%>">
+                    <h1 class="search-tag"><%=scene.sceneType%></h1>
+                  </div>
+                  <a href="/scenes/<%-scene.id%>">
+                    <img src="<%= scene.image %>" alt="" class="image-2">
+                  </a>
+                </div>
+                
+                <div class="categori-description-block">
+                  <a href="/scenes/<%-scene.id%>">
+                  <h1 class="category-title"><%= scene.name %></h1>
+                  <div class="category-description">
+                    <%= scene.description.substring(0,215) %>[...]
+                  </div>
+                  </a>
+                  
+                </div>
+
+                <%if(currentUser._id.toString() === scene.author.id.toString()){%>
+                  <div class="actionsScenesbtn">
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" >Delete</button>
+                      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editScene<%-scene._id%>">Edit</button>
+                  </div>
+                    <div class="modal fade" id="deleteScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header table-dark">
+                              <h5 class="modal-title" id="exampleModalLabel">Are you sure that you want to delete 
+                                <br> <%-scene.name%>?</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-footer table-dark">
+                                
+                                <form id="delete-form" action="../scenes/<%-scene._id %>?_method=DELETE" method="POST">
+                                  <input type="submit" class="btn btn-xs btn-danger" value="Yes">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                                </form>
+                              
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="modal fade" id="editScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header table-dark">
+                                <h5 class="modal-title" id="exampleModalLabel">Editing: 
+                                  <br> <%-scene.name%></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body table-dark">
+                                  <form action="/scenes/<%=scene._id %>?_method=PUT" method="POST">
+                                    <div class="form-group ">
+                                        <h6> Pick a tag that best describes your scene:</h6>
+                                        
+                                        
+                                        <div class="form-check form-check-inline">
+                                            <% if(scene.sceneType === "beach"){ %>
+                                            <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" checked required/><label class="form-check-label" for="Beach">Beach</label> 
+                                              <% }else { %>
+                                                <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" required/><label class="form-check-label" for="Beach">Beach</label> 
+                                                <% } %>
+                                          </div>
+                                        
+                                        <div class="form-check form-check-inline">
+                                            <% if(scene.sceneType === "waterfall"){ %>
+                                            <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" checked/><label class="form-check-label" for="Waterfall">Waterfall</label> 
+                                              <% }else { %>
+                                                <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" /><label class="form-check-label" for="Waterfall">Waterfall</label> 
+                                                <% } %>
+                                          </div>
+                          
+                                        <div class="form-check form-check-inline">
+                                            <% if(scene.sceneType === "forest"){ %>
+                                            <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest" checked/><label class="form-check-label" for="Forest">Forest</label> 
+                                              <% }else { %>
+                                                <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest"/><label class="form-check-label" for="Forest">Forest</label> 
+                                                <% } %>
+                                          </div>
+                          
+                                        <div class="form-check form-check-inline">
+                                            <% if(scene.sceneType === "island"){ %>
+                                            <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island" checked/><label class="form-check-label" for="Island">Island</label>
+                                              <% }else { %>
+                                                <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island"/><label class="form-check-label" for="Island">Island</label>
+                                                <% } %>
+                                          </div>
+                          
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City"/><label class="form-check-label" for="City">City</label> 
+                                        </div> 
+                          
+                                        <div class="form-check form-check-inline">
+                                            <% if(scene.sceneType === "lake"){ %>
+                                              <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake" checked/><label class="form-check-label" for="Lake">Lake</label> 
+                                              <% }else { %>
+                                                <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake"/><label class="form-check-label" for="Lake">Lake</label> 
+                                                <% } %>
+                                            </div>
+                                    </div>
+                                    <br>
+                                        
+                                    <div class="form-group ">
+                                        <label  for="title">Scene Title</label>
+                                        <input type="text" id="name" class="form-control " value="<%-scene.name%>" maxlength="40" name="name" required>
+                                    </div>
+                          
+                                        
+                                        
+                                        <div class="form-group">
+                                            <label for="country">Scene Location:</label>
+                                            <select name="country" class="form-control countries order-alpha" id="countryId" required>
+                                                <option value=""></option>
+                                                <option value="<%-scene.location.country%>" selected><%-scene.location.country%></option>
+                                            </select>
+                                            <select name="state" class="form-control states order-alpha" id="stateId" required>
+                                                <option value="<%-scene.location.state%>"><%-scene.location.state%></option>
+                                                
+                                            </select>
+                                            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+                                            <script src="//geodata.solutions/includes/countrystate.js"></script>
+                                        </div>
+                          
+                                        <br>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Scene Description</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1"  rows="3" name="description" required><%-scene.description%></textarea>
+                                        </div>
+                                        
+                          
+                                        <div class="form-group">
+                                            <label for="image">Image</label>
+                                            <input type="url" name="image" placeholder="url"  value="<%-scene.image%>" class="form-control" placeholder="" id="image" required>
+                                        </div>
+                          
+                          
+                          
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                          </div>
+                                    </form>
+                              </div>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      <%}%>
+              </div>
+            
+              <% }) %>
+            <% } %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
 
 
 
@@ -213,33 +361,34 @@
     <%- include("../partials/avatar.js") %>
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header table-dark">
         <h5 class="modal-title" id="exampleModalLabel">Editing your profile information</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body table-dark">
           <form action="../users/<%=currentUser.id %>/edit" method="POST">
-            
             <div class="form-group">
-                <label for="avatar">Profile Picture:</label>
-                <input type="url" placeholder="paste here a valid image URL" class="form-control" name="avatar" id="avatar">
-            </div>  
-            
-            <div class="form-group">
-                  <label for="email@">Email:</label>
-                  <input type="email" class="form-control" value="<%=user.email%>" maxlength="40" name="email" id="email">
-              </div>
 
+              <h6> Pick an Avatar:</h6>
+              <input type="radio" class="avatar avatarRadio" name="avatar1"  value="avatar1" id="avatar1"/><label for="avatar1"></label> 
+              <input type="radio" class="avatar avatarRadio" name="avatar1"  value="avatar2" id="avatar2"/><label for="avatar2"></label> 
+              <input type="radio" class="avatar avatarRadio" name="avatar1"  value="avatar3" id="avatar3"/><label for="avatar3"></label> 
+              <input type="radio" class="avatar avatarRadio" name="avatar1"  value="avatar4" id="avatar4"/><label for="avatar4"></label>
+              <input type="radio" class="avatar avatarRadio" name="avatar1"  value="avatar5" id="avatar5"/><label for="avatar5"></label> 
+
+            </div> 
               
               <div class="form-group">
                   <label for="location">Your location:</label>
-                  <select name="country" class="form-control countries order-alpha" id="countryId">
-                      <option value="">Select Country:</option>
+                  <select name="country" class="form-control countries order-alpha" id="countryId" required>
+                      <option value=""></option>
+                      <option value="<%-currentUser.location.country%>" selected><%-currentUser.location.country%></option>
                   </select>
-                  <select name="state" class="form-control states order-alpha" id="stateId">
-                      <option value="">Select State:</option>
+                  <select name="state" class="form-control states order-alpha" id="stateId" required>
+                      <option value="<%-currentUser.location.state%>"><%-currentUser.location.state%></option>
+                      
                   </select>
                   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
                   <script src="//geodata.solutions/includes/countrystate.js"></script>
@@ -247,18 +396,30 @@
 
               <div class="form-group">
                   <label for="description">description:</label>
-                  <textarea name="description" placeholder="What kind of AhoyTraveler are you?" cols="56" rows="4" maxlength="113"></textarea>
+                  <%if(currentUser.description !== "") { %>
+                  <textarea name="description" placeholder="" cols="56" rows="4" maxlength="113"><%=currentUser.description%></textarea>
+                  <%} else {%>
+                    <textarea name="description" placeholder="What kind of AhoyTraveler are you?" cols="56" rows="4" maxlength="113"></textarea>
+                    <%}%>
               </div>
               
 
               <div class="form-group">
                 <label for="InstagramLink">Your Instagram:</label>
-                <input type="text" name="instagram" id="instagram" maxlength="30" placeholder="Instagram User Name Only. Ex: <%= user.username%>" class="form-control" placeholder="johnsmith" id="instagram">
+                <%if(currentUser.instagram !== "") { %>
+                  <input type="text" name="instagram" id="instagram" maxlength="30"  class="form-control" value="<%-currentUser.instagram%>">
+                  <%} else {%>
+                    <input type="text" name="instagram" id="instagram" maxlength="30" placeholder="Instagram User Name Only. Ex: <%= user.username%>" class="form-control" placeholder="johnsmith" id="instagram">
+                    <%}%>
               </div>
 
               <div class="form-group">
                   <label for="facebook">Your Facebook:</label>
-                  <input type="text" name="facebook" id="facebook" maxlength="50" placeholder="Facebook User Name Only. Ex: <%= user.username%>" class="form-control" placeholder="johnsmith" id="facebook">
+                  <%if(currentUser.facebook !== "") { %>
+                    <input type="text" name="facebook" id="facebook" maxlength="30"  class="form-control" value="<%-currentUser.facebook%>">
+                    <%} else {%>
+                      <input type="text" name="facebook" id="facebook" maxlength="50" placeholder="Facebook User Name Only. Ex: <%= user.username%>" class="form-control">
+                      <%}%>
               </div>
               <div class="modal-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -276,13 +437,13 @@
 <div class="modal fade" id="showAllVisited" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header table-dark">
         <h5 class="modal-title" id="exampleModalLabel">All places visited by <%=user.username%></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body table-dark">
           <% flag.forEach((flaged) => {%>
             <h6 class=""> 
               <a href="../scenes/<%=flaged.id%>"><%=flaged.name%></a>
@@ -297,14 +458,14 @@
 <!-- Places Saved Modal -->
 <div class="modal fade" id="showAllSaved" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
+      <div class="modal-content ">
+        <div class="modal-header table-dark">
           <h5 class="modal-title" id="exampleModalLabel">All places saved by <%=user.username%></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table-dark">
             <% savedScene.forEach((scene) => {%>
               <h6 class=""> 
                 <a href="../scenes/<%=scene.id%>"><%=scene.name%></a>
@@ -319,13 +480,13 @@
 <div class="modal fade" id="showAllFollowers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header table-dark">
         <h5 class="modal-title" id="exampleModalLabel">@<%=user.username%> followers</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body table-dark">
           <% user.followers.forEach((follower) => {%>
             <h6 class="data-text"> 
               <a href="../users/<%=follower.id%>"><%=follower.username%>,</a>
@@ -340,13 +501,13 @@
 <div class="modal fade" id="showAllFollowing" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header table-dark">
           <h5 class="modal-title" id="exampleModalLabel">@<%=user.username%> is following</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table-dark">
           <% user.following.forEach((follow) => {%>
             <h6 class=""> 
               <a href="../users/<%=follow.id%>"><%=follow.username%>,</a>
@@ -360,4 +521,4 @@
 
   
 
-<%- include("../partials/footer.js") %>
+<%- include("../partials/footer.ejs") %>

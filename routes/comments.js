@@ -16,7 +16,8 @@ router.get('/scenes/:id/comments/new', middleware.isLoggedIn, (req, res) => {
         }
         Scene.findById(req.params.id, (err, foundScene) =>{
             if(err){
-                console.log(err)
+                req.flash('error', 'sorry, we could not find you are looking for. :/')
+                res.redirect('back')
             } else{
                 res.render('comments/new', {scene:foundScene});
             } 
@@ -28,18 +29,20 @@ router.post('/scenes/:id/comments', middleware.isLoggedIn, formidableMiddleware(
     var newComment = req.fields
     Scene.findById(req.params.id, (err, scene) =>{
         if(err || !scene){
-            req.flash('error', 'Sorry, we could not find this')
+            req.flash('error', 'Sorry, sothing went wrong :/')
             return res.redirect('back')
         } else{
             Comment.create(newComment, (err, comment) => {
                 if(err) {
-                    console.log(err)
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    res.redirect('back')
                 } else {
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
                     comment.save();
                     scene.comments.push(comment);
                     scene.save();
+                    req.flash('success', 'Your comment was successfully added.');
                     res.redirect('/scenes/' + req.params.id);
                 }
             })
@@ -66,9 +69,10 @@ router.get('/scenes/:id/comments/:comment_id/edit', middleware.commentIsAuthoriz
 router.put('/scenes/:id/comments/:comment_id', middleware.commentIsAuthorized, formidableMiddleware(), (req, res) => {
     Comment.findByIdAndUpdate(req.params.comment_id, req.fields, (err, foundComment) => {
         if (err) {
-            console.log(err)
+            req.flash('error', 'Sorry, something went wrong.');
+            res.redirect('back')
         } else {
-    
+            req.flash('success', 'Your comment was successfully edited.');
             res.redirect('/scenes/' + req.params.id)
         }
     })
@@ -77,8 +81,10 @@ router.put('/scenes/:id/comments/:comment_id', middleware.commentIsAuthorized, f
 router.delete('/scenes/:id/comments/:comment_id', middleware.commentIsAuthorized, (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, (err, deletedComment) => {
         if (err) {
-            console.log(err)
+            req.flash('error', 'Sorry, something went wrong.');
+            res.redirect('back')
         } else {
+            req.flash('success', 'Your comment deleted.');
             res.redirect('back')
         }
     })

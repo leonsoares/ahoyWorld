@@ -1,0 +1,78 @@
+<footer>
+  <link rel="stylesheet" href="/stylesheets/footer.css" type="text/css"></link>
+
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-logo-container"><a href="../"><img src="/images/Ahoy-world-logo-2.png" loading="lazy" alt="" class="footer-logo"></a></div>
+      <div class="footer-fast-links">
+        <div class="footer-title">FAST LINKS:</div>
+        <div class="footer-link"><a href="../">HOME</a></div>
+        <div class="footer-link"><a href="../scenes">ALL SCENES</a></div>
+        <div class="footer-link"><a href="../ahoytravelers">AHOY TRAVELERS</a></div>
+        <div class="footer-link"><a href="../about">ABOUT AHOY WORLD</a></div>
+      </div>
+      <div class="footer-devoper">
+        <div class="footer-title">DEVELOPED BY:</div>
+        <div class="footer-link">Leon Soares</div>
+        <div class="footer-link">leonsoares3@gmail.com</div>
+        <div class="footer-link">Multimidia Developer</div>
+      </div>
+      <div class="let-travel-title">
+        <div class="footer-link">LET'S TRAVEL TOGETHER</div>
+        <div class="footer-link">@2020</div>
+        
+      </div>
+    </div>
+  </div>
+</body>
+
+<%- include("modals.ejs") %>
+</footer>
+
+<%if(currentUser){ %>
+<!-- <script >
+    
+  document.getElementById("markRead").addEventListener("click", function(){
+      fetch('/clicked', {method: 'GET'})
+        .then(function() {
+          document.getElementById("demo").innerHTML = 0
+        })
+  });
+</script> -->
+<%}%>
+
+
+<script>
+  window.addEventListener('scroll',function(e) {
+
+      var Wlocation = window.pageYOffset
+      if(Wlocation > 40){
+      document.querySelector('.navbar').style.backgroundColor = "rgba(47, 46, 46, 0.637)"
+      } else if(Wlocation < 40){
+      document.querySelector('.navbar').style.backgroundColor = "rgba(47, 46, 46, 0)"
+
+      }
+  });
+  
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  var box = $(".feature-img-container"), x;
+    $(".arrow").click(function() {
+      if ($(this).hasClass("arrow-right")) {
+        x = ((box.width() / 2)) + box.scrollLeft();
+        box.animate({
+          scrollLeft: x,
+        })
+      } else {
+        x = ((box.width() / 2)) - box.scrollLeft();
+        box.animate({
+          scrollLeft: -x,
+        })
+      }
+    })
+</script>
+
+</html>

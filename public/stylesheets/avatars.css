@@ -1,0 +1,117 @@
+.avatarRadio {
+    display:none;
+    }
+     
+
+    input#avatar1[type=radio] + label
+    {
+    height: 80px;
+    width: 80px;
+    background-image: url("../images/avatars/avatar1.png");
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    border-color: white;
+    border-style: solid;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    }
+    input#avatar2[type=radio] + label
+    {
+        height: 80px;
+        width: 80px;
+        background-image: url("../images/avatars/avatar2.png");
+        background-size: 80px 80px;
+        background-repeat: no-repeat;
+        border-color: white;
+        border-style: solid;
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+    input#avatar3[type=radio] + label
+    {
+        height: 80px;
+        width: 80px;
+        background-image: url("../images/avatars/avatar3.png");
+        background-size: 80px 80px;
+        background-repeat: no-repeat;
+        border-color: white;
+        border-style: solid;
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+    input#avatar4[type=radio] + label
+    {
+        height: 80px;
+        width: 80px;
+        background-image: url("../images/avatars/avatar4.png");
+        background-size: 80px 80px;
+        background-repeat: no-repeat;
+        border-color: white;
+        border-style: solid;
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+
+    input#avatar5[type=radio] + label
+    {
+        height: 80px;
+        width: 80px;
+        background-image: url("../images/avatars/avatar5.png");
+        background-size: 80px 80px;
+        background-repeat: no-repeat;
+        border-color: white;
+        border-style: solid;
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+
+
+
+
+    input#avatar1[type=radio]:checked + label
+    {
+    border-color: red;
+    border-style: solid;
+    height:  85px;
+    width: 85px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    }
+    input#avatar2[type=radio]:checked + label
+    {
+    border-color: red;
+    border-style: solid;
+    height: 85px;
+    width: 85px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    }
+    input#avatar3[type=radio]:checked + label
+    {
+    border-color: red;
+    border-style: solid;
+    height: 85px;
+    width: 85px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    }
+    input#avatar4[type=radio]:checked + label
+    {
+    border-color: red;
+    border-style: solid;
+    height: 85px;
+    width: 85px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    }
+    input#avatar5[type=radio]:checked + label
+    {
+    border-color: red;
+    border-style: solid;
+    height: 85px;
+    width: 85px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    }
+
+ 

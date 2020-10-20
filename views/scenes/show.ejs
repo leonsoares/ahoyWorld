@@ -1,18 +1,23 @@
-<%- include("../partials/header-show-scene.js") %>
+<%- include("../partials/header.ejs") %>
 
+<%- include("../partials/navBar.ejs") %>
+<link rel="stylesheet" href="/stylesheets/showScene.css"></link>
 
+<div class="page-container">
   <div class="div-block-3">
     <div class="div-block">
       <h1 class="heading"><%=scene.name %></h1>
+      <h1 class="heading"> <%= scene.location.country %></h1>
       <% if(currentUser && scene.author._id === currentUser._id){ %>
-        <h6 class="card-title"> Post By @<a href="/test%>"><%= scene.author.username%> test</a></h6>
+        <h6 class="card-title"> Post By @<a class="link-tag" href="/test%>"><%= scene.author.username%> test</a></h6>
         <% } else{ %>
-        <h6 class="card-title"> Post By @<a href="/users/<%= scene.author.id%>"><%= scene.author.username%></a></h6>
-    <% } %>
-      <h1 class="heading"><%=scene.location%></h1>
-      <div class="text-block">This is some text inside of a div block.
+        <h6 class="card-title"> Post By @<a class="link-tag" href="/users/<%= scene.author.id%>"><%= scene.author.username%></a></h6>
+      <% } %>
+      
+
+      <!-- <div class="text-block">This is some text inside of a div block.
         <br>This is some text inside of a div block. This is some text inside of a div block.
-      </div>
+      </div> -->
     </div>
     <div class="div-block-6">
       <div class="div-block-2">
@@ -55,7 +60,12 @@
           <div class="reviews-block">
           <% if (scene.rating === 0) { %>
             <h5>
-                <p>
+              <%if(currentUser){%>
+                <a href="#" class="nav-link"  data-toggle="modal" data-target="#ratings" >
+                    <%} else {%>
+                      <a href="#" class="nav-link"  data-toggle="modal" data-target="#staticBackdrop" >
+                      <%}%>
+                  <p>
                     <span class="far fa-star"></span>
                     <span class="far fa-star"></span>
                     <span class="far fa-star"></span>
@@ -63,100 +73,177 @@
                     <span class="far fa-star"></span>
                     <em>(<%= scene.reviews.length %> - ratings )</em>
                   </p>
+                </a>
             </h5>
             
               <% } else { %>
+                <%if(currentUser){%>
+                <a href="#" class="nav-link"  data-toggle="modal" data-target="#ratings" >
+                    <%} else {%>
+                      <a href="#" class="nav-link"  data-toggle="modal" data-target="#staticBackdrop" >
+                      <%}%>
               <p>
-                <span class="fa fa-star checked"></span>
+                <span class="far fa-star fa"></span>
                 <span class="far fa-star <% if (scene.rating > 1.5) { %> fa <% } %>"></span>
                 <span class="far fa-star <% if (scene.rating > 2.5) { %> fa <% } %>"></span>
                 <span class="far fa-star <% if (scene.rating > 3.5) { %> fa <% } %>"></span>
                 <span class="far fa-star <% if (scene.rating > 4.5) { %> fa <% } %>"></span>
                 <em>(<%= scene.reviews.length %> - ratings )</em>
               </p>
+              </a>
               <% } %>
               
+              
+              
           </div>
+          
     </div>
+      
+    </div>
+    <div class="created-cont">
+      <h7 class="">Created on </h5>
+        
+      <h7 class=""> <%= created %></h5>
+    </div>
+    <div class="map-text-conteiner">
+      <div class="div-block-4">
+        <div class="scene-description"><p><%=scene.description%></p></div>
+      </div>
       <div class="div-block-5">
-        <h5 class="heading-5">Created on </h5>
-       
-        <h5 class="heading-5"> <%= created %></h5>
+          
+          <div id="pano"></div>
       </div>
     </div>
-    <div class="div-block-4">
-      <div><%=scene.description%></div>
-    </div>
-    <div class="div-block-10">
-      <div>
-        <h1 class="visiters-title">Ahoy's Visiters to </h1>
-        <h1 class="visiters-title"><%=scene.name%>:</h1>
+    <h1 class="visiters-title">Ahoy's Visitors to <%=scene.name%>:</h1>
+
+    
+        <% if(scene.flag && scene.flag.length > 4){ %>
+      <div class="allFlags">
+          <div class="travelers-block">
+          <a href="../users/<%=scene.flag[0].id%>" class="travelers-item-block w-inline-block">
+            <div class="travelers-prof-pic-container">
+              <img src="<%=scene.flag[0].avatar%>" alt="" class="traveler-prof-pic">
+            </div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name link-tag"><%=scene.flag[0].username%></h1>
+              <h1 class="traveler-place"><%=scene.flag[0].location.country%></h1>
+            </div>
+          </a>
+          <a href="../users/<%=scene.flag[1].id%>" class="travelers-item-block w-inline-block">
+            <div class="travelers-prof-pic-container">
+              <img src="<%=scene.flag[1].avatar%>" alt="" class="traveler-prof-pic">
+            </div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name link-tag"><%=scene.flag[1].username%></h1>
+              <h1 class="traveler-place"><%=scene.flag[1].location.country%></h1>
+            </div>
+          </a>
+
+          <a href="../users/<%=scene.flag[2].id%>" class="travelers-item-block w-inline-block">
+            <div class="travelers-prof-pic-container">
+              <img src="<%=scene.flag[2].avatar%>" alt="" class="traveler-prof-pic">
+            </div>
+            <div class="travelers-info-block">
+              <h1 class="traveler-name link-tag"><%=scene.flag[2].username%></h1>
+              <h1 class="traveler-place"><%=scene.flag[2].location.country%></h1>
+            </div>
+          </a>
+
+          <a href="../users/<%=scene.flag[3].id%>" class="travelers-item-block w-inline-block">
+              <div class="travelers-prof-pic-container">
+                <img src="<%=scene.flag[3].avatar%>" alt="" class="traveler-prof-pic">
+              </div>
+              <div class="travelers-info-block">
+                <h1 class="traveler-name link-tag"><%=scene.flag[3].username%></h1>
+                <h1 class="traveler-place"><%=scene.flag[3].location.country%></h1>
+              </div>
+          </a>
+          
+        </div>
+        <div class="see-all-visites">
+          <a class="nav-link heading-7"  data-toggle="modal" data-target="#showAllFlaged" href="#">
+
+            <p>See all...</p>
+          </a>
       </div>
-      <div class="travelers-block">
-        <a href="#" class="travelers-item-block w-inline-block">
-          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
-          <div class="travelers-info-block">
-            <h1 class="traveler-name">Mary Brown</h1>
-            <h1 class="traveler-place">Connecticut, USA</h1>
-          </div>
-        </a>
-        <a href="#" class="travelers-item-block w-inline-block">
-          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
-          <div class="travelers-info-block">
-            <h1 class="traveler-name">Mary Brown</h1>
-            <h1 class="traveler-place">Connecticut, USA</h1>
-          </div>
-        </a>
-        <a href="#" class="travelers-item-block w-inline-block">
-          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
-          <div class="travelers-info-block">
-            <h1 class="traveler-name">Mary Brown</h1>
-            <h1 class="traveler-place">Connecticut, USA</h1>
-          </div>
-        </a>
-        <a href="#" class="travelers-item-block w-inline-block">
-          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
-          <div class="travelers-info-block">
-            <h1 class="traveler-name">Mary Brown</h1>
-            <h1 class="traveler-place">Connecticut, USA</h1>
-          </div>
-        </a>
-      </div>
-      <h1 class="heading-7">See all...</h1>
     </div>
+          <% } else if(scene.flag.length === 0){ %>
+            
+            <div class="noComments">
+                <div class="noCommentsContent">
+                  <h5 class="textNoComments">No Ahoy Traveler has visited  <br>this  place as  yet. </h5>
+                   
+                 </div>
+              </div>
+              
+          <% } else  { %>
+            <div class="allFlags">
+            <div class="travelers-block">
+            <% scene.flag.forEach((flag) => {%>
+              
+              <a href="../users/<%=scene.flag.id%>" class="travelers-item-block w-inline-block">
+                  <div class="travelers-prof-pic-container">
+                    <img src="<%=flag.avatar%>" alt="" class="traveler-prof-pic">
+                  </div>
+                  <div class="travelers-info-block">
+                    <h1 class="traveler-name link-tag"><%=flag.username%></h1>
+                    <h1 class="traveler-place"><%=flag.location.country%></h1>
+                  </div>
+              </a>
+            
+            <% }); %>
+          </div>
+        </div>
+          <% } %>
+    
+         <!-- <a href="#" class="travelers-item-block w-inline-block">
+          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
+          <div class="travelers-info-block">
+            <h1 class="traveler-name">Mary Brown</h1>
+            <h1 class="traveler-place">Connecticut, USA</h1>
+          </div>
+        </a> -->
+
+      
     <div class="div-block-7">
 
-      <h1>Comments</h1>
-      <% scene.comments.forEach(function(comment){ %>
+      <br>
+      <h1>Comments:</h1>
+      <%if(scene.comments.length > 0){%>
+      <% scene.comments.slice(0,7).forEach(function(comment){ %>
         <div class="div-block-8">
           <div class="div-block-9">
-            <h1 class="heading-6"><%= comment.author.username %></h1>
+            <a href="../users/<%=comment.author.id %>">
+              <h1 class="heading-6 link-tag"><%= comment.author.username %></h1>
+            </a>
           </div>
           <div class="div-block-11">
-            <div>
-              <div>
+            <div class="comment-block">
+              <div >
                   <%= comment.text %>
               </div>
             </div>
-            <div class="div-block-12"><a href="#" class="button w-button">
+            <div class="div-block-12"><a href="#" class="button w-button"></a>
                 <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
                   
-
-
-                  <a class="btn btn-xs btn-warning" type="button"  data-toggle="modal" data-target="#editComment"
-                     href="">Edit</a>
-                     <a class="btn btn-xs btn-warning" type="button"  data-toggle="modal" data-target="#deleteComment"
-                     href="">delete</a>
-                  <div class="modal fade" id="editComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="comments-edit-block">
+                    <div class="comments-edit-cont">
+                      <a class="btn btn-xs btn-info btn-space" type="button"  data-toggle="modal" data-target="#editComment<%-comment._id%>"
+                      href="">Edit</a>
+                      <a class="btn btn-xs btn-danger" type="button"  data-toggle="modal" data-target="#deleteComment<%-comment._id%>"
+                      href="">delete</a>
+                    </div>
+                  </div>   
+                  <div class="modal fade" id="editComment<%-comment._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
-                          <div class="modal-header">
+                          <div class="modal-header table-dark">
                             <h5 class="modal-title" id="exampleModalLabel">Edit Comment</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div class="modal-body">
+                          <div class="modal-body table-dark">
                             <form class="form-group col-md-auto" action="/scenes/<%=scene._id %>/comments/<%=comment.id%>?_method=PUT" method="POST" >
                               <textarea class="form-control" type="textarea" rows="4" cols="4" maxlength="10" name="text"><%=comment.text%></textarea>
                               <br>
@@ -173,23 +260,25 @@
                       </div>
                     </div>
                     <!-- modal delete -->
-                    <div class="modal fade" id="deleteComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="deleteComment<%-comment._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Are you sure that 
-                                <br>you want to delete this comment?</h5>
+                              
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
                             <div class="modal-body">
+                                <h4 class="modal-title" id="exampleModalLabel">Are you sure that 
+                                    <br>you want to delete this comment?</h4>
+                            </div>
+                            <div class="modal-footer">
                                 <form id="delete-form" action="/scenes/<%=scene._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                   <input type="submit" class="btn btn-xs btn-danger" value="Yes">
                                 </form>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                            </div>
-                            
+                              </div>
                           </div>
                         </div>
                       </div>
@@ -199,39 +288,54 @@
           </div>
         </div>
       <% }) %>
+    <%} else {%>
+      <div class="noComments">
+        <div class="noCommentsContent">
+          <h5 class="textNoComments">No Comments for this scene yet. <br> 
+            Be the first to comment</h5>
+            <%if(currentUser && scene.comments.length == 0){%>
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addComment">Add Comment</button>
+              <% } else { %>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staticBackdrop">Add Comment</button>
+                <% } %>
+         </div>
+      </div>
+      <%} %>
 
 
-      <div class="div-block-8">
+      <!-- <div class="div-block-8">
         <div class="div-block-9">
           <h1 class="heading-6">Vanessa </h1>
         </div>
         <div class="div-block-11">
           <div>
-            <div>Vestibulum commodo tincidunt nibh, scelerisque pharetra elit fringilla ut. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse faucibus ultrices mauris, non finibus magna semper ac. Vivamus auctor augue egestas, pellentesque dolor non, accumsan nunc. Nunc quis felis congue, molestie mi at, finibus quam. Cras ac sollicitudin est. Nam ut mi mi. Maecenas egestas sem vel massa ullamcorper auctor.</div>
+            <div class="comment-block">Vestibulum commodo tincidunt nibh, scelerisque pharetra elit fringilla ut. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse faucibus ultrices mauris, non finibus magna semper ac. Vivamus auctor augue egestas, pellentesque dolor non, accumsan nunc. Nunc quis felis congue, molestie mi at, finibus quam. Cras ac sollicitudin est. Nam ut mi mi. Maecenas egestas sem vel massa ullamcorper auctor.</div>
           </div>
           <div class="div-block-12"><a href="#" class="button w-button">Edit</a><a href="#" class="w-button">Delete</a></div>
         </div>
-      </div>
-      
-      <a href="#" class="w-button" type="button"  data-toggle="modal" data-target="#addComment">Add Comment</a></div>
-
+      </div> -->
+      <%if(currentUser && scene.comments.length != 0){%>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addComment">Add Comment</button>
+        <% } else if(scene.comments.length != 0){ %>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staticBackdrop">Add Comment</button>
+        <% } %>
       <!-- modal Add comment -->
       <div class="modal fade" id="addComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header table-dark">
                 <h5 class="modal-title" id="exampleModalLabel">Add your Comment to  <%= scene.name%></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body table-dark">
                   <form class="form-group col-md-auto" action="/scenes/<%=scene._id%>/comments" method="POST">
-                    <textarea class="form-control" type="textarea" rows="4" cols="4" maxlength="100" name="text"></textarea>
+                    <textarea class="form-control" type="textarea" rows="4" cols="4" maxlength="300" name="text"></textarea>
                     <br>
                     <br>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <button type="submit" class="btn btn-secondary" >Post</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" >Post</button>
                   </form>
                   
               </div>
@@ -242,151 +346,62 @@
   </div>
   
 
-
-
-
-
-
-
-
-
-
-<div class="row text-center" >
-        
-    <div class="col-md-3 col-sm-6 card">
-        <div>
-            <div class="thumbnail">
-                <div class="card-title">
-                        <h4><%= scene.name %> - <%= scene.location %></h4>
-                </div>
-                <img src="<%= scene.image %>" class="card-img-top"" alt="">
-
-                <% if(currentUser && scene.author._id === currentUser._id){ %>
-                    <h6 class="card-title"> Post By @<a href="/test%>"><%= scene.author.username%> test</a></h6>
-                    <% } else{ %>
-                    <h6 class="card-title"> Post By @<a href="/users/<%= scene.author.id%>"><%= scene.author.username%></a></h6>
-                <% } %>
-         
-            </div>
-            
-        
-                <p class="card-text"><%= scene.description %></p>
-            
-            
-            <p class="card-text"><%= scene._id.getTimestamp() %></p>
-            <%console.log(scene._id.getTimestamp().date) %>
-        <!-- likes -->
-        <div style="padding-bottom: 10px;">
-                <form action="/scenes/<%= scene._id %>/like" method="POST">
-                    <div class="btn-group">
-                        <% if (currentUser && scene.likes.some(function (like) {
-                            return like.equals(currentUser._id)
-                        })) { %>
-                            <button class="btn btn-sm btn-primary">
-                                <i class="fas fa-thumbs-up"></i> Liked (<%= scene.likes.length %>)
-                            </button>
-                        <% } else { %>
-                            <button class="btn btn-sm btn-secondary">
-                                <i class="fas fa-thumbs-up"></i> Like (<%= scene.likes.length %>)
-                            </button>
-                        <% } %>
-                        <button type="button" class="btn btn-sm btn-default" data-toggle="modal"
-                                data-target="#sceneLikes">See more details
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-
-        <!-- comments -->
-
-            <% scene.comments.forEach((comment) => { %>
-            <div>
-                <p class="card-text">
-                    <a href="../users/<%=comment.author.id%>"><%= comment.author.username %></a> - <%= comment.text %>
-                    
-                    <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-                    <a class="btn btn-primary" href="/scenes/<%- scene._id%>/comments/<%-comment._id%>/edit">Edit</a>
-                    <form action="/scenes/<%- scene._id%>/comments/<%-comment._id%>?_method=DELETE" method="POST">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                    <%  } %>
-                </p>
-            </div>
-                <% }); %>
-
-        </div>
-
-        <a class="btn btn-primary" href="/scenes">Back</a>
-        <a class="btn btn-primary" href="/scenes/<%- scene._id %>/comments/new">Add Comment</a>
-
-        <% if(currentUser && scene.author.id.equals(currentUser._id)){ %>
-            <a class="btn btn-primary" href="/scenes/<%- scene._id %>/edit">Edit</a>                
-            <br>
-            <form action="/scenes/<%=scene._id %>?_method=DELETE" method="POST" >
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-
-        <%  } %>
-        
-    </div>  
-</div>
-<!--Review section-->
-<div class="thumbnail">
-        <div class="caption-full">
-            <% if (scene.rating === 0) { %>
-            <h5>
-                <em>No reviews yet.</em>
-            </h5>
-            <% } else { %>
-            <p>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star <% if (scene.rating > 1.5) { %> checked <% } %>"></span>
-                <span class="fa fa-star <% if (scene.rating > 2.5) { %> checked <% } %>"></span>
-                <span class="fa fa-star <% if (scene.rating > 3.5) { %> checked <% } %>"></span>
-                <span class="fa fa-star <% if (scene.rating > 4.5) { %> checked <% } %>"></span>
-                <em>(total reviews: <%= scene.reviews.length %>)</em>
-            </p>
-            <p>
-                Current scene rating: <strong><%= scene.rating.toFixed(2) %></strong>
-            </p>
-            <p><h4>Latest reviews for this scene:</h4></p>
-            <hr style="margin-top: 0;">
-            <% scene.reviews.slice(0, 5).forEach(function(review){ %>
-            <div class="row">
-                <div class="col-md-3">
-                    <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - review.rating) %>
-                    <div>Review by: <strong><%= review.author.username %></strong></div>
-                    <span><em><%= review.updatedAt.toDateString() %></em></span>
-                </div>
-                <div class="col-md-9">
-                    <p style="text-align: justify; word-wrap: break-word;">
-                        <%= review.text %>
-                    </p>
-                    <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
-                    <a class="btn btn-xs btn-warning"
-                       href="/scenes/<%=scene._id %>/reviews/<%=review._id %>/edit">Edit</a>
-                    <form id="delete-form" action="/scenes/<%=scene._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
-                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                    </form>
-                    <% } %>
-                </div>
-            </div>
-            <hr>
-            <% }); %>
-            <div style="margin-bottom: 10px;">
-                <h4><a href="/scenes/<%= scene._id %>/reviews"><i class="fa fa-search" aria-hidden="true"></i> See all reviews</a></h4>
-            </div>
+  <hr>
+<!--Rate section-->
+<h1>Rates:</h1>
+<% if (scene.rating === 0) { %>
+<div class="noComments">
+    <div class="noCommentsContent">
+      <h5 class="textNoComments">No rate yet. <br>
+        <p>
+            <span class="far fa-star"></span>
+            <span class="far fa-star"></span>
+            <span class="far fa-star"></span>
+            <span class="far fa-star"></span>
+            <span class="far fa-star"></span>
+          </p>
+        Be the first to rate it. </h5>
+        <%if(currentUser && scene.rating.length == 0){%>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#ratings">Rate</button>
+          <% } else { %>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staticBackdrop">Rate</button>
             <% } %>
-            <div>
-                <a class="btn btn-primary btn-lg 
-                <% if (currentUser && scene.reviews.some(function (review) {
-                    return review.author.id.equals(currentUser._id)})) { %> 
-                    disabled <% } %>" href="/scenes/<%= scene._id %>/reviews/new">
-                    Write a New Review</a>
+     </div>
+  </div>
+  <% } else { %>
+    <div class="review-container">
+        
+            <% scene.reviews.slice(0, 5).forEach(function(review){ %>
+              <div class="review-content">
+                      <div class="reviews-block-foot">
+                        <p class="stars-review">
+                          <span class="far fa-star fa"></span>
+                          <span class="far fa-star <% if (review.rating > 1.5) { %> fa <% } %>"></span>
+                          <span class="far fa-star <% if (review.rating > 2.5) { %> fa <% } %>"></span>
+                          <span class="far fa-star <% if (review.rating > 3.5) { %> fa <% } %>"></span>
+                          <span class="far fa-star <% if (review.rating > 4.5) { %> fa <% } %>"></span>
+                        </p>
+                      </div>
+                        <div>
+                          by: <a class="link-tag" href="../users/<%= review.author.id%>"><strong><%= review.author.username %></strong></a>
+                        </div>
+                      <span><em><%= review.updatedAt.toDateString() %></em></span>
+                  <div class="col-md-9">
+
+                      <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
+                      <% } %>
+                  </div>
+              <hr>
             </div>
-        </div>
-    </div>
+              <% }); %>
+      </div>
+    <% } %>
+</div>   
+
+
+
+
+
 
    <!-- scenes Likes Modal -->
    <div id="sceneLikes" class="modal fade" role="dialog">
@@ -425,41 +440,168 @@
         </div>
     </div>
 
-    <!-- EditComment Modal -->
+    <!-- Show All Flaged Modal -->
+
+<div id="showAllFlaged" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header table-dark">
+                <h5 class="modal-title"><%= scene.flag.length %> Ahoy Travelers <br> Flaged This Scene as Visited</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body table-dark">
+
+                <table class="table table-striped">
+
+                    <tbody>
+                        <% scene.flag.forEach((flag) => {%>
+                          <a href="../users/<%=scene.flag.id%>" class="travelers-item-block w-inline-block">
+                              <div class="travelers-prof-pic-container">
+                                <img src="<%=flag.avatar%>" alt="" class="traveler-prof-pic">
+                              </div>
+                              <div class="travelers-info-block">
+                                <h1 class="traveler-name"><%=flag.username%></h1>
+                                <h1 class="traveler-place"><%=flag.location.country%></h1>
+                              </div>
+                          </a>
+                        
+                        <% }); %>
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ratings" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-size">
+        <div class="modal-content">
+            <div class="modal-header table-dark">
+                <h5 class="modal-title" id="staticBackdropLabel">Rating: <br><%= scene.name %>
+                
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        
+            <div class="modal-body table-dark">
+              
+              <%if(hasReviewd){%> 
+                
+                <form action="/scenes/<%= scene._id %>/reviews/edit/?_method=PUT" method="POST">
+                <% } else { %> 
+                  <form action="/scenes/<%= scene._id %>/reviews" method="POST"> 
+                    <%}%>
+                    <div class="starsRatingContainer">
+                        <div class="starsRatingModal">
+                  <fieldset class="rating">
+                      <input type="radio" id="star5" name="review[rating]" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                      <input type="radio" id="star4" name="review[rating]" value="4" /><label class = "full" for="star4" title="Good - 4 stars"></label>
+                      <input type="radio" id="star3" name="review[rating]" value="3" /><label class = "full" for="star3" title="Okay - 3 stars"></label>
+                      <input type="radio" id="star2" name="review[rating]" value="2" /><label class = "full" for="star2" title="Bad - 2 stars"></label>
+                      <input type="radio" id="star1" name="review[rating]" value="1" /><label class = "full" for="star1"  required title="Really Bad - 1 star"></label>
+                  </fieldset>
+              
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button tyepe="submit" class="btn btn-primary btn-block">Rate</button>
+              </div>
+              
+              </form>
+            
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+
 
 
 <!-- map -->
-    <div id="map"></div>
+<div id="map"></div>
+    <div id="pano"></div>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIuLB4OpdqS823hdshWhlHZ04NSlySvvs&callback=initialize&libraries=&v=weekly"
+      defer
+    ></script>
 
-    <script>
-            function initMap() {
-              var lat = <%= scene.lat %>;
-              var lng = <%= scene.lng %>;
-              var center = {lat: lat, lng: lng };
-              var map = new google.maps.Map(document.getElementById('map'), {
-                  zoom: 8,
-                  center: center,
-                  scrollwheel: false
-              });
-              var contentString = `
-                <strong><%= scene.name %><br />
-                <%= scene.location %></strong>
-                <p><%= scene.description %></p>
-              `
-              var infowindow = new google.maps.InfoWindow({
-                content: contentString
-              });
-              var marker = new google.maps.Marker({
-                  position: center,
-                  map: map
-              });
-              marker.addListener('click', function() {
-                infowindow.open(map, marker);
-              });
-            }
-          </script>
-          <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyDIuLB4OpdqS823hdshWhlHZ04NSlySvvs&callback=initMap"></script>
+<script>
+    function initialize() {
+      const fenway = { lat: <%=scene.lat%>, lng: <%=scene.lng%> };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: fenway,
+        zoom: 14,
+      });
+      const panorama = new google.maps.StreetViewPanorama(
+        document.getElementById("pano"),
+        {
+          position: fenway,
+          pov: {
+            heading: 34,
+            pitch: 10,
+          },
+        }
+      );
+      map.setStreetView(panorama);
+    }
+  </script>
 
+
+          
+
+
+
+    
+
+
+
+
+<style>
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+fieldset, label { margin: 0; padding: 0; }
+
+/****** Style Star Rating Widget *****/
+
+.rating { 
+  border: none;
+  float: left;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 2.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+</style>
         
-        
-<%- include("../partials/footer.js") %>
+<%- include("../partials/footer.ejs") %>

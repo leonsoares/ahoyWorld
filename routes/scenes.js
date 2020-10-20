@@ -9,7 +9,7 @@ const Review = require('../models/reviews');
 // eval(require('locus')); DEBUGGIN PACKAGE
 const formidableMiddleware        = require('express-formidable');
 const middleware = require('../middleware');
-
+// const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 // node-geocoder config
 
 var NodeGeocoder = require('node-geocoder');
@@ -17,24 +17,96 @@ var NodeGeocoder = require('node-geocoder');
 var options = {
   provider: 'google',
   httpAdapter: 'https',
-  apiKey: "AIzaSyDIuLB4OpdqS823hdshWhlHZ04NSlySvvs", //process.env.GEOCODER_API_KEY,
+  apiKey: process.env.GEOCODER_API_KEY,
   formatter: null
 };
  
 var geocoder = NodeGeocoder(options);
 
 
+router.get('/welcome', (req, res) => {
+    res.render('welcome');
+})
+
+
 // scenes Routes 
 router.get('/', (req, res) =>{   
     Scene.find().where('author.id').equals("5f1b2ff044aa684d415946ea").exec(function(err, scenes){
-        console.log(scenes)
+    
         if (err || !scenes) {
             req.flash('error', 'sorry, we could not find you are looking for. :/')
             res.redirect('back')
         }
-        res.render('landing', {featuredScenes: scenes});
+        Scene.find().where('isPopular').equals(true).exec(function(err, isPopular){
+            if (err || !isPopular) {
+            req.flash('error', 'sorry, we could not find you are looking for. :/')
+            res.redirect('back')
+            }
+            User.find().where('highRank').equals(true).exec(function(err, highRank){
+                if (err || !highRank) {
+                req.flash('error', 'sorry, we could not find you are looking for. :/')
+                res.redirect('back')
+            }
+            Scene.find((err, foundScene) => {
+                if (err) {
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    res.redirect('back')
+                } else {
+                    let features = [];
+                    let location = {}
+                    foundScene.forEach(scene => {
+                        location.properties = {
+                            title : scene.name,
+                            type : scene.sceneType,
+                            id : scene._id
+                        }
+                        location.geometry = {
+                                type: "Point",
+                                coordinates: [scene.lng, scene.lat]
+                            }
+                            
+                            features.push(location)
+                            location = {}
+                            
+                    });
+                    
+                    res.render('landing', {featuredScenes: scenes, isPopular, highRank , scenes:features});
+
+                }
+            })
+            });
+        });
     });
 });
+
+
+// scenes Routes 
+router.get('/map', (req, res) =>{   
+    Scene.find((err, foundScene) => {
+        if (err) {
+            req.flash('error', 'sorry, we could not find you are looking for. :/')
+            res.redirect('back')
+        } else {
+            let features = [];
+            let location = {}
+            foundScene.forEach(scene => {
+                location.type = scene.sceneType
+                location._id = scene._id
+                location.geometry = {
+                        type: "Point",
+                        coordinates: [scene.lng, scene.lat]
+                    }
+                    
+                    features.push(location)
+                    location = {}
+                    
+            });
+            
+            res.render('map', {scenes:features});
+        }
+    })
+});
+
 
 // render all scenes:
 router.get('/scenes', (req , res) => {
@@ -48,31 +120,34 @@ router.get('/scenes', (req , res) => {
         Scene.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
             Scene.countDocuments().exec(function (err, count) {
             if (err) {
-                console.log('err')
+                req.flash('error', 'sorry, we could not find you are looking for. :/')
+                res.redirect('back')
             } else if(allScenes.length === 0) {
                 Scene.find({location: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
                     Scene.countDocuments().exec(function (err, count) {
                     if (err) {
-                        console.log('err')
+                        req.flash('error', 'sorry, we could not find you are looking for. :/')
+                        res.redirect('back')
                     } else {
                         if(allScenes.length === 0){
                         noMatch = `Sorry, we could not find any matches for: ${req.query.search}`
                         res.render('scenes/index', {
                             scenes:allScenes,
+                            resultsFor: "All Locations",
                             noMatch: noMatch,
                             current: pageNumber,
                             pages: Math.ceil(count / perPage)
                             });
                         } else {
 
-                        res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+                        res.render('scenes/index', {scenes:allScenes, resultsFor: "All Locations", current: pageNumber, pages: Math.ceil(count / perPage)});
                         }
                     }
                 })
              })
             }
             else {
-                res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+                res.render('scenes/index', {scenes:allScenes, resultsFor: "All Locations", current: pageNumber, pages: Math.ceil(count / perPage)});
             }
             })
         })
@@ -80,10 +155,12 @@ router.get('/scenes', (req , res) => {
             Scene.find().skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
                 Scene.countDocuments().exec(function (err, count) {
                 if (err) {
-                    console.log('err')
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    res.redirect('back')
                 } else {
                     res.render('scenes/index', {
                         scenes:allScenes,
+                        resultsFor: "All Locations",
                         current: pageNumber,
                         pages: Math.ceil(count / perPage)
                     });
@@ -105,31 +182,34 @@ router.get('/scenes/tag/:tag', formidableMiddleware(), (req , res) => {
         Scene.find({sceneType: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
             Scene.countDocuments().exec(function (err, count) {
             if (err) {
-                console.log('err')
+                req.flash('error', 'sorry, we could not find you are looking for. :/')
+                res.redirect('back')
             } else if(allScenes.length === 0) {
                 Scene.find({location: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
                     Scene.countDocuments().exec(function (err, count) {
                     if (err) {
-                        console.log('err')
+                        req.flash('error', 'sorry, we could not find you are looking for. :/')
+                        res.redirect('back')
                     } else {
                         if(allScenes.length === 0){
                         noMatch = `Sorry, we could not find any matches for: ${req.query.search}`
                         res.render('scenes/index', {
                             scenes:allScenes,
+                            resultsFor: req.params.tag,
                             noMatch: noMatch,
                             current: pageNumber,
                             pages: Math.ceil(count / perPage)
                             });
                         } else {
 
-                        res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+                        res.render('scenes/index', {scenes:allScenes, resultsFor: req.params.tag, current: pageNumber, pages: Math.ceil(count / perPage)});
                         }
                     }
                 })
              })
             }
             else {
-                res.render('scenes/index', {scenes:allScenes, current: pageNumber, pages: Math.ceil(count / perPage)});
+                res.render('scenes/index', {scenes:allScenes, resultsFor: req.params.tag, current: pageNumber, pages: Math.ceil(count / perPage)});
             }
             })
         })
@@ -137,11 +217,13 @@ router.get('/scenes/tag/:tag', formidableMiddleware(), (req , res) => {
             Scene.find().skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
                 Scene.countDocuments().exec(function (err, count) {
                 if (err) {
-                    console.log('err')
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    res.redirect('back')
                 } else {
                     res.render('scenes/index', {
                         scenes:allScenes,
                         current: pageNumber,
+                        resultsFor: "Nothing Found",
                         pages: Math.ceil(count / perPage)
                     });
                 
@@ -162,7 +244,7 @@ router.get('/scenes/:id', (req, res) => {
     // res.send('this is the show page');
     Scene.findById(req.params.id).populate({
         
-            path:'comments likes reviews',
+            path:'flag comments likes reviews',
             options: {sort: {createAt: -1}
         }
     }).exec((err, foundScene) => {
@@ -170,9 +252,17 @@ router.get('/scenes/:id', (req, res) => {
             req.flash('error', 'Scene not found')
             res.redirect('back')
         } else {
-            // render show template with that scene
+            var hasReviewd = false
+            if(req.user){
+                foundScene.reviews.forEach(element => {
+                    if(req.user.id == element.author.id){
+                        hasReviewd = true
+                    }
+                });
+            }
+            // render show template with that 
             let created = foundScene._id.getTimestamp().toDateString().split(' ', 4).join(' ')
-            res.render('scenes/show', {scene:foundScene, created} )
+            res.render('scenes/show', {scene:foundScene, created, hasReviewd} )
         }
     })
 })
@@ -181,7 +271,8 @@ router.get('/scenes/:id', (req, res) => {
 router.get('/scenes/:id/edit', middleware.sceneIsAuthorized, (req, res) => {
     Scene.findById(req.params.id, (err, foundScene) => {
         if (err) {
-            console.log(err)
+            req.flash('error', 'sorry, we could not find you are looking for. :/')
+            res.redirect('back')
         } else {
             res.render('scenes/edit', {scene:foundScene});
         }
@@ -202,27 +293,44 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
     if(req.fields.image === "") req.fields.image = def
     if(req.fields.description === "") req.fields.description = "Beautiful"
 
-    
-    geocoder.geocode(req.fields.location, (err, data) => {
-        console.log(data)
+
+    var place = req.fields.name + ", " + req.fields.country + ", " + req.fields.state
+        
+    geocoder.geocode(place, (err, data) => {
         if (err || !data.length) {
           req.flash('error', 'Invalid address');
           return res.redirect('back');
         }
-        req.fields.lat = data[0].latitude;
-        req.fields.lng = data[0].longitude;
-        req.fields.location = data[0].formattedAddress;
+        
+        
+        
+        var newScene = {
+            name: req.fields.name,
+            sceneType: req.fields.sceneType,
+            location:{
+                country: req.fields.country,
+                state: req.fields.country,
+            },
+            lat: req.fields.lat = data[0].latitude,
+            lng: req.fields.lng = data[0].longitude,
+            description: req.fields.description,
+            image: req.fields.image,
+            author:{
+                id: req.user._id,
+                username: req.user.username
+            },
+        }
+        // req.fields.location.country = data[0].formattedAddress;
      
         // Create a new scene and save to DB
-        Scene.create(req.fields, (err, foundScene) => {
+        Scene.create(newScene, (err, foundScene) => {
             if (err) {
-                console.log('something went wrong')
+                req.flash('error', 'Something went wrong');
+                res.redirect('back')
             } else {
-                console.log("New Scene Successifully created")
-                console.log(foundScene);
-    
                 User.findById(req.user._id).populate('followers').exec((err, foundUser) => {
                     if(err){
+                        req.flash('error', 'Something went wrong');
                         req.flash('error', err.message)
                     }
                     let newNotification = {
@@ -244,6 +352,7 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
                     }
                     
                     }
+                    req.flash('success', 'New Location created, Thank you for contributing with our community');
                     res.redirect(`/scenes/${foundScene.id}`)
                 })
             }
@@ -254,53 +363,69 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
 
 // Edit ROUTE
 router.put('/scenes/:id', middleware.sceneIsAuthorized, formidableMiddleware(), (req, res) => {
-    geocoder.geocode(req.fields.location, function (err, data) {
-        console.log(req.fields.location)
+    
+    
+    var place = req.fields.name + ", " + req.fields.country + ", " + req.fields.state
+    
+    
+    geocoder.geocode(place, function (err, data) {
         if (err || !data.length) {
           req.flash('error', 'Invalid address');
           return res.redirect('back');
         }
-        req.fields.lat = data[0].latitude;
-        req.fields.lng = data[0].longitude;
-        req.fields.location = data[0].formattedAddress;
-    
+        
+        var editScene = {
+            name: req.fields.name,
+            sceneType: req.fields.sceneType,
+            location:{
+                country: req.fields.country,
+                state: req.fields.country,
+            },
+            lat: req.fields.lat = data[0].latitude,
+            lng: req.fields.lng = data[0].longitude,
+            description: req.fields.description,
+            image: req.fields.image,
+            author:{
+                id: req.user._id,
+                username: req.user.username
+            },
+        }
     
     // add data from form to scenes array
-        Scene.findByIdAndUpdate(req.params.id, req.fields, (err, updatedScene) =>{
+        Scene.findByIdAndUpdate(req.params.id, editScene, (err, foundScene) =>{
             if(err){
-                res.send(err)
+                req.flash('error', 'Sorry, Somthing went wrong.');
+                res.redirect(`/scenes/${foundScene.id}`)
             } else{
-                res.redirect('/scenes/' + req.params.id)
+                req.flash('success', 'New changes saved!');
+                res.redirect(`/scenes/${foundScene.id}`)
+
             }
         });
     })
-})
+});
 
 // DELETE
 router.delete('/scenes/:id', middleware.sceneIsAuthorized, (req, res) => {
     // add data from form to scenes array
-    Scene.findById(req.params.id, function (err, scene) {
+    Scene.findById(req.params.id).populate('followers').populate('review').exec((err, scene) => {
         if (err) {
             res.redirect("/scenes");
         } else {
             // deletes all comments associated with the scene
-            Comment.remove({"_id": {$in: scene.comments}}, function (err) {
-                if (err) {
-                    console.log(err);
-                    return res.redirect("/scenes");
-                }
+            
                 // deletes all reviews associated with the scene
-                Review.remove({"_id": {$in: scene.reviews}}, function (err) {
+                Review.deleteMany({"_id": {$in: scene.reviews}}, function (err) {
                     if (err) {
-                        console.log(err);
+                        req.flash('error', 'sorry, we could not find you are looking for. :/')
                         return res.redirect("/scenes");
                     }
                     //  delete the Scene
                     scene.remove();
-                    req.flash("success", "Scene deleted successfully!");
-                    res.redirect("/scenes");
+                    req.flash("success", "Location deleted successfully!");
+                    res.redirect("back");
                 });
-            });
+            
         }
     });
 });
@@ -325,9 +450,10 @@ router.post('/scenes/:id/like', middleware.isLoggedIn, (req, res) => {
 
             foundScene.save(function (err) {
             if (err) {
-                console.log(err);
+                req.flash('error', 'sorry, we could not find you are looking for. :/')
                 return res.redirect("/scenes");
             }
+            req.flash('success', 'Location saved');
             return res.redirect("/scenes/" + foundScene._id);
         });
 
@@ -358,9 +484,10 @@ router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
 
             foundScene.save(function (err) {
             if (err) {
-                console.log(err);
+                req.flash('error', 'sorry, we could not find you are looking for. :/')
                 return res.redirect("/scenes");
             }
+            req.flash('success', 'You marked this place as visited. Keep traveling.');
             return res.redirect("back");
         });
 
@@ -387,9 +514,10 @@ router.post('/scenes/:id/saveScene', middleware.isLoggedIn, (req, res) => {
 
             foundScene.save(function (err) {
             if (err) {
-                console.log(err);
+                req.flash('error', 'sorry, we could not find you are looking for. :/')
                 return res.redirect("/scenes");
             }
+            req.flash('success', 'Location saved.');
             return res.redirect("back");
         });
     });

@@ -1,31 +1,34 @@
+<%- include("partials/header.ejs") %>
+<%- include("partials/navBar.ejs") %>
 
+<link rel="stylesheet" href="/stylesheets/landing.css"></link>
 
-<%- include("partials/header.js") %>
-
-  <div>
+  <div class="page-container">
     <div class="section-1-container">
       <div class="slider-container">
           <div class="slider-animation cc-work-1 slideshow" >
-              <ul >
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-              </ul>
+              
             </div>
       </div>
       <div class="right-content">
         <div class="div-block-4">
           <div class="content-text-title">
-            <h1 class="ahoy-title">A community of<br>travelers and<br>story tellers</h1>
+            <h1 class="ahoy-title">A community of<br>travelers</h1>
           </div>
+          <br>
+          
           <div class="form-container">
-            <div class="form-block w-form">
-                <form action="/scenes" method="GET">
-                  <input type="text" name="search" class="form-control" placeholder=" search place by location or tag. Ex: 'island' " id="inputPassword">
-                  <button type="submit" class="btn btn-primary btn-search">Search</button>
-                </form>       
+             <div class="form-content-index">
+            <form  action="/scenes" method="GET">
+                <div  class="input-container" >
+                  <div class="input-main">
+                      <input type="text"  class="form-control main-search" id="inputPassword2" placeholder=" search place by location or tag. Ex: 'island' or 'Australia' ">
+                  </div>
+                  <div class="">
+                      <button type="submit" class="btn btn-primary "><i class="fas fa-search"></i> Search</button>
+                  </div>
+                </div>
+              </form>
             </div>
             <div class="tags-container">
                 <form action="/scenes/tag/beach" method="GET">
@@ -58,26 +61,35 @@
 
               
           </div>
-          </div>
+          
+        </div>
         </div>
         <div class="main-featured-content">
           <div class="feature-title-container">
-            <h1 class="featured-title">Featured Posts</h1>
+            <h1 class="featured-title">Featured Posts:</h1>
           </div>
           <div class="feature-img-container">
+            <a href="/scenes/<%= featuredScenes[0]._id%>" class="featured-img w-inline-block">
+              <form action="/scenes/tag/<%=featuredScenes[0].sceneType%>" method="GET">
+                <button type="submit" class="btn btn-primary category-tag-<%=featuredScenes[0].sceneType%>"><%=featuredScenes[0].sceneType%></button>
+              </form>
+              <h5 class="heading-8 scene-title"><%=featuredScenes[0].name%></h5>
+              <img src="<%=featuredScenes[0].image%>" alt="" class="image-featured"></a>
+            </a>
+
             <a href="/scenes/<%= featuredScenes[1]._id%>" class="featured-img w-inline-block">
               <form action="/scenes/tag/<%=featuredScenes[1].sceneType%>" method="GET">
                 <button type="submit" class="btn btn-primary category-tag-<%=featuredScenes[1].sceneType%>"><%=featuredScenes[1].sceneType%></button>
-              </form>
-              <h5 class="heading-8"><%=featuredScenes[1].name%></h5>
-              <img src="<%=featuredScenes[1].image%>" alt="" class="image-featured"></a>
+              </form> 
+                <h5 class="heading-8 scene-title"><%=featuredScenes[1].name%></h5>
+                <img src="<%=featuredScenes[1].image%>" alt="" class="image-featured"></a>
             </a>
 
-            <a href="/scenes/<%= featuredScenes[2]._id%>" class="featured-img w-inline-block">
+            <a href="/scenes/<%=featuredScenes[2]._id%>" class="featured-img w-inline-block">
               <form action="/scenes/tag/<%=featuredScenes[2].sceneType%>" method="GET">
                 <button type="submit" class="btn btn-primary category-tag-<%=featuredScenes[2].sceneType%>"><%=featuredScenes[2].sceneType%></button>
-              </form> 
-                <h5 class="heading-8"><%=featuredScenes[2].name%></h5>
+              </form>  
+                <h5 class="heading-8 scene-title"><%=featuredScenes[2].name%></h5>
                 <img src="<%=featuredScenes[2].image%>" alt="" class="image-featured"></a>
             </a>
 
@@ -85,23 +97,16 @@
               <form action="/scenes/tag/<%=featuredScenes[3].sceneType%>" method="GET">
                 <button type="submit" class="btn btn-primary category-tag-<%=featuredScenes[3].sceneType%>"><%=featuredScenes[3].sceneType%></button>
               </form>  
-                <h5 class="heading-8"><%=featuredScenes[3].name%></h5>
+                <h5 class="heading-8 scene-title"><%=featuredScenes[3].name%></h5>
                 <img src="<%=featuredScenes[3].image%>" alt="" class="image-featured"></a>
-            </a>
-
-            <a href="/scenes/<%=featuredScenes[4]._id%>" class="featured-img w-inline-block">
-              <form action="/scenes/tag/<%=featuredScenes[4].sceneType%>" method="GET">
-                <button type="submit" class="btn btn-primary category-tag-<%=featuredScenes[4].sceneType%>"><%=featuredScenes[4].sceneType%></button>
-              </form>  
-                <h5 class="heading-8"><%=featuredScenes[4].name%></h5>
-                <img src="<%=featuredScenes[4].image%>" alt="" class="image-featured"></a>
                 <a href="/scenes" class="featured-img-see-all w-inline-block">
                 <h1 class="heading-9">See all</h1>
               </a>
           </div>
         </div>
         <div class="button-link">
-          <a href="/scenes" class="heading-7">See all posts</a>
+            <i class="fas fa-arrow-left fa-lg arrow-left arrow"></i>
+            <i class="fas fa-arrow-right fa-lg arrow-right arrow"></i>
         </div>
       </div>
     </div>
@@ -112,20 +117,28 @@
             <div class="name-text">Most Popular</div>
             <div class="under-mark-across"></div>
           </div>
-          <div class="popular-item-container">
-            <div class="popular-item-container-img">
-                <button type="button" class="btn btn-primary category-tag-city">city</button>
 
-              
-              <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="image-2">
+
+          <% isPopular.forEach((popular) => { %>
+          <a href="/scenes/<%=popular.id%>">
+            <div class="popular-item-container">
+              <div class="popular-item-container-img">
+                  <form action="/scenes/tag/<%=popular.sceneType%>" method="GET">
+                    <button type="submit" class="btn btn-primary category-tag-<%=popular.sceneType%>"><%=popular.sceneType%></button>
+                  </form>
+                  <img src="<%=popular.image%>" alt="" class="image-2">
+              </div>
+              <div class="categori-description-block">
+                <h1 class="category-title"><%=popular.name%></h1>
+                <div class="category-description"><%=popular.description.substring(0,216)%>[...]</div>
+              </div>
             </div>
-            <div class="categori-description-block">
-              <h1 class="category-title">Heading</h1>
-              <div class="category-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </div>
-            </div>
-          </div>
-          <div class="button-link">
-            <h1 class="heading-7">See all posts</h1>
+        </a>
+          <% }) %>
+
+          <div class="button-link see-all-btn">
+              <a href="/scenes" class="heading-7 ">See all <i class="fas fa-arrow-right"></i></a>
+
           </div>
         </div>
         <div class="popular-travelers-container">
@@ -134,13 +147,17 @@
               <div class="name-text">High Rank Ahoy-Travelers</div>
               <div class="under-mark-across"></div>
             </div>
-            <div class="travelers-item-block">
-              <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
-              <div class="travelers-info-block">
-                <h1 class="traveler-name">Mary Brown</h1>
-                <h1 class="traveler-place">Connecticut, USA</h1>
+            <% highRank.forEach((user) => { %>
+            <a href="../users/<%=user.id%>">
+              <div class="travelers-item-block">
+                <div class="travelers-prof-pic-container"><img src="<%=user.avatar%>" alt="" class="traveler-prof-pic"></div>
+                <div class="travelers-info-block">
+                  <h1 class="traveler-name"><%=user.username%></h1>
+                  <h1 class="traveler-place"><%=user.location.state%>, <%=user.location.country%></h1>
+                </div>
               </div>
-            </div>
+            </a>
+            <% }) %>
           </div>
           <div class="category-block">
             <div class="category-container">
@@ -182,6 +199,15 @@
         </div>
       </div>
     </div>
+    <!-- <div class="parallax-sec">
+    </div> -->
+    <div class="">
+        <div class="map-all-scenes">
+            <%- include("map.ejs") %>
+        </div>
+      </div>
+   
+
     <div class="subscribe-section">
       <div class="subscribe-container">
         <div class="subscribe-bg-block">
@@ -189,18 +215,45 @@
           <div class="subscribe-bg-white"></div>
         </div>
         <div class="subscribe-content-container">
-          <div class="subscribe-text-container">
+          <div class="subscribe-text-container ">
             <h1 class="subscribe-text">Sign up now and become an Ahoy Traveler</h1>
           </div>
-          <div class="subscribe-form-container">
-            <div class="w-form">
-              <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="form-2"><label for="name">user name</label><input type="text" class="w-input" maxlength="256" name="name-3" data-name="Name 3" placeholder="" id="name-3"><label for="email">Email Address</label><input type="email" class="w-input" maxlength="256" name="email" data-name="Email" placeholder="" id="email" required=""><label for="email">password</label><input type="email" class="w-input" maxlength="256" name="email-2" data-name="Email 2" placeholder="" id="email-2" required=""><input type="submit" value="Sign Up" data-wait="Please wait..." class="submit-button w-button"></form>
-              <div class="w-form-done">
-                <div>Thank you! Your submission has been received!</div>
+          <div class="subscribe-form-container ">
+              <div class="centerText table-dark">
+                  <h5 class="signUpHeader">Sign Up</h5>
+                  
+                </div>
+              <div class="becomeAhoy table-dark">
+                  <form action="/register" method="POST">
+
+                    <div class="form-group">
+                      <div class="col-sm-12">
+                          <!-- <label for="UserName" class="form-label">User Name:</label> -->
+                          <input type="text" name="username" class="form-control" placeholder="username" required>
+                      </div>
+                      </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <!-- <label for="email" class="form-label">Email:</label> -->
+                            <input type="email" name="email" class="form-control" placeholder="e-mail" required>
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                    <div class="col-sm-12">
+                        <!-- <label for="inputPassword" class="form-label">Password: </label> -->
+                        <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password" required>
+                    </div>
+                    </div>      
+                    <div class="form-group  justify-content-md-center">
+                        <div class="col-sm-12">
+                          <button type="submit" class="btn btn-primary form-control">Sign Up</button>
+                        </div>
+                      </div>
+                </form>            
               </div>
-              <div class="w-form-fail">
-                <div>Oops! Something went wrong while submitting the form.</div>
-              </div>
+          </div>
             </div>
           </div>
         </div>
@@ -209,7 +262,7 @@
   </div>
 
   
-  <%- include("partials/footer.js") %>
+  <%- include("partials/footer.ejs") %>
 
 
 

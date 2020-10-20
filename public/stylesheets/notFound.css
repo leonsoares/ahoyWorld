@@ -1,0 +1,15 @@
+.page-container{
+    width: 100vw;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: rgb(48, 44, 44);
+    
+}
+.notFound-container{
+    text-align: center;
+    color: #eeee;
+    margin-top:auto;
+    margin-bottom: auto;
+}

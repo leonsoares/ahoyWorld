@@ -1,19 +1,30 @@
-<%- include("../partials/header-index-scenes.js") %>
-
-
+<%- include("../partials/header.ejs") %>
+<%- include("../partials/navBar.ejs") %>
+<link rel="stylesheet" href="/stylesheets/main.css"></link>
 
 <div class="index-scenes-conainer">
     <div class="title-search-container">
       <div class="popular-title">
-        <div class="name-text">All Places</div>
+        <div class="name-text">Showing Results for:</div>
         <div class="under-mark-across"></div>
+        <% if(!resultsFor){%>
+          <div class="name-text">All Locations</div>
+        <% } else {%>
+          <div class="name-text"><%=resultsFor%></div>
+        <% } %>
       </div>
       <div class="form-container">
-          <div class="form-block w-form">
-              <form action="/scenes" method="GET">
-                  <input type="text" name="search" class="form-control" placeholder=" search by place or tag" id="inputPassword">
-                  <button type="submit" class="btn btn-primary btn-search">Search</button>
-              </form>        
+        <div class="form-content-index">
+          <form  class="form-all-cenes" action="/scenes" method="GET">
+              <div  class="input-container" >
+                <div class="input-main">
+                    <input type="text"  class="form-control main-search" id="inputPassword2" placeholder=" search place by location or tag. Ex: 'island' or 'Australia' ">
+                </div>
+                <div class="btn-form">
+                    <button type="submit" class="btn btn-primary form-btn"><i class="fas fa-search"></i> Search</button>
+                </div>
+              </div>
+            </form>
           </div>
           <div class="tags-container">
               <form action="/scenes/tag/beach" method="GET">
@@ -95,79 +106,80 @@
         </div>
 
           <div class="scene-item-container-img"><a href="/scenes/<%-scene.id%>"><img src="<%= scene.image %>" alt="" class="icon-1"></a>
-            <a href="/scenes/<%-scene.id%>" class="category-tag-<%=scene.sceneType%> w-inline-block">
-              <h1 class="heading-4"><%=scene.sceneType%></h1>
-            </a>
+            <form action="/scenes/tag/<%=scene.sceneType%>" method="GET">
+
+              <button type="submit" class="btn btn-primary category-tag-<%=scene.sceneType%>"><%=scene.sceneType%></button>
+
+            </form>
             <a href="/scenes/<%-scene.id%>" class="categori-description-block w-inline-block">
               <h1 class="category-title"><%= scene.name %></h1>
-              <h4 class="category-title"><%= scene.location %></h4>
+              <br>
+              <h4 class="category-title"><%= scene.location.country %></h4>
             </a>
           </div>
           
             <div class="category-description">
-              <%= scene.description.substring(0,215)%><a href="/scenes/<%-scene.id%>">[...]</a>
+              <%= scene.description.substring(0,180)%><a class="link-more" href="/scenes/<%-scene.id%>">[...]</a>
             </div>   
           
         </div>
         <% }); %>
         
       </div>
-
+      
     </div>
+    <nav class="pagination-container" aria-label="Page navigation">
+      <% if (pages && pages > 0) { %>
+      <ul class="justify-content-center pagination ">
+          <% if (current == 1) { %>
+          <li class="disabled-item page-item"><a class="page-link">First</a></li>
+          <% } else { %>
+          <li class="page-item"><a class="page-link " href="/scenes">First</a></li>
+          <% } %>
+   
+          <% if (current == 1) { %>
+          <li class="page-item disabled-item "><a class="page-link">«</a></li>
+          <% } else { %>
+          <li><a class=" page-link" href="/scenes?page=<%= Number(current) - 1 %>">«</a></li>
+          <% } %>
+   
+          <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+          <% if (i !== 1) { %>
+          <li class="page-item disabled-item"><a class="page-link">...</a></li>
+          <% } %>
+          <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+          <% if (i == current) { %>
+          <li class="active-item "><a class="page-link"><%= i %></a></li>
+          <% } else { %>
+          <li class=""><a class="page-link" href="/scenes?page=<%= i %>"><%= i %></a></li>
+          <% } %>
+          <% if (i == Number(current) + 4 && i < pages) { %>
+          <li class="page-item disabled-item "><a class="page-link">...</a></li>
+          <% } %>
+          <% } %>
+   
+          <% if (current == pages) { %>
+          <li class="page-item disabled-item "><a class="page-link">»</a></li>
+          <% } else { %>
+          <li><a class="page-link" href="/scenes?page=<%= Number(current) + 1 %>">»</a></li>
+          <% } %>
+   
+          <% if (current == pages) { %>
+          <li class="page-item disabled-item "><a class="page-link">Last</a></li>
+          <% } else { %>
+          <li class="page-item"><a class="page-link" href="/scenes?page=<%= pages %>">Last</a></li>
+          <% } %>
+      </ul>
+      <% } %>
+  </nav>
   </div>
 
-  <nav aria-label="Page navigation">
-        <% if (pages && pages > 0) { %>
-        <ul class="pagination justify-content-center">
-            <% if (current == 1) { %>
-            <li class="page-item disabled"><a class="page-link">First</a></li>
-            <% } else { %>
-            <li><a class="page-link" href="/scenes">First</a></li>
-            <% } %>
-     
-            <% if (current == 1) { %>
-            <li class="page-item disabled"><a class="page-link">«</a></li>
-            <% } else { %>
-            <li><a class="page-link" href="/scenes?page=<%= Number(current) - 1 %>">«</a></li>
-            <% } %>
-     
-            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-            <% if (i !== 1) { %>
-            <li class="page-item disabled"><a class="page-link">...</a></li>
-            <% } %>
-            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-            <% if (i == current) { %>
-            <li class="active"><a class="page-link"><%= i %></a></li>
-            <% } else { %>
-            <li><a class="page-link" href="/scenes?page=<%= i %>"><%= i %></a></li>
-            <% } %>
-            <% if (i == Number(current) + 4 && i < pages) { %>
-            <li class="page-item disabled"><a class="page-link">...</a></li>
-            <% } %>
-            <% } %>
-     
-            <% if (current == pages) { %>
-            <li class="page-item disabled"><a class="page-link">»</a></li>
-            <% } else { %>
-            <li><a class="page-link" href="/scenes?page=<%= Number(current) + 1 %>">»</a></li>
-            <% } %>
-     
-            <% if (current == pages) { %>
-            <li class="page-item disabled"><a class="page-link">Last</a></li>
-            <% } else { %>
-            <li><a class="page-link" href="/scenes?page=<%= pages %>">Last</a></li>
-            <% } %>
-        </ul>
-        <% } %>
-    </nav>
+  
+
+    
 
 
-
-
-
-
-
-
+    <%- include("../partials/footer.ejs") %>
 
 
 

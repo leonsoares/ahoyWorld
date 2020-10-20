@@ -3,7 +3,7 @@ const mongoose               = require('mongoose');
 const passaportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new mongoose.Schema({
-    username: { type: String, unique: true, required: false},
+    username: { type: String, unique: true, required: true},
     password: String,
     avatar: { type: String, default: "/images/user.png"},
     firstName: String,
@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
     facebook: String,
     instagram: String,
     description: String,
-    email: { type: String, unique: false, required: false},
+    email: { type: String, unique: true, required: true},
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     // badges: {
@@ -44,7 +44,8 @@ const UserSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }
-    ]
+    ],
+    highRank: { type: Boolean, default: false}
 });
 
 UserSchema.plugin(passaportLocalMongoose);

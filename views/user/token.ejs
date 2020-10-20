@@ -1,0 +1,39 @@
+
+
+
+<%- include("../partials/header.ejs") %>
+<%- include("../partials/navBar.ejs") %>
+<link rel="stylesheet" href="/stylesheets/logs-forms.css"></link>
+
+
+<div class="page-container">
+        
+    <div class="subscribe-form-container table-dark">
+        <div class="flash-msg">
+            <h6 class="success"><%= success%></h6>
+            <h6 class="error"><%=error%></h6>
+        </div>
+        <div class="centerText ">
+            <h5 class="signUpHeader">Paste or type your token:</h5>
+        </div>
+        <div class="becomeAhoy table-dark">
+            <form action="/forgot/secret" method="POST">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" name="token" class="form-control" placeholder="token" required>
+                    </div>
+                </div>
+        
+                    
+                <div class="form-group  justify-content-md-center">
+                    <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary form-control">send</button>
+                    </div>
+                </div>
+            </form>            
+        </div>
+    </div>
+</div>
+
+
+<%- include("../partials/footer.ejs") %>

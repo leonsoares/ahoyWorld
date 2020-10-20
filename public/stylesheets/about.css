@@ -1,0 +1,43 @@
+body{
+    font-family: Ubuntu, Helvetica, sans-serif;
+    background-color: rgb(44, 44, 44);
+}
+.page-container{
+   padding-top: 70px;
+}
+
+.about-container{
+    color: #eeee;
+    margin-top:20px;
+    margin-bottom:30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    background-color: rgb(70, 68, 68);
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.accordion{
+    margin-bottom: 30px;
+}
+.card-header{
+    text-align: center;
+    background-color: rgb(52, 52, 54)
+}
+.how-to{
+    color: #eeee;
+    margin-left: 10px; 
+}
+.card {
+    text-align: center;
+    color: #eeee;
+    background-color: rgb(75, 76, 78)
+}
+
+.card-body{
+    width: 100%
+}
+
+.card-body > img {
+    width: 100%
+}
