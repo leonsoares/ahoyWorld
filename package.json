@@ -15,7 +15,7 @@
     "connect-flash": "^0.1.1",
     "dom-parser": "^0.1.6",
     "dotenv": "^8.2.0",
-    "ejs": "^3.1.2",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "express-sanitizer": "^1.0.5",
@@ -23,9 +23,9 @@
     "locus": "^2.0.4",
     "mapbox": "^1.0.0-beta10",
     "method-override": "^3.0.0",
-    "mongoose": "^5.9.12",
+    "mongoose": "^5.10.9",
     "node-geocoder": "^3.27.0",
-    "nodemailer": "^6.4.8",
+    "nodemailer": "^6.4.14",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
@@ -34,6 +34,6 @@
   "devDependencies": {
     "jsdom": "16.2.2",
     "jsdom-global": "3.0.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.6"
   }
 }
