@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
 .container-fluid{
   position: fixed;
   z-index: 1;
@@ -14,7 +21,6 @@
 
 .div-block {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     height: 90vh;
@@ -29,8 +35,13 @@
   
 
   .user-info-div {
+    display:-webkit-box;
+    display:-ms-flexbox;
     display:flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     width: 30%;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -52,7 +63,8 @@
     border-color: #000000;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    box-shadow: inset 0 0 11px -20px #000;
+    -webkit-box-shadow: inset 0 0 11px -20px #000;
+            box-shadow: inset 0 0 11px -20px #000;
     background-color: rgb(44, 44, 43);
 
   }
@@ -61,9 +73,15 @@
     height: 100%;
     padding-top: 50px;
     padding-bottom: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     color: #eeee;
   }
   
@@ -74,7 +92,8 @@
     height: 100px;
     margin-top: 10px;
     border-radius: 49%;
-    box-shadow: 1px 1px 2px 2px #1f1e1e;
+    -webkit-box-shadow: 1px 1px 2px 2px #1f1e1e;
+            box-shadow: 1px 1px 2px 2px #1f1e1e;
     }
 
   .user-img-avatar{
@@ -125,7 +144,6 @@
     -ms-grid-row-align: auto;
     align-self: auto;
     -webkit-box-flex: 0;
-    -webkit-flex: 0 auto;
     -ms-flex: 0 auto;
     flex: 0 auto;
   }
@@ -146,7 +164,6 @@
     width: 50%;
     height: 250px;
     -webkit-box-flex: 0;
-    -webkit-flex: 0 auto;
     -ms-flex: 0 auto;
     flex: 0 auto;
   }
@@ -177,7 +194,6 @@
     -ms-grid-row-align: auto;
     align-self: auto;
     -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     
@@ -198,7 +214,6 @@
   .popular-item-container {
     position:relative;
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     overflow: hidden;
@@ -206,11 +221,9 @@
     height: auto;
     margin-bottom: 10px;
     -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
     -ms-flex-pack: start;
     justify-content: flex-start;
     -webkit-box-align: center;
-    -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
     border-radius: 10px;
@@ -218,7 +231,8 @@
   }
   
   .popular-item-container:hover {
-    box-shadow: 1px 1px 3px 0 #000;
+    -webkit-box-shadow: 1px 1px 3px 0 #000;
+            box-shadow: 1px 1px 3px 0 #000;
   }
 
   .popular-item-container:hover .actionsScenesbtn {
@@ -257,11 +271,9 @@
   
   .user-social-media-cont {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: center;
-    -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
   }
@@ -401,7 +413,6 @@ a:hover{
   .user-places-cont {
     display: inline-block;
     width: 90%;
-    -webkit-justify-content: space-around;
     -ms-flex-pack: distribute;
     justify-content: space-around;
     text-align: left;
@@ -509,7 +520,6 @@ a:hover{
       width: 100%;
       height: auto;
       margin-bottom: 45px;
-      -webkit-flex-wrap: nowrap;
       -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
     }
@@ -520,7 +530,10 @@ a:hover{
   }
   @media screen and (max-width: 767px) {
     .div-block {
-      flex-direction: column;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
       padding-top: 0px;
     }
     
@@ -560,10 +573,8 @@ a:hover{
     .popular-item-container {
       margin-bottom: 35px;
       -webkit-box-pack: center;
-      -webkit-justify-content: center;
       -ms-flex-pack: center;
       justify-content: center;
-      -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
       flex-wrap: wrap;
     }
