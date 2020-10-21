@@ -1,9 +1,4 @@
-/*
-* Prefixed by https://autoprefixer.github.io
-* PostCSS: v7.0.29,
-* Autoprefixer: v9.7.6
-* Browsers: last 4 version
-*/
+
 
 .container-fluid{
   position: fixed;
@@ -487,23 +482,29 @@ a:hover{
   }
   
   @media screen and (max-width: 991px) {
+    .div-block {
+      height: auto;
+     
+    }
+
+  
     .user-info-div{
+      display: inline-block;
       width: 50%;
       height: auto;
     }
-    .user-post-cont {
-      width: 40%;
-    }
-    
+
     .category-description {
       display: block;
     }
     .user-post-cont {
       width: 100%;
+      overflow: auto;
     }
     .popular-posts-container {
       margin-right: auto;
       margin-left: auto;
+      
     }
     .popular-item-container-img {
       display: block;
