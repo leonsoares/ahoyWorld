@@ -216,6 +216,7 @@ input .main-search{
 
 
 .featured-img-btn {
+  
   position: relative;
   text-align: center;
   display: inline-block;
@@ -225,6 +226,7 @@ input .main-search{
   border-radius: 10px;
   -o-object-fit: none;
   object-fit: none;
+  
 }
 .heading-see-all {
   margin-top: 10%;
@@ -412,6 +414,7 @@ come here
   font-size:3em;
   text-decoration: none;
   white-space: normal;
+  
 }
 
 a{
@@ -671,6 +674,7 @@ a{
   display: block;
   width: 90%;
   margin-top: 50px;
+  
 }
 
 .under-mark-across {
@@ -1039,6 +1043,10 @@ a{
   .featured-img {
     height: 98%;
   }
+
+  .featured-img-btn {
+    height: 98%;
+  }
   .feature-img-container {
     height: 400px;
 
@@ -1145,6 +1153,7 @@ a{
 
 
 @media screen and (max-width: 991px) , screen and (max-height: 634px) {
+  
 
   .button-link {
     text-align: center;
@@ -1170,12 +1179,10 @@ a{
     text-align: center;
     margin-left: 0;
     padding: 0;
-
+    display: none;
   }
 
-  .content-text-title{
-    width: 100%;
-  }
+
 
   .subscribe-bg-block {
     position: static;
@@ -1207,7 +1214,8 @@ a{
     border-radius: 10px;
   }
   .div-block-4 {
-    margin-right: 20px;
+    margin-right: 0px;
+    margin-left: 0px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1219,12 +1227,11 @@ a{
         -ms-flex-pack: center;
             justify-content: center;
     justify-items: center;
+    
   }
 .form-content-index{
   width: 100%;
-  /* display: flex;
-  justify-content: center;
-  justify-items: center; */
+  
 }
 .input-container{
   display: -webkit-box;
@@ -1240,6 +1247,7 @@ a{
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
+            
   }
   
   
@@ -1352,6 +1360,7 @@ a{
     align-self: auto;
   }
   .section-1-container {
+    padding-top: 50px;
     height: 150vh;
     margin-right: 0px;
     margin-left: 0px;
@@ -1416,6 +1425,7 @@ a{
     width: 40%;
   }
   .div-block-4 {
+
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -1455,10 +1465,7 @@ a{
   .featured-img {
     width: 75%;
   }
-  .div-block-4 {
-    margin-right: 10px;
-    margin-left: 10px;
-  }
+ 
   .popular-item-container-img {
     width: 100%;
     height: 200px;
@@ -1489,6 +1496,7 @@ a{
   .content-text-title {
     display: inline-block;
     width: 95%;
+    
   }
   .section-popular-container {
     margin-right: 0px;
