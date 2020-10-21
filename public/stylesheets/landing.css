@@ -1145,6 +1145,17 @@ a{
 
 
 @media screen and (max-width: 991px) , screen and (max-height: 634px) {
+
+  .button-link {
+    text-align: center;
+    margin-bottom: 10px;
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 2;
+  }
   .popular-posts-container {
     width: 100%;
     -webkit-align-self: flex-start;
@@ -1185,6 +1196,10 @@ a{
   .travelers-container > a{
     width: 40%;
     
+  }
+
+  .popular-title {
+    margin-left:15px;
   }
   
   .featured-img {
@@ -1279,12 +1294,12 @@ a{
   }
  
   .right-content {
+    display: inline-block;
     width: 100%;
     height: auto;
     margin-right: 0px;
     margin-left: 0px;
-    padding-right: 15px;
-    padding-left: 15px;
+    
     -webkit-box-align: stretch;
     -ms-flex-align: stretch;
     align-items: stretch;
@@ -1408,6 +1423,7 @@ a{
  
   .featured-title {
     line-height: 28px;
+    margin-left: 15px; 
   }
   .popular-item-container {
     width: 100%;
