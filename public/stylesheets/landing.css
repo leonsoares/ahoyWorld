@@ -10,7 +10,7 @@
 .main-featured-content {
   width: 100%;
   height: auto;
-  margin-top: 3vh;
+  margin-top: 30px;
 }
 
 
@@ -80,7 +80,7 @@ input .main-search{
   z-index: 2;
 }
 .featured-img .image-featured{
-  z-index: -1;
+  z-index: 1;
   -webkit-transition: -webkit-transform 3000ms ease-in;
   transition: -webkit-transform 3000ms ease-in;
   -o-transition: transform 3000ms ease-in;
@@ -91,7 +91,7 @@ input .main-search{
           transform-origin: center;
 }
 .featured-img:hover .image-featured{
-  z-index: -1;
+  z-index: 1;
   -webkit-transform: scale(1.2);
       -ms-transform: scale(1.2);
           transform: scale(1.2);
@@ -189,28 +189,21 @@ input .main-search{
   display: block;
   overflow: scroll;
   width: 100%;
-  height: auto;
   padding-left: 5px;
-  -ms-flex-pack: distribute;
-  justify-content: space-around;
-  -ms-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
   background-color: #1d1e1f;
   white-space: nowrap;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border-left: 10px solid rgba(65, 63, 63, 0.13);
-
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   
 }
 .featured-img {
   position: relative;
   display: inline-block;
   overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
   width: 33.3%;
   height: 290px;
   margin-top: 4px;
@@ -218,7 +211,36 @@ input .main-search{
   border-radius: 10px;
   -o-object-fit: none;
   object-fit: none;
+  
 }
+
+
+.featured-img-btn {
+  position: relative;
+  text-align: center;
+  display: inline-block;
+  overflow: hidden;
+  width: 20%;
+  height: 60%;
+  border-radius: 10px;
+  -o-object-fit: none;
+  object-fit: none;
+}
+.heading-see-all {
+  margin-top: 10%;
+  margin-bottom: 0%;
+  z-index: 1;
+  position: absolute;
+  bottom: auto;
+  top: 0px;
+
+  width: 100%;
+  margin-right: 5px;
+  margin-left: 5px;
+  color: #e4e4e4;
+  white-space: break-spaces;
+}
+
 
 .category-block {
   -webkit-align-self: auto;
@@ -233,9 +255,16 @@ input .main-search{
 
 .slider-container {
   overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
   width: 40%;
   height: 100%;
+  -webkit-border-radius: 0px 30% 30% 0px;
+  -moz-border-radius: 0px 30% 30% 0px;
   border-radius: 0px 30% 30% 0px;
+  -khtml-border-radius: 0px 30% 30% 0px;
 }
 
 .category-tag-waterfall {
@@ -252,6 +281,15 @@ input .main-search{
 .category-tag-waterfall:hover {
   background-color: #074377;
 }
+come here
+.see-all-btn-container{
+  display: inline-block;
+  width: 15%;
+  
+}
+
+
+
 
 .traveler-place {
   margin-top: 3px;
@@ -846,35 +884,9 @@ a{
   background-color: #000;
 }
 
-.featured-img-see-all {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  width: 20%;
-  height: 290px;
-  margin-top: 4px;
-  margin-right: 5px;
-  border-radius: 10px;
-  text-align: center;
-  text-decoration: none;
-  -o-object-fit: none;
-  object-fit: none;
-}
 
-.featured-img-see-all:hover {
-  background-color: #eeeeee;
-}
 
-.featured-img-see-all:hover .heading-9{
-  color:#056b7a;
-}
 
-.heading-9 {
-  margin-top: 128px;
-  margin-bottom: 0px;
-  color: #e4e4e4;
-  text-align: center;
-}
 
 .category-tag-mountain {
   z-index: 1;
@@ -1094,14 +1106,7 @@ a{
     font-size: 25px;
     line-height: 30px;
   }
-  .featured-img-see-all {
-    height: 100%;
-    margin-top: 0px;
-  }
-  .heading-9 {
-    margin-top: 160px;
-    margin-bottom: 0px;
-  }
+  
   .category-tag-mountain {
     font-size: 20px;
     line-height: 27px;
@@ -1362,11 +1367,7 @@ a{
     -o-object-fit: cover;
     object-fit: cover;
   }
-  .featured-img-see-all {
-    width: 30%;
-    border-radius: 10px;
-  }
-}
+
 
  
 
@@ -1421,10 +1422,7 @@ a{
     margin-right: 0px;
     margin-left: 0px;
   }
-  .featured-img-see-all {
-    width: 40%;
-  }
-}
+
 
 @media screen and (max-width: 479px) {
   .navbar-brand{
@@ -1480,10 +1478,7 @@ a{
     margin-right: 0px;
     margin-left: 0px;
   }
-  .featured-img-see-all {
-    width: 55%;
-  }
-}
+
 
 @media screen and (max-width: 220px) {
   .page-container{
