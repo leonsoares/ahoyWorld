@@ -1,3 +1,4 @@
+
 html{
   padding: 0;
   margin: 0;
@@ -87,7 +88,6 @@ a:hover {
     position: absolute;
     z-index: 1;
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     margin-top: 5px;
@@ -228,6 +228,8 @@ a:hover {
 
 
   .action-buttons{
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
     background: none;
     border: none;
@@ -267,11 +269,16 @@ a:hover {
   .div-block-6 {
     margin-top: 30px;
     
-    justify-content: center;
+    -webkit-box-pack: center;
+    
+        -ms-flex-pack: center;
+    
+            justify-content: center;
   }
 
   .div-block-2 > .image{
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
     width: 100%;
   } 
 
@@ -285,6 +292,8 @@ a:hover {
   }
   .map-text-conteiner{
     margin-top: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
   .created-cont{
@@ -312,15 +321,25 @@ a:hover {
   .image {
     width: auto;
     height: 100%;
+    -webkit-transition: -webkit-transform 7000ms ease-in;
+    transition: -webkit-transform 7000ms ease-in;
+    -o-transition: transform 7000ms ease-in;
     transition: transform 7000ms ease-in;
-    transform-origin: bottom;
+    transition: transform 7000ms ease-in, -webkit-transform 7000ms ease-in;
+    -webkit-transform-origin: bottom;
+        -ms-transform-origin: bottom;
+            transform-origin: bottom;
     z-index: -1;
   }
 
   .div-block-2:hover .image{
     z-index: -1;
-    transform-origin: bottom;
-    transform: scale(1.2);
+    -webkit-transform-origin: bottom;
+        -ms-transform-origin: bottom;
+            transform-origin: bottom;
+    -webkit-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+            transform: scale(1.2);
     
   }
 
@@ -336,12 +355,10 @@ a:hover {
   
   .div-block-8 {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     margin-bottom: 10px;
     -webkit-box-align: center;
-    -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
     background-color: #363538;
@@ -360,9 +377,12 @@ a:hover {
   .traveler-prof-pic {
     width: 100%;
     height: 100%;
-    box-shadow: 1px 1px 2px 2px #888888;
+    -webkit-box-shadow: 1px 1px 2px 2px #888888;
+            box-shadow: 1px 1px 2px 2px #888888;
   }
   .starsRatingContainer{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     width: 100%;
   }
@@ -383,7 +403,6 @@ a:hover {
   
   .travelers-item-block {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     overflow: hidden;
@@ -393,7 +412,6 @@ a:hover {
     margin-bottom:10px;
     padding: 5px;
     -webkit-box-align: center;
-    -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
     border-radius: 10px;
@@ -408,6 +426,8 @@ a:hover {
  
   .noComments{
     border: 3px solid rgb(99, 99, 99);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     width: 100%;
     height: 150px;
@@ -426,14 +446,19 @@ a:hover {
   }
 
   .review-container{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center ;
+    -webkit-box-pack: center ;
+        -ms-flex-pack: center ;
+            justify-content: center ;
     width: 100%;
     height: auto;
     text-align: center;
     background-color: rgb(41, 42, 45);
     border: 3px solid rgb(99, 99, 99);
-    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
 
   }
 
@@ -449,7 +474,8 @@ a:hover {
     height: 90px;
     border-radius: 100%;
     text-align: center;
-    box-shadow: 1px 1px 2px 2px #252525;
+    -webkit-box-shadow: 1px 1px 2px 2px #252525;
+            box-shadow: 1px 1px 2px 2px #252525;
 
   }
   
@@ -478,19 +504,15 @@ a:hover {
 
   .travelers-block {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     width: 100%;
     -webkit-box-pack: space-evenly;
-    -webkit-justify-content: space-evenly;
     -ms-flex-pack: space-evenly;
     justify-content: space-evenly;
-    -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     -webkit-box-align: center;
-    -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
     background-color: rgb(41, 42, 45);
@@ -525,6 +547,8 @@ a:hover {
   }
 
   .comments-edit-cont{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     margin:auto;
   }
@@ -532,6 +556,8 @@ a:hover {
     margin-right: 15px;
   }
   .div-block-8:hover .comments-edit-block{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
   
@@ -591,7 +617,8 @@ a:hover {
 
   .travelers-item-block:hover{
     background-color: rgba(255, 255, 255, 0.603);
-    box-shadow: 1px 0 2px 0 #000;
+    -webkit-box-shadow: 1px 0 2px 0 #000;
+            box-shadow: 1px 0 2px 0 #000;
   }
 
   .travelers-item-block:hover  .traveler-place , .traveler-name {
@@ -606,17 +633,22 @@ a:hover {
     }
     .div-block-8{
       margin-top: 20px;
-      flex-direction: column;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
     }
 
     .travelers-block{
       -webkit-box-align: start;
-    -webkit-align-items: start;
     -ms-flex-align: start;
     align-items: start;
     }
     .map-text-conteiner{
-      flex-direction: column;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
     }
     .div-block-4{
       width: 100%;
@@ -626,14 +658,18 @@ a:hover {
     }
     
     .div-block-6{
-      flex-direction: column;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
      
     }
     .div-block-2{
       width: 100%;
     }  
     .div-block-2 > .image{
-      object-fit: cover;
+      -o-object-fit: cover;
+         object-fit: cover;
       width: 100%;
     } 
     
@@ -654,11 +690,15 @@ a:hover {
 
   @media screen and (max-width: 550px) {
     .travelers-block{
-      flex-direction: column;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
     }
 
     .travelers-block {
-      align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
       width: 100%;
     }
     .review-content{

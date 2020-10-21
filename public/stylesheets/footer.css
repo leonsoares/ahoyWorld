@@ -1,80 +1,75 @@
 .footer-container {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    height: 350px;
-    margin-top:auto; 
-    background-color: #201f1f;
-    font-family: Ubuntu, Helvetica, sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 350px;
+  margin-top:auto; 
+  background-color: #201f1f;
+  font-family: Ubuntu, Helvetica, sans-serif;
 
+}
+
+.footer-link {
+  color: hsla(0, 0%, 93.3%, 0.93);
+}
+
+.footer-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.footer-title {
+  margin-bottom: 10px;
+  color: hsla(0, 0%, 93.3%, 0.93);
+}
+
+.footer-fast-links {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.footer-devoper {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.let-travel-title {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 991px) {
+  .footer-container {
+    height: auto;
   }
-  
-  .footer-link {
-    color: hsla(0, 0%, 93.3%, 0.93);
-  }
-  
   .footer-content {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    width: 90%;
-    margin-right: auto;
-    margin-left: auto;
-    -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    text-align: center;
   }
-  
   .footer-title {
-    margin-bottom: 10px;
-    color: hsla(0, 0%, 93.3%, 0.93);
+    margin-bottom: 5px;
   }
-  
   .footer-fast-links {
-    margin-right: auto;
-    margin-left: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
-  
-  .footer-devoper {
-    margin-right: auto;
-    margin-left: auto;
-  }
-  
   .let-travel-title {
-    margin-right: auto;
-    margin-left: auto;
+    margin-top: 15px;
+    margin-bottom: 10px;
   }
-  
-  @media screen and (max-width: 991px) {
-    .footer-container {
-      height: auto;
-    }
-    .footer-content {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      text-align: center;
-    }
-    .footer-title {
-      margin-bottom: 5px;
-    }
-    .footer-fast-links {
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
-    .let-travel-title {
-      margin-top: 15px;
-      margin-bottom: 10px;
-    }
-  }
+}
