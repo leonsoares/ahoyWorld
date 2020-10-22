@@ -2,7 +2,7 @@
 <%- include("../partials/navBar.ejs")%>
 <link rel="stylesheet" href="/stylesheets/user-prof.css"></link>
 
-  <div class="page-container">
+<div class="page-container">
   <div class="user-prof-container">
       <div class="div-block">
         <div class="user-info-div">
@@ -283,9 +283,13 @@
                                                 <% } %>
                                           </div>
                           
-                                        <div class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City"/><label class="form-check-label" for="City">City</label> 
-                                        </div> 
+                                          <div class="form-check form-check-inline">
+                                            <% if(scene.sceneType === "city"){ %>
+                                              <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City" checked/><label class="form-check-label" for="city">City</label> 
+                                              <% }else { %>
+                                                <input type="radio" class="form-check-input" name="sceneType"  value="city" id="Lake"/><label class="form-check-label" for="city">City</label> 
+                                                <% } %>
+                                            </div>
                           
                                         <div class="form-check form-check-inline">
                                             <% if(scene.sceneType === "lake"){ %>
@@ -294,6 +298,8 @@
                                                 <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake"/><label class="form-check-label" for="Lake">Lake</label> 
                                                 <% } %>
                                             </div>
+
+                                          
                                     </div>
                                     <br>
                                         
@@ -310,12 +316,17 @@
                                                 <option value=""></option>
                                                 <option value="<%-scene.location.country%>" selected><%-scene.location.country%></option>
                                             </select>
-                                            <select name="state" class="form-control states order-alpha" id="stateId" required>
+                                            <select name="state" class="form-control states order-alpha" id="stateId" >
                                                 <option value="<%-scene.location.state%>"><%-scene.location.state%></option>
                                                 
                                             </select>
                                             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
                                             <script src="//geodata.solutions/includes/countrystate.js"></script>
+                                        </div>
+
+                                        <div class="form-group ">
+                                          <label  for="title">Place known as</label> <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Filling this field helps pin point you location on the map"></i>
+                                          <input type="text" id="knownAs" class="form-control " value="<%-scene.knownAs%>" maxlength="40" name="knownAs" required>
                                         </div>
                           
                                         <br>
@@ -347,6 +358,50 @@
             
               <% }) %>
             <% } %>
+            <nav class="pagination-container" aria-label="Page navigation">
+      <% if (pages && pages > 0) { %>
+      <ul class="justify-content-center pagination ">
+          <% if (current == 1) { %>
+          <li class="disabled-item page-item"><a class="page-link">First</a></li>
+          <% } else { %>
+          <li class="page-item"><a class="page-link " href="/users/<%=user.id%>">First</a></li>
+          <% } %>
+   
+          <% if (current == 1) { %>
+          <li class="page-item disabled-item "><a class="page-link">«</a></li>
+          <% } else { %>
+          <li><a class=" page-link" href="/users/<%=user.id%>?page=<%= Number(current) - 1 %>">«</a></li>
+          <% } %>
+   
+          <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+          <% if (i !== 1) { %>
+          <li class="page-item disabled-item"><a class="page-link">...</a></li>
+          <% } %>
+          <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+          <% if (i == current) { %>
+          <li class="active-item "><a class="page-link"><%= i %></a></li>
+          <% } else { %>
+          <li class=""><a class="page-link" href="/users/<%=user.id%>?page=<%= i %>"><%= i %></a></li>
+          <% } %>
+          <% if (i == Number(current) + 4 && i < pages) { %>
+          <li class="page-item disabled-item "><a class="page-link">...</a></li>
+          <% } %>
+          <% } %>
+   
+          <% if (current == pages) { %>
+          <li class="page-item disabled-item "><a class="page-link">»</a></li>
+          <% } else { %>
+          <li><a class="page-link" href="/users/<%=user.id%>?page=<%= Number(current) + 1 %>">»</a></li>
+          <% } %>
+   
+          <% if (current == pages) { %>
+          <li class="page-item disabled-item "><a class="page-link">Last</a></li>
+          <% } else { %>
+          <li class="page-item"><a class="page-link" href="/users/<%=user.id%>?page=<%= pages %>">Last</a></li>
+          <% } %>
+      </ul>
+      <% } %>
+  </nav>
           </div>
         </div>
       </div>

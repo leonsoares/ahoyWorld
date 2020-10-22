@@ -464,7 +464,8 @@ a:hover {
 
   .review-content{
     width: 20%;
-    
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .travelers-prof-pic-container {

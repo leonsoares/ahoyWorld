@@ -19,14 +19,14 @@
           
           <div class="form-group row justify-content-md-center">
               <div class="col-sm-10 ">
-                <input type="text" name="username" class="form-control" placeholder="username">
+                <input type="text" name="username" class="form-control" placeholder="username" required>
               </div>
             </div>
 
             
             <div class="form-group row justify-content-md-center">
               <div class="col-sm-10">
-                <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password">
+                <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password" required>
               </div>
             </div>
           
@@ -69,19 +69,19 @@
       <form action="/register" method="POST">
         <div class="form-group row justify-content-md-center">
           <div class="col-sm-10">
-            <input type="text" name="username" class="form-control" placeholder="username">
+            <input type="text" name="username" class="form-control" placeholder="username" required>
           </div>
         </div>
 
         <div class="form-group row justify-content-md-center">
           <div class="col-sm-10 ">
-            <input type="email" name="email" class="form-control" placeholder="email">
+            <input type="email" name="email" class="form-control" placeholder="email required">
           </div>
         </div>
 
         <div class="form-group row justify-content-md-center">
           <div class="col-sm-10">
-            <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password">
+            <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="password" required>
           </div>
         </div>
         
@@ -116,7 +116,7 @@
       
       <form  action="/scenes" method="POST" enctype="multipart/form-data">
           <div class="form-group ">
-              <h6> Pick a tag that best describes your scene:</h6>
+              <h6> * Pick a tag that best describes your scene:</h6>
               
               <div class="form-check form-check-inline">
                   <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" required/><label class="form-check-label" for="Beach">Beach</label> 
@@ -145,33 +145,39 @@
           <br>
               
           <div class="form-group ">
-              <label  for="title">Scene Title</label> <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Use a meaninful title that will help locate your post on the map"></i>
+              <label  for="title">* Scene Title</label> <i class="far fa-question-circle"  data-placement="top" title="You can say something like: Secret waterfall"></i>
               <input type="text" id="name" class="form-control " value="" maxlength="40" name="name" required>
           </div>
 
-              
-              
+            
               <div class="form-group">
-                  <label for="country">Scene Location:</label>
+                  <label for="country"> * Scene Location:</label>
                   <select name="country" class="form-control countries order-alpha" id="countryId" required>
                       <option value="">Select Country:</option>
                   </select>
-                  <select name="state" class="form-control states order-alpha" id="stateId" required>
+                  <select name="state" class="form-control states order-alpha" id="stateId">
                       <option value="">Select State:</option>
                   </select>
                   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
                   <script src="//geodata.solutions/includes/countrystate.js"></script>
               </div>
 
+              <div class="form-group ">
+                <label  for="title">Place known as</label> <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Filling this field helps pin point you location on the map"></i>
+                <input type="text" id="knownAs" class="form-control " value="" maxlength="40" name="knownAs" required>
+            </div>
+
               <br>
               <div class="form-group">
-                  <label for="exampleFormControlTextarea1">Scene Description</label>
+                  <label for="exampleFormControlTextarea1">* Scene Description</label>
                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" required></textarea>
               </div>
+
+              
               
 
               <div class="form-group">
-                  <label for="image">Image</label>
+                  <label for="image">* Image</label>
                   <input type="url" name="image" placeholder="url"  class="form-control" placeholder="" id="image" required>
               </div>
 

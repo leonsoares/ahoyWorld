@@ -4,6 +4,7 @@ const sceneSchema = new mongoose.Schema({
     
     name: String,
     sceneType: String,
+    knownAs: String,
     location:{
         country: String,
         state: String,

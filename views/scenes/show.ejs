@@ -386,12 +386,7 @@
                           by: <a class="link-tag" href="../users/<%= review.author.id%>"><strong><%= review.author.username %></strong></a>
                         </div>
                       <span><em><%= review.updatedAt.toDateString() %></em></span>
-                  <div class="col-md-9">
-
-                      <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
-                      <% } %>
-                  </div>
-              <hr>
+                  
             </div>
               <% }); %>
       </div>
