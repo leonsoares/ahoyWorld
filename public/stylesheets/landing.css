@@ -1289,9 +1289,6 @@ a{
     display: inline;
   }
 
- 
-
-
   .popular-travelers-container {
     width: 100%;
     margin-top: 30px;
@@ -1391,6 +1388,7 @@ a{
     -o-object-fit: cover;
     object-fit: cover;
   }
+}
 
 
  
@@ -1448,6 +1446,7 @@ a{
     margin-right: 0px;
     margin-left: 0px;
   }
+}
 
 
 @media screen and (max-width: 479px) {
@@ -1502,6 +1501,7 @@ a{
     margin-right: 0px;
     margin-left: 0px;
   }
+}
 
 
 @media screen and (max-width: 220px) {
@@ -1526,17 +1526,10 @@ a{
   .navbar-brand{
     width: 50px;
   }
-
 }
 
 
-
 /* ANIMATION SLIDER */
-
-
-
-
-
 
 .slideshow li { 
   width: 100%;
@@ -1608,7 +1601,7 @@ a{
     
   }
   20% {
-    opacity: 1
+    opacity: 1;
   }
   30% {
     opacity: 0.5;

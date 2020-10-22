@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Scene   = require('../models/scenes');
 const Notification = require('../models/notification');
-// const User    = require('./models/user')
-const bodyParser        = require('body-parser');
 const User = require('../models/user');
 const Review = require('../models/reviews');
 // eval(require('locus')); DEBUGGIN PACKAGE
@@ -17,7 +15,7 @@ var NodeGeocoder = require('node-geocoder');
 var options = {
   provider: 'google',
   httpAdapter: 'https',
-  apiKey: process.env.GEOCODER_API_KEY,
+  apiKey: "AIzaSyDIuLB4OpdqS823hdshWhlHZ04NSlySvvs",
   formatter: null
 };
  
@@ -294,25 +292,33 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
     if(req.fields.description === "") req.fields.description = "Beautiful"
 
 
-    var place = req.fields.name + ", " + req.fields.country + ", " + req.fields.state
-        
+    var place = ""
+    if(req.fields.knownAs !== ""){
+        place = req.fields.knownAs  + ", " + req.fields.country + ", " + req.fields.state
+    } else {
+        place = req.fields.country + ", " + req.fields.state
+    }    
+
+    
+    
+    console.log("this is the place from form = " + place)
     geocoder.geocode(place, (err, data) => {
         if (err || !data.length) {
           req.flash('error', 'Invalid address');
           return res.redirect('back');
         }
-        
-        
-        
+        // req.fields.location.country = data[0].formattedAddress;
+     
         var newScene = {
             name: req.fields.name,
+            knownAs: req.fields.knownAs,
             sceneType: req.fields.sceneType,
             location:{
                 country: req.fields.country,
-                state: req.fields.country,
+                state: req.fields.state,
             },
-            lat: req.fields.lat = data[0].latitude,
-            lng: req.fields.lng = data[0].longitude,
+            lat: data[0].latitude,
+            lng: data[0].longitude,
             description: req.fields.description,
             image: req.fields.image,
             author:{
@@ -320,8 +326,9 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
                 username: req.user.username
             },
         }
-        // req.fields.location.country = data[0].formattedAddress;
-     
+
+
+
         // Create a new scene and save to DB
         Scene.create(newScene, (err, foundScene) => {
             if (err) {
@@ -365,24 +372,30 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
 router.put('/scenes/:id', middleware.sceneIsAuthorized, formidableMiddleware(), (req, res) => {
     
     
-    var place = req.fields.name + ", " + req.fields.country + ", " + req.fields.state
+    var place = ""
+    if(req.fields.knownAs !== ""){
+        place = req.fields.knownAs  + ", " + req.fields.country + ", " + req.fields.state
+    } else {
+        place = req.fields.country + ", " + req.fields.state
+    }    
     
-    
-    geocoder.geocode(place, function (err, data) {
+    geocoder.geocode(place, (err, data) => {
         if (err || !data.length) {
           req.flash('error', 'Invalid address');
           return res.redirect('back');
         }
-        
+        // req.fields.location.country = data[0].formattedAddress;
+     
         var editScene = {
             name: req.fields.name,
+            knownAs: req.fields.knownAs,
             sceneType: req.fields.sceneType,
             location:{
                 country: req.fields.country,
-                state: req.fields.country,
+                state: req.fields.state,
             },
-            lat: req.fields.lat = data[0].latitude,
-            lng: req.fields.lng = data[0].longitude,
+            lat: data[0].latitude,
+            lng: data[0].longitude,
             description: req.fields.description,
             image: req.fields.image,
             author:{
@@ -399,10 +412,9 @@ router.put('/scenes/:id', middleware.sceneIsAuthorized, formidableMiddleware(), 
             } else{
                 req.flash('success', 'New changes saved!');
                 res.redirect(`/scenes/${foundScene.id}`)
-
             }
         });
-    })
+    });
 });
 
 // DELETE

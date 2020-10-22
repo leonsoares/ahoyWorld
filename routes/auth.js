@@ -85,6 +85,48 @@ router.get('/logout', bodyParser.urlencoded({extended: true}), (req, res) => {
     res.redirect('back');
 });
 
+// router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
+//     User.findById(req.params.id).populate('followers').populate('following').exec((err, foundUser) => {
+//         if (err || !foundUser) {
+//             req.flash('error', 'sorry, we could not find the user you are looking for. :/')
+//             res.redirect('back')
+//         } 
+        
+//         let memberSince = foundUser._id.getTimestamp().toDateString().split(' ', 4);
+
+//         let isFollowing = false
+//         if(req.user._id !== foundUser._id && foundUser.followers.length > 0){
+//             for(var i = 0; i < foundUser.followers.length; i++){
+//                 if(foundUser.followers[i].id === req.user.id){
+//                     isFollowing = true
+//                     break
+//                 }
+//             }
+//         }
+  
+//         Scene.find().where('author.id').equals(foundUser._id).exec(function(err, scenes){
+//             if (err || !scenes) {
+//                 req.flash('error', 'sorry, we could not find you are looking for. :/')
+//                 res.redirect('back')
+//             }
+//             Scene.find().where('saveScene').equals(foundUser._id).exec(function(err, foundScenes){
+//                 if (err || !scenes) {
+//                     req.flash('error', 'sorry, we could not find you are looking for. :/')
+//                     res.redirect('back')
+//                 }
+//                 Scene.find().where('flag').equals(foundUser._id).exec(function(err, flag){
+//                     if (err || !scenes) {
+//                         req.flash('error', 'sorry, we could not find you are looking for. :/')
+//                         res.redirect('back')
+//                     }
+                    
+//                     res.render('user/show', {savedScene:foundScenes, flag, user: foundUser, scenes: scenes, isFollowing, memberSince})
+//                 });
+//             });
+//         });
+//     });
+// });
+
 router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
     User.findById(req.params.id).populate('followers').populate('following').exec((err, foundUser) => {
         if (err || !foundUser) {
@@ -103,29 +145,52 @@ router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
                 }
             }
         }
-  
-        Scene.find().where('author.id').equals(foundUser._id).exec(function(err, scenes){
-            if (err || !scenes) {
+        var perPage = 4;
+        var pageQuery = parseInt(req.query.page);
+        var pageNumber = pageQuery ? pageQuery : 1;
+
+        Scene.find({'author.id': foundUser._id}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+            console.log("IM all scenes.length: " + allScenes.length)
+            console.log("***************************")
+            
+            Scene.countDocuments({'author.id': foundUser._id}).exec(function (err, count) {
+                console.log("im count: " + count)
+                
+            if (err) {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
                 res.redirect('back')
-            }
-            Scene.find().where('saveScene').equals(foundUser._id).exec(function(err, foundScenes){
-                if (err || !scenes) {
-                    req.flash('error', 'sorry, we could not find you are looking for. :/')
-                    res.redirect('back')
-                }
-                Scene.find().where('flag').equals(foundUser._id).exec(function(err, flag){
-                    if (err || !scenes) {
+            } else {
+                Scene.find().where('saveScene').equals(foundUser._id).exec(function(err, savedScenes){
+                    if (err || !savedScenes) {
                         req.flash('error', 'sorry, we could not find you are looking for. :/')
                         res.redirect('back')
                     }
-                    
-                    res.render('user/show', {savedScene:foundScenes, flag, user: foundUser, scenes: scenes, isFollowing, memberSince})
-                });
+                    Scene.find().where('flag').equals(foundUser._id).exec(function(err, flag){
+                        if (err || !flag) {
+                            req.flash('error', 'sorry, we could not find you are looking for. :/')
+                            res.redirect('back')
+                        }
+                        
+                        res.render('user/show', {
+                            savedScene:savedScenes, 
+                            flag, 
+                            user: foundUser, 
+                            scenes: allScenes, 
+                            isFollowing, 
+                            memberSince,
+                            current: pageNumber,
+                            pages: Math.ceil(count / perPage)
+                        })                    
+                    });
             });
-        });
+                
+                }
+            })
+        })
     });
 });
+
+
 
 router.get('/follow/:id', middleware.isLoggedIn, (req, res) => {
     User.findById(req.params.id, (err, foundUser) => {
