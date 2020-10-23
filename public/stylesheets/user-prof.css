@@ -471,11 +471,12 @@ a:hover{
   }
   
   .and-more {
-    display: inline;
+    display: inline-block;
     color: rgb(8, 144, 168);
     padding: 2px;
     font-size: 15px;
     line-height: 21px;
+    
   }
   
   .user-frame {
