@@ -72,9 +72,9 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=flag[0].id%>"><%=flag[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=flag[1].id%>"><%=flag[1].name%></a> 
-                    <a class="and-more" href="#" type="button" data-toggle="modal" data-target="#showAllVisited" > and <%= flag.length - 2%> more...</a>
+                    <a class="and-more btn btn-outline-info" href="#"  data-toggle="modal" data-target="#showAllVisited" > and <%= flag.length - 2%> more...</a>
                   </h1>
-
+                  
                   <% } else if(flag.length === 0){ %>
                     <h1 class="data-text"> 
                         No places visited yet.
@@ -94,7 +94,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=savedScene[0].id%>"><%=savedScene[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=savedScene[1].id%>"><%=savedScene[1].name%></a> 
-                    <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllSaved"> and <%= savedScene.length - 2%> more...</a>
+                    <a class="and-more btn btn-outline-info" href="#" class="and-more"  data-toggle="modal" data-target="#showAllSaved"> and <%= savedScene.length - 2%> more...</a>
                   </h1>
 
                   <% } else if(savedScene.length === 0){ %>
@@ -117,7 +117,7 @@
                     <h1 class="data-text"> 
                       <a class="and-more" href="../users/<%=user.followers[0].id%>"><%=user.followers[0].name%>,</a>
                       <a class="and-more" href="../users/<%=user.followers[1].id%>"><%=user.followers[1].name%></a> 
-                      <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllFollowers"> and <%= user.followers.length - 2%> more...</a>
+                      <a class="and-more btn btn-outline-info" href="#" type="button" data-toggle="modal" data-target="#showAllFollowers"> and <%= user.followers.length - 2%> more...</a>
                     </h1>
                     <% } else if(user.followers.length === 0){ %>
                       <h1 class="data-text"> 
@@ -138,7 +138,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../users/<%=user.following[0].id%>"><%=user.following[0].name%>,</a>
                     <a class="and-more" href="../users/<%=user.following[1].id%>"><%=user.following[1].name%></a> 
-                    <a class="and-more" href="#" class="and-more" type="button" data-toggle="modal" data-target="#showAllFollowing"> and <%= user.following.length - 2%> more...</a>
+                    <a class="and-more btn btn-outline-info" href="#"  data-toggle="modal" data-target="#showAllFollowing"> and <%= user.following.length - 2%> more...</a>
                   </h1>
                   
                   <% } else if(user.following.length === 0){ %>
@@ -452,9 +452,9 @@
               <div class="form-group">
                   <label for="description">description:</label>
                   <%if(currentUser.description !== "") { %>
-                  <textarea name="description" placeholder="" cols="56" rows="4" maxlength="113"><%=currentUser.description%></textarea>
+                  <textarea name="description" placeholder="" cols="" rows="4" maxlength="113"><%=currentUser.description%></textarea>
                   <%} else {%>
-                    <textarea name="description" placeholder="What kind of AhoyTraveler are you?" cols="56" rows="4" maxlength="113"></textarea>
+                    <textarea name="description" placeholder="What kind of AhoyTraveler are you?" class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="113"></textarea>
                     <%}%>
               </div>
               
