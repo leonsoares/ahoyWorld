@@ -301,7 +301,6 @@ router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res)
 
     
     
-    console.log("this is the place from form = " + place)
     geocoder.geocode(place, (err, data) => {
         if (err || !data.length) {
           req.flash('error', 'Invalid address');
