@@ -186,7 +186,7 @@ input .main-search{
 }
 
 .feature-img-container {
-  display: block;
+  display: inline-block;
   overflow: scroll;
   width: 100%;
   padding-left: 5px;
@@ -213,35 +213,40 @@ input .main-search{
   object-fit: none;
   
 }
-.see-all-container{
-  display: inline-block;
+
+.featured-img-wrap {
   position: relative;
-  align-items: center;
+  display: inline-block;
   overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
   width: 20%;
-  height: 100%;
+  height: 290px;
+  margin-top: 4px;
+  margin-right: 5px;
   border-radius: 10px;
+  -o-object-fit: none;
+  object-fit: none;
+  
 }
 
 
 .featured-img-btn {
-  
-  text-align: center;
-  justify-items: center;
-  align-items: center;
-  display: flex;
-}
+display: flex;
+text-align: center;
+height: 100%;
+align-items: center;
 
+}
 .heading-see-all {
-  
   z-index: 1;
   position: absolute;
-  
-
   width: 100%;
- 
   color: #e4e4e4;
 }
+
 
 
 .category-block {
@@ -1039,119 +1044,6 @@ a{
 }
 
 
-@media screen and (min-width: 1920px) {
-  .featured-img {
-    height: 98%;
-  }
-
-  .featured-img-btn {
-    height: 98%;
-  }
-  .feature-img-container {
-    height: 400px;
-
-  }
-
-  
-  .category-tag-waterfall {
-    font-size: 20px;
-    line-height: 27px;
-  }
-  .traveler-place {
-    font-size: 20px;
-    line-height: 26px;
-  }
-  .category-title {
-    font-size: 30px;
-    line-height: 36px;
-  }
- 
-  .name-text {
-    font-size: 30px;
-    line-height: 37px;
-  }
-  .featured-title {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .category-description {
-    font-size: 20px;
-    line-height: 25px;
-  }
-  .heading-4 {
-    font-size: 20px;
-    line-height: 27px;
-  }
-  .heading-7 {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .traveler-name {
-    font-size: 30px;
-    line-height: 37px;
-  }
-  .beach {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .lake {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .forest {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .island {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .mountain {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .waterfall {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  
-  .category-tag-mountain {
-    font-size: 20px;
-    line-height: 27px;
-  }
-  .category-tag-lake {
-    font-size: 20px;
-    line-height: 27px;
-  }
-  .category-tag-beach {
-    font-size: 20px;
-    line-height: 27px;
-  }
-  .category-tag-forest {
-    font-size: 20px;
-    line-height: 27px;
-  }
-  .category-tag-island {
-    font-size: 20px;
-    line-height: 27px;
-  }
-  .city {
-    font-size: 25px;
-    line-height: 30px;
-  }
-  .category-tag-city {
-    font-size: 20px;
-    line-height: 27px;
-  }
-}
-
-
-
-
-
-
-
-
 @media screen and (max-width: 991px) , screen and (max-height: 634px) {
   
 
@@ -1181,8 +1073,6 @@ a{
     padding: 0;
     display: none;
   }
-
-
 
   .subscribe-bg-block {
     position: static;
