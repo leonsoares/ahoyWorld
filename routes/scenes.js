@@ -116,13 +116,13 @@ router.get('/scenes', (req , res) => {
     if(req.query.search){
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         Scene.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-            Scene.countDocuments().exec(function (err, count) {
+            Scene.countDocuments({name: regex}).exec(function (err, count) {
             if (err) {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
                 res.redirect('back')
             } else if(allScenes.length === 0) {
                 Scene.find({location: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-                    Scene.countDocuments().exec(function (err, count) {
+                    Scene.countDocuments({location: regex}).exec(function (err, count) {
                     if (err) {
                         req.flash('error', 'sorry, we could not find you are looking for. :/')
                         res.redirect('back')
@@ -178,13 +178,13 @@ router.get('/scenes/tag/:tag', formidableMiddleware(), (req , res) => {
     if(req.params.tag){
         const regex = new RegExp(escapeRegex(req.params.tag), 'gi');
         Scene.find({sceneType: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-            Scene.countDocuments().exec(function (err, count) {
+            Scene.countDocuments({sceneType: regex}).exec(function (err, count) {
             if (err) {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
                 res.redirect('back')
             } else if(allScenes.length === 0) {
                 Scene.find({location: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-                    Scene.countDocuments().exec(function (err, count) {
+                    Scene.countDocuments({location: regex}).exec(function (err, count) {
                     if (err) {
                         req.flash('error', 'sorry, we could not find you are looking for. :/')
                         res.redirect('back')

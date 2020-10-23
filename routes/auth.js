@@ -150,11 +150,9 @@ router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
         var pageNumber = pageQuery ? pageQuery : 1;
 
         Scene.find({'author.id': foundUser._id}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-            console.log("IM all scenes.length: " + allScenes.length)
-            console.log("***************************")
+           
             
             Scene.countDocuments({'author.id': foundUser._id}).exec(function (err, count) {
-                console.log("im count: " + count)
                 
             if (err) {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
@@ -528,7 +526,7 @@ router.post('/users/:id/edit', formidableMiddleware(), (req, res) => {
         var avatar = req.fields.avatar1
 
         if(avatar !== undefined && avatar !== foundUser.avatar && avatar !== ""){
-            foundUser.avatar = "../images/avatars/" + req.fields.avatar1.toString() + ".png"
+            foundUser.avatar = "/images/avatars/" + req.fields.avatar1.toString() + ".png"
         }
         var countryChange = false
         if(req.fields.country !== foundUser.location.country && req.fields.country !== ""){
