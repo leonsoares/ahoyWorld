@@ -119,7 +119,11 @@
           </div>
           
             <div class="category-description">
-              <%= scene.description.substring(0,180)%><a class="link-more" href="/scenes/<%-scene.id%>">[...]</a>
+              <%if (scene.description && scene.description.length > 180){%>
+                <%= scene.description.substring(0,180)%><a class="link-more" href="/scenes/<%-scene.id%>">[...]</a>
+              <%} else if (scene.description){%>
+                <%= scene.description%><a class="link-more" href="/scenes/<%-scene.id%>">[...]</a>
+                <%} %>
             </div>   
           
         </div>
