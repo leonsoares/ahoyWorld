@@ -89,7 +89,7 @@
         </div>
     </nav>
 </div>
-<nav role="navigation">
+<nav class="mobile-device-nav" role="navigation">
     <div id="menuToggle">
         <input class="" type="checkbox" />
         <span></span>
@@ -105,14 +105,14 @@
             <hr>
             <li><a class="mobile-itens" data-toggle="modal" data-target="#staticBackdrop" href="#">Sign in </a></li>
             <li><a class="mobile-itens"  data-toggle="modal" data-target="#staticBackdrop1" href="#">Become an Ahoytraveler</a></li>
-        <% } else{ %>
+        <% } else { %>
             
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle mobile-itens" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="<%=currentUser.avatar%>"  class="d-inline-block align-top avatarNav" alt="" loading="lazy">
                     <%= currentUser.username%>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu right-margin" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item mobile-itens" href="/users/<%= currentUser._id%>">Account</a>
                     <a class="dropdown-item mobile-itens"  data-toggle="modal" data-target="#addNewScene" href="#">Add new Scene</a>
                     <div class="dropdown-divider"></div>
@@ -123,7 +123,7 @@
                 <a class="nav-link dropdown-toggle mobile-itens" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <%= notifications.length %> <i  class="far fa-envelope" data-toggle="tooltip" data-placement="top" title="Notifications"></i>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu right-margin" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item mobile-itens" class="btn btn-primary" data-toggle="modal" data-target="#messages" >See all Notifications</a>
                     <% notifications.slice(0,5).forEach(function(notification) { %>
                         <a class="dropdown-item mobile-itens" href="<%=notification.goTo%>"><%= `${notification.username} - ${notification.message}` %></a>
@@ -139,9 +139,39 @@
         <% }  %>
     </ul>
 </div>
+
+<%if(currentUser){%>
+    <div id="mobileViewUserInfo"> 
+        <div class="" id="navbarNav">
+            <ul class="userInfo">
+                <li class="nav-item ">
+                        <a class="" href="../users/<%=currentUser._id%>">
+                            <img src="<%=currentUser.avatar%>"  class="align-top avatarNav" >
+                        </a>
+                </li>
+
+                <li class="nav-item dropdown active">
+                    <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <%= currentUser.username%>
+                    </a>
+                    <div class="dropdown-menu dark-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/users/<%= currentUser._id%>">Profile</a>
+                        <a class="dropdown-item"  data-toggle="modal" data-target="#addNewScene" href="#">Add new Scene</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">Log out</a>
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+<%}%>
+
 </nav>
 <div class="ahoy-brand">
     <a class="navbar-brand ahoy-logo" href="../">
         <img src="/images/Ahoy-world-logo-2.png" width="130" class="d-inline-block align-top logo-img" alt="" loading="lazy">
     </a>
 </div>
+
+
