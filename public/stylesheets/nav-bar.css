@@ -2,6 +2,13 @@
 #menuToggle{
   display: none;
 }
+.mobile-device-nav{
+  display: none;
+}
+
+.mobileViewUserInfo{
+  display: none;
+}
 .ahoy-brand{
   display: none;
 }
@@ -39,7 +46,7 @@
   margin-left: 40px;
 }
 
-.dropdown-menu{
+.right-margin{
   margin-right: 20px;
 }
 .navbar-nav{
@@ -84,6 +91,9 @@
 }
 
 @media screen and (max-width: 991px) {
+    .mobile-device-nav{
+      display: block;
+    }
     .menu-desk{
         display: none
     }
@@ -126,6 +136,30 @@
         padding: 0;
         list-style-type: none;
       }
+      
+      
+    
+  #mobileViewUserInfo {
+    display: inline-block;
+    
+    position: fixed;
+    top: 15px;
+    
+    left: auto;
+    right: 10px;
+    z-index: 6;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  }
+  .userInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   
   #menuToggle {
     width: 100%;

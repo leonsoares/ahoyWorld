@@ -123,14 +123,10 @@
     font-size: 14px;
     line-height: 20px;
   }
-  come here
-  .category-tag-island {
-    position: absolute;
-    right: 1px;
-    display: block;
-    margin: 5px 5px 5px 0px;
-    background-color: #0abda8;
-  }
+
+  
+
+  
   
   .popular-posts-container {
     display: block;
@@ -167,12 +163,7 @@
     flex: 0 auto;
   }
   
-  .category-tag-waterfall {
-    position: absolute;
-    right: 1px;
-    margin: 5px 5px 5px 0px;
-    background-color: #4a7fe9;
-  }
+  
   
   
   .category-title {
@@ -228,6 +219,8 @@
     border-radius: 10px;
     
   }
+
+  
   
   .popular-item-container:hover {
     -webkit-box-shadow: 1px 1px 3px 0 #000;
@@ -306,6 +299,14 @@ a:hover{
   .social-btns{
     padding-bottom: 20px;
   }
+
+
+  .category-tag-waterfall {
+    position: absolute;
+    right: 1px;
+    margin: 5px 5px 5px 0px;
+    background-color: #4a7fe9;
+  }
   
   .category-tag-forest {
     position: absolute;
@@ -323,7 +324,7 @@ a:hover{
   }
   
   .category-tag-island {
-    z-index: 1;
+
     position: absolute;
     left: auto;
     top: 0%;
@@ -401,6 +402,18 @@ a:hover{
     background-color: #056b7a;
   }
 
+  .mobile-settings{
+    position:absolute;
+    margin-left: 5px;
+    margin-top: 5px;
+    
+
+  }
+
+  .fa-cog{
+    color: rgb(255, 251, 251);
+    text-shadow: 2px 2px 2px rgb(0, 0, 0);
+  }
   
   .user-text-info {
     width: 100%;
