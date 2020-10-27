@@ -1,3 +1,20 @@
+a {
+  color: #eeee;
+  text-decoration: none;
+}
+a:visited{
+  color: #eeee;
+  text-decoration: none;
+  cursor: pointer;
+}
+a:link:active{
+  color: #eeee;
+  text-decoration: none;
+}
+a:visited:active{
+  color: #eeee;
+  text-decoration: none;
+}
 
 #menuToggle{
   display: none;
@@ -65,6 +82,8 @@
 .explore-opts{
     margin-right: auto;
 }
+
+
 
 .flash-msg{
   height: 30px;

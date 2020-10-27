@@ -1,4 +1,5 @@
 
+  <link rel="stylesheet" href="/stylesheets/shareLocation.css"></link>
 
 <div class="modal fade " id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-size table-dark">
@@ -169,12 +170,9 @@
 
               <br>
               <div class="form-group">
-                  <label for="exampleFormControlTextarea1">* Scene Description</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" required></textarea>
+                  <label for="sceneDescriptiom">* Scene Description</label>
+                  <textarea class="form-control" id="sceneDescriptiom" rows="3" name="description" required></textarea>
               </div>
-
-              
-              
 
               <div class="form-group">
                   <label for="image">* Image</label>
@@ -203,14 +201,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body table-dark">
-          <%if(currentUser && notifications.lenght){%>
-            <% notifications.forEach(function(notification) { %>
-              <a class="dropdown-item" href="<%=notification.goTo%>"><%= `${notification.username} - ${notification.message}` %></a>
-            <% })%>
-            <%} else{%>
-              No Notification
-            <%}%>
+        <div class="modal-body table-dark " ">
+          <ul id="notification-modal-body">
+
+          </ul>
         </div>
         <div class="modal-footer table-dark">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -219,6 +213,84 @@
     </div>
   </div>
 
+  <!-- share scene modal -->
+
+<div class="modal fade" id="sharedScene" tabindex="-1" aria-labelledby="sharedScene" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header table-dark">
+          <h5 class="modal-title" id="exampleModalLabel">Share Location with:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body table-dark " id="share-location-modal">
+
+        </div>
+      </div>
+    </div>
+  </div>  
+
+<%if(currentUser){ %>
+  <script >
+  
+    const modalBody = document.getElementById("share-location-modal")
+    let toggleBtn = document.querySelectorAll("#share-btn")
+    
+      toggleBtn.forEach(item => {
+      item.addEventListener("click", function(){
+        modalBody.innerHTML = " "
+        var sceneId = item.parentNode.id
+  
+    fetch('/users/scenes/share')
+    .then(response => response.json())
+    .then(data => {
+        data.data.forEach(user => {
+          const followingUser = `
+          <div id="${sceneId}">
+            <div class="followinguser-container" id="${user._id}">
+                <div class="user-avatar-pic-container">
+                  <img src="${user.avatar}" class="user-avatar">
+                </div>
+                <div class="user-infor-container">
+                  <h6 class="following-user-name">${user.username}</h6>
+                </div>
+                <div class="sent-container" id="${user._id}">
+                  <button class="btn btn-outline-primary send-share-form">send</button>
+                </div>
+              </div>
+          </div>
+          `
+          modalBody.insertAdjacentHTML('beforeend', followingUser);
+          shareLocation()
+        });
+      });   
+    });
+  });
+  
+  
+  function shareLocation(){
+      let sendShareBtn = document.querySelectorAll(".send-share-form")
+      sendShareBtn.forEach(item => {
+      item.addEventListener("click", function(){
+        var sceneId = item.parentNode.parentNode.parentNode.id
+        var userId =  item.parentNode.id
+    fetch(`/scene/share/${sceneId}/${userId}`, {method: "POST"})
+    .then(response => response.json())
+    .then(data => {
+          console.log(data.data)
+          item.classList.add('btn-outline-success');
+          item.classList.add('disabled');
+          item.innerHTML = "sent"
+          console.log(data)
+      });
+    });
+    });
+  }
+
+  </script>
+  <%}%>
+  
 
 
 

@@ -289,6 +289,51 @@ router.get('/unfollow/:id', middleware.isLoggedIn, (req, res) => {
 });
 
 
+router.get('/users/scenes/share', middleware.isLoggedIn, (req, res) => {
+    User.findById(req.user._id).populate({
+        path: 'following',
+        options: { sort: {'_id': -1}}
+    }).exec( (err, foundUser) => {
+        if (err) {
+            req.flash('error', err.message)
+            res.redirect('back');
+        }
+        // foundUser.notifications.forEach(function(notification){
+        //     notification.isRead = true;
+        //     notification.save();
+        // })
+        // let allNotifications = foundUser.allNotifications;
+        console.log("grom back end: ");
+        console.log(foundUser.following);
+        res.send({data:foundUser.following});
+    });
+});
+
+router.post('/scene/share/:sceneId/:userId', middleware.isLoggedIn, (req, res) => {
+    User.findById(req.params.userId).populate({
+        path: 'notifications',
+        options: { sort: {'_id': -1}}
+    }).exec( (err, foundUser) => {
+        if (err) {
+            req.flash('error', err.message)
+            res.redirect('back');
+        }
+        let newNotification = {
+            username: req.user.username,
+            message: "shared a location with you",
+            goTo: `/scenes/${req.params.sceneId}`
+        }
+    
+        Notification.create(newNotification, (err, createdNotif)=>{
+            if(err){
+                req.flash('error', err.message);
+            }
+                foundUser.notifications.push(createdNotif);
+                foundUser.save();
+                res.send({data:createdNotif})
+        });
+    });
+});
 
 router.get('/notifications', middleware.isLoggedIn, (req, res) => {
     User.findById(req.user._id).populate({
@@ -304,7 +349,7 @@ router.get('/notifications', middleware.isLoggedIn, (req, res) => {
             notification.save();
         })
         // let allNotifications = foundUser.allNotifications;
-        res.render('notifications/index', {allNotifications: foundUser.notifications});
+        res.send({allNotifications: foundUser.notifications});
     });
 });
 
