@@ -400,8 +400,7 @@ a:hover{
     position:absolute;
     margin-left: 5px;
     margin-top: 5px;
-    
-
+    z-index: 5;
   }
 
   .fa-cog{

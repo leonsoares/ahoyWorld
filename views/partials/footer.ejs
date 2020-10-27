@@ -37,6 +37,21 @@
           document.getElementById("notificationIcon").innerHTML = ' 0 <i class="far fa-envelope" data-toggle="tooltip" data-placement="top" title="Notifications">  </i>'
         })
   });
+
+  const notificationBtn = document.getElementById("all-notifications")
+  notificationBtn.addEventListener("click", function(){
+  fetch('/notifications', {method: "GET"})
+  .then(response => response.json())
+  .then(data => {
+      var notificatioModal = document.getElementById("notification-modal-body")
+      notificatioModal.innerHTML = ""
+      data.allNotifications.forEach(notification => {
+          const notificationDiv = `
+            <li class="notification-item"><a class="notification-link" href="${notification.goTo}" >${notification.username} ${notification.message}</a></li>`
+          notificatioModal.insertAdjacentHTML('beforeend', notificationDiv);
+          });
+      });   
+  });
 </script>
 <%}%>
 
@@ -54,20 +69,7 @@
 
   
 
-const notificationBtn = document.getElementById("all-notifications")
-  notificationBtn.addEventListener("click", function(){
-  fetch('/notifications', {method: "GET"})
-  .then(response => response.json())
-  .then(data => {
-      var notificatioModal = document.getElementById("notification-modal-body")
-      notificatioModal.innerHTML = ""
-      data.allNotifications.forEach(notification => {
-          const notificationDiv = `
-            <li class="notification-item"><a class="notification-link" href="${notification.goTo}" >${notification.username} ${notification.message}</a></li>`
-          notificatioModal.insertAdjacentHTML('beforeend', notificationDiv);
-          });
-      });   
-  });
+
   
 </script>
 
