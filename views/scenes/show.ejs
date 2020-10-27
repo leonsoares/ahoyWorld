@@ -21,7 +21,7 @@
     </div>
     <div class="div-block-6">
       <div class="div-block-2">
-        <div class="actions-box">
+        <div class="actions-box" id="<%=scene._id %>">
             <form action="/scenes/<%= scene._id %>/flag" method="POST">
               <% if (currentUser && scene.flag.some(function (flag) {
                   return flag.equals(currentUser._id)
@@ -51,6 +51,11 @@
                   </button>
               <% } %> 
             </form>
+
+            <button href="#" class="mark-visited action-buttons  w-inline-block" id="share-btn"  data-toggle="modal" data-target="#sharedScene" title="You marked this place as visited">
+                <i class="far fa-paper-plane fa-2x"></i>  
+            </button>
+
         </div>
           <a href="#" class="category-tag-<%=scene.sceneType%> ">
           <form action="/scenes/tag/<%=scene.sceneType%>" method="GET">
@@ -92,8 +97,6 @@
               </p>
               </a>
               <% } %>
-              
-              
               
           </div>
           
@@ -196,13 +199,6 @@
         </div>
           <% } %>
     
-         <!-- <a href="#" class="travelers-item-block w-inline-block">
-          <div class="travelers-prof-pic-container"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt="" class="traveler-prof-pic"></div>
-          <div class="travelers-info-block">
-            <h1 class="traveler-name">Mary Brown</h1>
-            <h1 class="traveler-place">Connecticut, USA</h1>
-          </div>
-        </a> -->
 
       
     <div class="div-block-7">
@@ -302,18 +298,6 @@
       </div>
       <%} %>
 
-
-      <!-- <div class="div-block-8">
-        <div class="div-block-9">
-          <h1 class="heading-6">Vanessa </h1>
-        </div>
-        <div class="div-block-11">
-          <div>
-            <div class="comment-block">Vestibulum commodo tincidunt nibh, scelerisque pharetra elit fringilla ut. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse faucibus ultrices mauris, non finibus magna semper ac. Vivamus auctor augue egestas, pellentesque dolor non, accumsan nunc. Nunc quis felis congue, molestie mi at, finibus quam. Cras ac sollicitudin est. Nam ut mi mi. Maecenas egestas sem vel massa ullamcorper auctor.</div>
-          </div>
-          <div class="div-block-12"><a href="#" class="button w-button">Edit</a><a href="#" class="w-button">Delete</a></div>
-        </div>
-      </div> -->
       <%if(currentUser && scene.comments.length != 0){%>
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addComment">Add Comment</button>
         <% } else if(scene.comments.length != 0){ %>
@@ -515,9 +499,6 @@
         </div>
     </div>
 </div> 
-
-
-
 
 
 <!-- map -->

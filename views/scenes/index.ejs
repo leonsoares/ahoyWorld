@@ -72,7 +72,7 @@
         
         <% scenes.forEach((scene) => { %>
         <div class="scene-item-container">
-          <div class="actions-box">
+          <div class="actions-box" id="<%=scene._id %>">
                 <form action="/scenes/<%= scene._id %>/flag" method="POST">
                     <% if (currentUser && scene.flag.some(function (flag) {
                         return flag.equals(currentUser._id)
@@ -88,6 +88,8 @@
                     <% } %> 
                 </form>
 
+               
+
                 <form action="/scenes/<%= scene._id %>/saveScene" method="POST">
                   <% if (currentUser && scene.saveScene.some(function (saved) {
                       return saved.equals(currentUser._id)
@@ -102,6 +104,11 @@
                       </button>
                   <% } %> 
               </form>
+              
+                <button href="#" class="mark-visited action-buttons  w-inline-block" id="share-btn"  data-toggle="modal" data-target="#sharedScene" title="You marked this place as visited">
+                    <i class="far fa-paper-plane fa-2x"></i>  
+                </button>
+            
 
         </div>
 
@@ -178,12 +185,7 @@
   </nav>
   </div>
 
-  
-
-    
-
-
-    <%- include("../partials/footer.ejs") %>
+ <%- include("../partials/footer.ejs") %>
 
 
 

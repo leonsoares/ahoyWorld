@@ -190,21 +190,19 @@
                   <div class="category-tag-<%=scene.sceneType%>">
                     <h1 class="search-tag"><%=scene.sceneType%></h1>
                   </div>
+                  <%  if(currentUser && user.id == currentUser._id){ %>
+
                   <div class="mobile-settings ">
-                    <i class="fas fa-cog fa-lg type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <i class="fas fa-cog fa-lg " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
+                    <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
                         <a class="dropdown-item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
                       </div>
+                   
                   </div>
+                  <% } %>
 
                   
-
-
-
-
-
-
                   <a href="/scenes/<%-scene.id%>">
                     <img src="<%= scene.image %>" alt="" class="image-2">
                   </a>
@@ -221,10 +219,6 @@
                 </div>
 
                 <%if(currentUser._id.toString() === scene.author.id.toString()){%>
-                  <div class="actionsScenesbtn">
-                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" >Delete</button>
-                      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editScene<%-scene._id%>">Edit</button>
-                  </div>
                     <div class="modal fade" id="deleteScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -465,14 +459,14 @@
               </div>
 
               <div class="form-group">
-                  <label for="description">description:</label>
                   <%if(currentUser.description !== "") { %>
-                  <textarea name="description" placeholder="" cols="" rows="4" maxlength="113"><%=currentUser.description%></textarea>
+                  <label for="sceneDescription"> Description</label>
+                  <textarea class="form-control" id="sceneDescriptiom" rows="3" name="description" required><%=currentUser.description%></textarea>
                   <%} else {%>
-                    <textarea name="description" placeholder="What kind of AhoyTraveler are you?" class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="113"></textarea>
+                    <label for="sceneDescription"> Description</label>
+                  <textarea class="form-control" id="sceneDescriptiom" rows="3" name="description" required></textarea>
                     <%}%>
-              </div>
-              
+                </div>
 
               <div class="form-group">
                 <label for="InstagramLink">Your Instagram:</label>

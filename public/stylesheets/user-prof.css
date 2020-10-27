@@ -189,17 +189,7 @@
     
   }
 
-  .actionsScenesbtn{
-    position: absolute;
-    left: auto;
-    top: auto;
-    margin-right:10px;
-    margin-bottom: 10px;
-    right: 0%;
-    bottom: 0%;
-    display: none;
 
-  }
   
   .popular-item-container {
     position:relative;
@@ -220,16 +210,16 @@
     
   }
 
-  
+  .mobile-setting-items{
+    background-color:rgb(61, 61, 61);
+    color: rgb(255, 255, 255); 
+  }
   
   .popular-item-container:hover {
     -webkit-box-shadow: 1px 1px 3px 0 #000;
             box-shadow: 1px 1px 3px 0 #000;
   }
 
-  .popular-item-container:hover .actionsScenesbtn {
-    display: inline-block;
-  }
 
 
   

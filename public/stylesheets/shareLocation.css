@@ -1,0 +1,48 @@
+
+
+
+.notification-item{
+  margin-top: 5px; 
+}
+
+
+.notification-link:hover{
+  color: rgb(6, 105, 192);
+}
+
+ul{
+  list-style: none;
+}
+
+.followinguser-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+  }
+  
+  .user-avatar-pic-container {
+    overflow: hidden;
+    width: 35px;
+    height: 35px;
+    border-radius: 20px;
+  }
+  
+  .user-avatar-pic-container img{
+    width: 100%;
+  }
+  
+  .following-user-name {
+    display: inline-block;
+  }
+
+  .user-infor-container {
+    margin-left: 10px;
+  }
+  
+  .sent-container {
+    margin-right: 15px;
+    margin-left: auto;
+  }
