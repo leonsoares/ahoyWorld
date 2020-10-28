@@ -2,9 +2,7 @@
 
 
 <div class="menu-desk">
-        
     <nav class="navbar navbar-expand-lg navbar-dark ">
-        
         <div class="flash-msg ">
             <%if(success && success.length){%>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -35,10 +33,9 @@
                         Explore Ahoy World 
                     </a>
                     <div class="dropdown-menu dark-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item " href="../">Home</a> 
+                        <a class="dropdown-item" href="../">Home</a> 
                         <a class="dropdown-item" href="../scenes">See All Locations</a>
                         <a class="dropdown-item" href="../welcome">Wecome</a>
-
                     </div>
                 </li>
             </ul>
@@ -55,7 +52,7 @@
                 </li>
             <% } else { %>
                 <li class="nav-item dropdown active" id="markRead">
-                    <a class="nav-link dropdown-toggle "  id="notificationIcon" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle notificationIcon"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <%= notifications.length %> <i  class="far fa-envelope" data-toggle="tooltip" data-placement="top" title="Notifications"></i>
                     </a>
                     <div class="dropdown-menu dark-menu" aria-labelledby="navbarDropdown">
@@ -68,7 +65,7 @@
                                 <a class="dropdown-item" href="<%=notification.goTo%>"><%= `${notification.username} - ${notification.message}` %></a>
                             <% })%>
                         <%}%>
-                            <a  class="dropdown-item btn btn-primary" id="all-notifications" data-toggle="modal" data-target="#messages" >See all Notifications</a>
+                            <a class="dropdown-item " id="all-notifications" data-toggle="modal" data-target="#messages" >See all Notifications</a>
                     </div>
                 </li>
                 
@@ -138,7 +135,7 @@
 </div>
 
 <%if(currentUser){%>
-    <div id="mobileViewUserInfo"> 
+    <div id="mobileViewUserInfo">
         <div class="" id="navbarNav">
             <ul class="userInfo">
                 <li class="nav-item ">

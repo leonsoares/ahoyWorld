@@ -96,7 +96,10 @@ a:hover{
 }
 .dark-menu{
   background-color: rgb(54, 54, 54);
+  color: white;
 }
+
+
 .dark-menu .dropdown-item:hover{
   color: #016bc2;
 }
