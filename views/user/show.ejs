@@ -192,12 +192,12 @@
                   </div>
                   <%  if(currentUser && user.id == currentUser._id){ %>
 
-                  <div class="mobile-settings ">
+                  <div class="mobile-settings preventDefault">
                     <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
                     <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
                         <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
-                      </div>
+                    </div>
                    
                   </div>
                   <% } %>

@@ -79,6 +79,7 @@ input .main-search{
 .menubar{
   z-index: 2;
 }
+
 .featured-img .image-featured{
   z-index: 1;
   -webkit-transition: -webkit-transform 3000ms ease-in;
@@ -247,6 +248,74 @@ align-items: center;
   color: #e4e4e4;
 }
 
+
+.actions-box {
+  position: absolute;
+  z-index: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.mark-visited {
+  margin-right: 5px;
+}
+
+.icons {
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.actions-box {
+  position: absolute;
+  z-index: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.mark-visited {
+  margin-right: 5px;
+}
+
+.icons {
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+
+.action-buttons{
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  background: none;
+  border: none;
+  color: white;
+  text-shadow: 1px 2px black;
+}
+
+.settings-btn{
+  margin-top: 5px;
+}
+
+
+.mobile-setting-items{
+  background-color:rgb(71, 71, 71);
+}
+
+.action-buttons:hover  {
+  color: rgb(233, 199, 8);
+}
+
+.action-buttons-selected{
+  color: rgb(233, 199, 8)
+}
 
 
 .category-block {

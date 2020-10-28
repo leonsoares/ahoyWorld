@@ -49,26 +49,19 @@
               <% } %> 
             </form>
 
-            <button href="#" class="mark-visited action-buttons  w-inline-block" id="share-btn"  data-toggle="modal" data-target="#sharedScene" title="You marked this place as visited">
+            <button href="#" class="mark-visited action-buttons" id="share-btn"  data-toggle="modal" data-target="#sharedScene" title="You marked this place as visited">
                 <i class="far fa-paper-plane fa-2x"></i>  
             </button>
           
             <%  if(currentUser && scene.author.username == currentUser.username){ %>
-              <button class="mark-visited action-buttons  w-inline-block" title="You marked this place as visited">
+              <div class="action-buttons settings-btn" title="Edit/delete">
                 <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
-                    <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
-                        <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
-                      </div>
-              </button>
-              <!-- <div class="mobile-settings ">
-                <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
-                <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
-                    <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
+                  <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
+                      <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
                   </div>
-               
-              </div> -->
+              </div>
+   
               <% } %>
 
         </div>
@@ -138,7 +131,7 @@
         <% if(scene.flag && scene.flag.length > 4){ %>
       <div class="allFlags">
           <div class="travelers-block">
-          <a href="../users/<%=scene.flag[0].id%>" class="travelers-item-block w-inline-block">
+          <a href="../users/<%=scene.flag[0].id%>" class="travelers-item-block ">
             <div class="travelers-prof-pic-container">
               <img src="<%=scene.flag[0].avatar%>" alt="" class="traveler-prof-pic">
             </div>
@@ -147,7 +140,7 @@
               <h1 class="traveler-place"><%=scene.flag[0].location.country%></h1>
             </div>
           </a>
-          <a href="../users/<%=scene.flag[1].id%>" class="travelers-item-block w-inline-block">
+          <a href="../users/<%=scene.flag[1].id%>" class="travelers-item-block">
             <div class="travelers-prof-pic-container">
               <img src="<%=scene.flag[1].avatar%>" alt="" class="traveler-prof-pic">
             </div>
@@ -157,7 +150,7 @@
             </div>
           </a>
 
-          <a href="../users/<%=scene.flag[2].id%>" class="travelers-item-block w-inline-block">
+          <a href="../users/<%=scene.flag[2].id%>" class="travelers-item-block">
             <div class="travelers-prof-pic-container">
               <img src="<%=scene.flag[2].avatar%>" alt="" class="traveler-prof-pic">
             </div>
@@ -167,7 +160,7 @@
             </div>
           </a>
 
-          <a href="../users/<%=scene.flag[3].id%>" class="travelers-item-block w-inline-block">
+          <a href="../users/<%=scene.flag[3].id%>" class="travelers-item-block ">
               <div class="travelers-prof-pic-container">
                 <img src="<%=scene.flag[3].avatar%>" alt="" class="traveler-prof-pic">
               </div>
@@ -514,6 +507,152 @@
         </div>
     </div>
 </div> 
+
+<%if(currentUser._id.toString() === scene.author.id.toString()){%>
+  <div class="modal fade" id="deleteScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header table-dark">
+            <h5 class="modal-title" id="exampleModalLabel">Are you sure that you want to delete 
+              <br> <%-scene.name%>?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer table-dark">
+              
+              <form id="delete-form" action="../scenes/<%-scene._id %>?_method=DELETE" method="POST">
+                <input type="submit" class="btn btn-xs btn-danger" value="Yes">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+              </form>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="editScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header table-dark">
+              <h5 class="modal-title" id="exampleModalLabel">Editing: 
+                <br> <%-scene.name%></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body table-dark">
+                <form action="/scenes/<%=scene._id %>?_method=PUT" method="POST">
+                  <div class="form-group ">
+                      <h6> Pick a tag that best describes your scene:</h6>
+                      
+                      
+                      <div class="form-check form-check-inline">
+                          <% if(scene.sceneType === "beach"){ %>
+                          <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" checked required/><label class="form-check-label" for="Beach">Beach</label> 
+                            <% }else { %>
+                              <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" required/><label class="form-check-label" for="Beach">Beach</label> 
+                              <% } %>
+                        </div>
+                      
+                      <div class="form-check form-check-inline">
+                          <% if(scene.sceneType === "waterfall"){ %>
+                          <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" checked/><label class="form-check-label" for="Waterfall">Waterfall</label> 
+                            <% }else { %>
+                              <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" /><label class="form-check-label" for="Waterfall">Waterfall</label> 
+                              <% } %>
+                        </div>
+        
+                      <div class="form-check form-check-inline">
+                          <% if(scene.sceneType === "forest"){ %>
+                          <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest" checked/><label class="form-check-label" for="Forest">Forest</label> 
+                            <% }else { %>
+                              <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest"/><label class="form-check-label" for="Forest">Forest</label> 
+                              <% } %>
+                        </div>
+        
+                      <div class="form-check form-check-inline">
+                          <% if(scene.sceneType === "island"){ %>
+                          <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island" checked/><label class="form-check-label" for="Island">Island</label>
+                            <% }else { %>
+                              <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island"/><label class="form-check-label" for="Island">Island</label>
+                              <% } %>
+                        </div>
+        
+                        <div class="form-check form-check-inline">
+                          <% if(scene.sceneType === "city"){ %>
+                            <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City" checked/><label class="form-check-label" for="city">City</label> 
+                            <% }else { %>
+                              <input type="radio" class="form-check-input" name="sceneType"  value="city" id="Lake"/><label class="form-check-label" for="city">City</label> 
+                              <% } %>
+                          </div>
+        
+                      <div class="form-check form-check-inline">
+                          <% if(scene.sceneType === "lake"){ %>
+                            <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake" checked/><label class="form-check-label" for="Lake">Lake</label> 
+                            <% }else { %>
+                              <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake"/><label class="form-check-label" for="Lake">Lake</label> 
+                              <% } %>
+                          </div>
+
+                        
+                  </div>
+                  <br>
+                      
+                  <div class="form-group ">
+                      <label  for="title">Scene Title</label>
+                      <input type="text" id="name" class="form-control " value="<%-scene.name%>" maxlength="40" name="name" required>
+                  </div>
+        
+                      
+                      
+                      <div class="form-group">
+                          <label for="country">Scene Location:</label>
+                          <select name="country" class="form-control countries order-alpha" id="countryId" required>
+                              <option value=""></option>
+                              <option value="<%-scene.location.country%>" selected><%-scene.location.country%></option>
+                          </select>
+                          <select name="state" class="form-control states order-alpha" id="stateId" >
+                              <option value="<%-scene.location.state%>"><%-scene.location.state%></option>
+                              
+                          </select>
+                          <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+                          <script src="//geodata.solutions/includes/countrystate.js"></script>
+                      </div>
+
+                      <div class="form-group ">
+                        <label  for="title">Place known as</label> <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Filling this field helps pin point you location on the map"></i>
+                        <input type="text" id="knownAs" class="form-control " value="<%-scene.knownAs%>" maxlength="40" name="knownAs" required>
+                      </div>
+        
+                      <br>
+                      <div class="form-group">
+                          <label for="exampleFormControlTextarea1">Scene Description</label>
+                          <textarea class="form-control" id="exampleFormControlTextarea1"  rows="3" name="description" required><%-scene.description%></textarea>
+                      </div>
+                      
+        
+                      <div class="form-group">
+                          <label for="image">Image</label>
+                          <input type="url" name="image" placeholder="url"  value="<%-scene.image%>" class="form-control" placeholder="" id="image" required>
+                      </div>
+        
+        
+        
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                  </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    <%}%>
 
 
 <!-- map -->
