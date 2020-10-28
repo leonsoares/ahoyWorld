@@ -8,11 +8,8 @@
     <div class="div-block">
       <h1 class="heading"><%=scene.name %></h1>
       <h1 class="heading"> <%= scene.location.country %></h1>
-      <% if(currentUser && scene.author._id === currentUser._id){ %>
-        <h6 class="card-title"> Post By @<a class="link-tag" href="/test%>"><%= scene.author.username%> test</a></h6>
-        <% } else{ %>
-        <h6 class="card-title"> Post By @<a class="link-tag" href="/users/<%= scene.author.id%>"><%= scene.author.username%></a></h6>
-      <% } %>
+      <h6 class="card-title"> Post By @<a class="link-tag" href="/users/<%= scene.author.id%>"><%= scene.author.username%></a></h6>
+   
       
 
       <!-- <div class="text-block">This is some text inside of a div block.
@@ -55,6 +52,24 @@
             <button href="#" class="mark-visited action-buttons  w-inline-block" id="share-btn"  data-toggle="modal" data-target="#sharedScene" title="You marked this place as visited">
                 <i class="far fa-paper-plane fa-2x"></i>  
             </button>
+          
+            <%  if(currentUser && scene.author.username == currentUser.username){ %>
+              <button class="mark-visited action-buttons  w-inline-block" title="You marked this place as visited">
+                <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
+                    <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
+                        <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
+                      </div>
+              </button>
+              <!-- <div class="mobile-settings ">
+                <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
+                <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
+                    <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
+                  </div>
+               
+              </div> -->
+              <% } %>
 
         </div>
           <a href="#" class="category-tag-<%=scene.sceneType%> ">
