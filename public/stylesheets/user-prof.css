@@ -399,7 +399,7 @@ a:hover{
   .mobile-settings{
     position:absolute;
     margin-left: 5px;
-    margin-top: 5px;
+    margin-top: 10px;
     z-index: 5;
   }
 

@@ -273,16 +273,15 @@
       let sendShareBtn = document.querySelectorAll(".send-share-form")
       sendShareBtn.forEach(item => {
       item.addEventListener("click", function(){
+
         var sceneId = item.parentNode.parentNode.parentNode.id
         var userId =  item.parentNode.id
     fetch(`/scene/share/${sceneId}/${userId}`, {method: "POST"})
     .then(response => response.json())
     .then(data => {
-          console.log(data.data)
           item.classList.add('btn-outline-success');
           item.classList.add('disabled');
-          item.innerHTML = "sent"
-          console.log(data)
+          item.innerHTML = "sent";
       });
     });
     });

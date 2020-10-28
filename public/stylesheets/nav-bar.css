@@ -1,20 +1,43 @@
+
+h1, h2, h3, h4, h5, h6, p, a{
+  font-family: Ubuntu, Helvetica, sans-serif;
+}
+
 a {
-  color: #eeee;
+  color: rgb(255, 255, 255);
   text-decoration: none;
 }
 a:visited{
-  color: #eeee;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   cursor: pointer;
 }
 a:link:active{
-  color: #eeee;
+  color: rgb(255, 255, 255);
   text-decoration: none;
 }
 a:visited:active{
-  color: #eeee;
+  color: rgb(255, 255, 255);
   text-decoration: none;
 }
+
+a:hover{
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.user-name-link{
+  color:  rgb(255, 255, 255);
+  text-shadow: 1px 2px black;
+}
+
+.user-name-link:hover{
+  color:  rgb(255, 255, 255);
+  text-shadow: 1px 2px black;
+  
+}
+
+
 
 #menuToggle{
   display: none;
@@ -74,10 +97,10 @@ a:visited:active{
 .dark-menu{
   background-color: rgb(54, 54, 54);
 }
-.dark-menu > a{
-  background-color: rgb(54, 54, 54);
-  color: rgb(255, 255, 255);
+.dark-menu .dropdown-item:hover{
+  color: #016bc2;
 }
+
 
 .explore-opts{
     margin-right: auto;

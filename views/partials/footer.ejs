@@ -57,6 +57,13 @@
 
 
 <script>
+    document.querySelectorAll(".preventDefault").forEach(btn => {
+    btn.addEventListener("click", function(event) {
+         event.preventDefault();
+  })
+});
+
+
   window.addEventListener('scroll',function(e) {
       var Wlocation = window.pageYOffset
       if(Wlocation > 40){
