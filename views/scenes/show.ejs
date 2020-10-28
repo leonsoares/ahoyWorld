@@ -508,7 +508,7 @@
     </div>
 </div> 
 
-<%if(currentUser._id.toString() === scene.author.id.toString()){%>
+<%if(currentUser && currentUser._id.toString() === scene.author.id.toString()){%>
   <div class="modal fade" id="deleteScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
