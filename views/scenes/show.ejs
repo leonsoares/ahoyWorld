@@ -17,42 +17,54 @@
     </div>
     <div class="div-block-6">
       <div class="div-block-2">
-        <div class="actions-box" id="<%=scene._id %>">
-            <form action="/scenes/<%= scene._id %>/flag" method="POST">
-              <% if (currentUser && scene.flag.some(function (flag) {
-                  return flag.equals(currentUser._id)
-              })) { %>
-  
-                  <button href="#" type="submit" class="action-buttons action-buttons-selected " data-toggle="tooltip" data-placement="top" title="You marked this place as visited">
-                      <i class="fas fa-map-marked-alt fa-2x"></i>
-                  </button>
-              <% } else { %>
-                  <button href="#" type="submit" class="action-buttons">
+          <div class="actions-box" id="<%=scene._id%>">
+              <div >
+                <% if (currentUser && scene.flag.some(function (flag) {
+                    return flag.equals(currentUser._id)
+                })) { %>
+    
+                    <div class="action-buttons action-buttons-selected preventDefault btn-flag" data-toggle="tooltip" data-placement="top" title="You marked this place as visited">
+                        <i class="fas fa-map-marked-alt fa-2x"></i>
+                    </div>
+                <% } else if (currentUser){ %>
+                    <div class="action-buttons preventDefault btn-flag">
+                        <i class="far fa-map fa-2x" data-toggle="tooltip" data-placement="top" title="Mark as visited"></i>
+                    </div>
+                <% } else { %> 
+                  <div  class="action-buttons preventDefault " data-toggle="modal" data-target="#staticBackdrop">
                       <i class="far fa-map fa-2x" data-toggle="tooltip" data-placement="top" title="Mark as visited"></i>
-                  </button>
-              <% } %> 
-            </form>
-  
-            <form action="/scenes/<%= scene._id %>/saveScene" method="POST">
-              <% if (currentUser && scene.saveScene.some(function (saved) {
-                  return saved.equals(currentUser._id)
-              })) { %>
-  
-                  <button href="#" type="submit" class="mark-visited action-buttons action-buttons-selected" data-toggle="tooltip" data-placement="top" title="Remove it from your saved Places">
-                      <i class="fas fa-clipboard fa-2x"></i>
-                  </button>
-              <% } else { %>
-                  <button href="#" type="submit" class="mark-visited action-buttons">
+                  </div>
+                  <% } %> 
+              </div>
+              
+              <div >
+                <% if (currentUser && scene.saveScene.some(function (saved) {
+                    return saved.equals(currentUser._id)
+                })) { %>
+    
+                    <div  class="mark-visited action-buttons action-buttons-selected btn-save preventDefault" data-toggle="tooltip" data-placement="top" title="Remove it from your saved Places">
+                        <i class="fas fa-clipboard fa-2x"></i>
+                    </div>
+                <% } else if (currentUser){ %>
+                    <div class="mark-visited action-buttons btn-save preventDefault">
+                        <i class="far fa-clipboard fa-2x" data-toggle="tooltip" data-placement="top" title="Save this place"></i>
+                    </div>
+                <% } else {%> 
+                  <div class="mark-visited action-buttons preventDefault" data-toggle="modal" data-target="#staticBackdrop">
                       <i class="far fa-clipboard fa-2x" data-toggle="tooltip" data-placement="top" title="Save this place"></i>
-                  </button>
-              <% } %> 
-            </form>
-
-            <button href="#" class="mark-visited action-buttons" id="share-btn"  data-toggle="modal" data-target="#sharedScene" title="You marked this place as visited">
-                <i class="far fa-paper-plane fa-2x"></i>  
-            </button>
-          
-            <%  if(currentUser && scene.author.username == currentUser.username){ %>
+                  </div>
+                <% } %> 
+                </div>
+              <%if(currentUser){%>
+                <div class="mark-visited action-buttons preventDefault" id="share-btn"  data-toggle="modal" data-target="#sharedScene" title="Share Location">
+                    <i class="far fa-paper-plane fa-2x"></i>  
+                </div>
+              <%} else{%>
+                <div  class="mark-visited action-buttons preventDefault" id="share-btn"  data-toggle="modal" data-target="#staticBackdrop" title="Share Location">
+                    <i class="far fa-paper-plane fa-2x"></i>  
+                </div>
+             <% }%>
+             <%  if(currentUser && scene.author.username == currentUser.username){ %>
               <div class="action-buttons settings-btn" title="Edit/delete">
                 <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
                   <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
@@ -62,8 +74,8 @@
               </div>
    
               <% } %>
+          </div>
 
-        </div>
           <a href="#" class="category-tag-<%=scene.sceneType%> ">
           <form action="/scenes/tag/<%=scene.sceneType%>" method="GET">
             <button type="submit" class="btn btn-primary category-tag-<%=scene.sceneType%>"><%=scene.sceneType%></button>

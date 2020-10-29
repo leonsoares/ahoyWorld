@@ -72,7 +72,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=flag[0].id%>"><%=flag[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=flag[1].id%>"><%=flag[1].name%></a> 
-                    <a class="and-more btn btn-outline-info" href="#"  data-toggle="modal" data-target="#showAllVisited" > and <%= flag.length - 2%> more...</a>
+                    <a onclick="userShowflagged()" class="and-more btn btn-outline-info seeAllFlagged" href="#"  data-toggle="modal" data-target="#showAllVisited" > and <%= flag.length - 2%> more...</a>
                   </h1>
                   
                   <% } else if(flag.length === 0){ %>
@@ -94,7 +94,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=savedScene[0].id%>"><%=savedScene[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=savedScene[1].id%>"><%=savedScene[1].name%></a> 
-                    <a class="and-more btn btn-outline-info" href="#" class="and-more"  data-toggle="modal" data-target="#showAllSaved"> and <%= savedScene.length - 2%> more...</a>
+                    <a onclick="userShowSaved()" class="and-more btn btn-outline-info seeAllSaved" href="#" data-toggle="modal" data-target="#showAllSaved"> and <%= savedScene.length - 2%> more...</a>
                   </h1>
 
                   <% } else if(savedScene.length === 0){ %>
@@ -497,48 +497,7 @@
 </div>
 
 
-<!-- Places Visiteded Modal -->
-<div class="modal fade" id="showAllVisited" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header table-dark">
-        <h5 class="modal-title" id="exampleModalLabel">All places visited by <%=user.username%></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body table-dark">
-          <% flag.forEach((flaged) => {%>
-            <h6 class=""> 
-              <a href="../scenes/<%=flaged.id%>"><%=flaged.name%></a>
-            </h6>
-          <% }); %>
-      </div>
-    </div>
-  </div>
-</div>
 
-
-<!-- Places Saved Modal -->
-<div class="modal fade" id="showAllSaved" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content ">
-        <div class="modal-header table-dark">
-          <h5 class="modal-title" id="exampleModalLabel">All places saved by <%=user.username%></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body table-dark">
-            <% savedScene.forEach((scene) => {%>
-              <h6 class=""> 
-                <a href="../scenes/<%=scene.id%>"><%=scene.name%></a>
-              </h6>
-            <% }); %>
-        </div>
-      </div>
-    </div>
-  </div>
 
 <!-- Followers Modal -->
 <div class="modal fade" id="showAllFollowers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

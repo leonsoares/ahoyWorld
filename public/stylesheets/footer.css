@@ -48,6 +48,26 @@
   margin-left: auto;
 }
 
+.action-buttons{
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  background: none;
+  border: none;
+  color: white;
+  padding-top: 1px;
+  padding-left: 15px;
+  text-shadow: 1px 2px black;
+}
+
+.action-buttons i:hover  {
+  transform:scale(1.1)
+}
+
+.action-buttons-selected{
+  color: rgb(233, 199, 8)
+}
+
 @media screen and (max-width: 991px) {
   .footer-container {
     height: auto;

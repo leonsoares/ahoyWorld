@@ -441,38 +441,6 @@ router.delete('/scenes/:id', middleware.sceneIsAuthorized, (req, res) => {
     });
 });
 
-router.post('/scenes/:id/like', middleware.isLoggedIn, (req, res) => {
-    Scene.findById(req.params.id, (err, foundScene) => {
-        if (err) {
-            req.flash('error', err.message);
-            return res.redirect('back');
-        }
-        let foundUserLike = foundScene.likes.some(function (like) {
-            return like.equals(req.user._id);
-        });
-
-        if (foundUserLike) {
-            // user already liked, removing like
-            foundScene.likes.pull(req.user._id);
-        } else {
-            // adding the new user like
-            foundScene.likes.push(req.user);
-        }
-
-            foundScene.save(function (err) {
-            if (err) {
-                req.flash('error', 'sorry, we could not find you are looking for. :/')
-                return res.redirect("/scenes");
-            }
-            req.flash('success', 'Location saved');
-            return res.redirect("/scenes/" + foundScene._id);
-        });
-
-    })
-});
-
-
-
 // FLAG / Place Visited
 
 router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
@@ -484,13 +452,19 @@ router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
         let foundUserFlag = foundScene.flag.some(function (flag) {
             return flag.equals(req.user._id);
         });
+        let msg = ""
+        let succesError = ""
 
         if (foundUserFlag) {
             // user already liked, removing like
             foundScene.flag.pull(req.user._id);
+            msg = "Location removed from your"
+            succesError = "error"
         } else {
             // adding the new user like
             foundScene.flag.push(req.user);
+            msg = "Location add to your"
+            succesError = "success"
         }
 
             foundScene.save(function (err) {
@@ -498,12 +472,14 @@ router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
                 return res.redirect("/scenes");
             }
-            req.flash('success', 'You marked this place as visited. Keep traveling.');
-            return res.redirect("back");
+            return res.send({data:"done", message: msg});
         });
 
     });
 });
+
+
+
 
 router.post('/scenes/:id/saveScene', middleware.isLoggedIn, (req, res) => {
     Scene.findById(req.params.id, (err, foundScene) => {
@@ -514,22 +490,25 @@ router.post('/scenes/:id/saveScene', middleware.isLoggedIn, (req, res) => {
         let foundUserSave = foundScene.saveScene.some(function (save) {
             return save.equals(req.user._id);
         });
-           
+        let msg = ""
+        let toggle = ""
         if (foundUserSave) {
             // user already liked, removing like
             foundScene.saveScene.pull(req.user._id);
+            msg = "Location removed from your"
+            
         } else {
             // adding the new user like
             foundScene.saveScene.push(req.user);
+            msg = "Location add to your "
+            
         }
-
             foundScene.save(function (err) {
             if (err) {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
                 return res.redirect("/scenes");
             }
-            req.flash('success', 'Location saved.');
-            return res.redirect("back");
+            return res.send({data:"done", message: msg});
         });
     });
 });
