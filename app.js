@@ -52,7 +52,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use( async (req, res, next) => {
-    res.locals.currentUser = req.user // this makes the if(user) available to all the routes
+    res.locals.currentUser = req.user // this makes the (user) available to all the routes
     if(req.user){
         try{
             let user = await User.findById(req.user._id).populate('notifications', null, {isRead: false}).exec();

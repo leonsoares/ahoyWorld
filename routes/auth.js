@@ -353,6 +353,28 @@ router.get('/notifications', middleware.isLoggedIn, (req, res) => {
     });
 });
 
+
+
+router.get('/user/locations/saved', middleware.isLoggedIn, (req, res) => {
+    Scene.find({saveScene: req.user._id}).populate('saveScene').exec((err, locations) => {
+        if (err) {
+            res.redirect("/scenes");
+        } else {
+           res.send({locations})
+        }
+    });
+});
+
+router.get('/user/locations/flagged', middleware.isLoggedIn, (req, res) => {
+    Scene.find({flag: req.user._id}).populate('flag').exec((err, locations) => {
+        if (err) {
+            res.redirect("/scenes");
+        } else {
+           res.send({locations})
+        }
+    });
+});
+
 // router.post('/clicked', (req, res) => {
 
 //     db.collection('clicks').save(click, (err, result) => {
