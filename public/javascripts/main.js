@@ -1,3 +1,5 @@
+// modal config
+
 document.getElementById("markRead").addEventListener("click", function(){
     fetch('/clicked', {method: 'GET'})
       .then(function() {
@@ -116,10 +118,12 @@ function saveLocation(){
             removeFlashMsg() 
         });
      });
+    
   });
 }
 saveLocation()
 
+// **************** DISPLAY FLASH MESSAGES ****************
 function displayFlashMsg(msg, link, toggle, id, modalType){
   let flashContainer = document.querySelector(".flash-msg")
   var flashmsg =`
@@ -134,6 +138,24 @@ function displayFlashMsg(msg, link, toggle, id, modalType){
   getLocationsSaved(modalType)
 }
 
+// **************** DISPLAY FLASH MESSAGES AFTER ACTIONS ****************
+
+
+function displayFlashMsgOpt(msg){
+  let flashContainer = document.querySelector(".flash-msg")
+  var flashmsg =`
+    <div class="alert alert-success alert-dismissible fade show"  role="alert">
+    ${msg} <a href="#" class="alert-link" ></a>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  `
+  flashContainer.insertAdjacentHTML('beforeend', flashmsg);
+}
+
+// **************** REMOVES FLASH MESSAGE ****************
+
 
 function removeFlashMsg() {
   let flashContainer = document.querySelector(".alert")
@@ -142,7 +164,9 @@ function removeFlashMsg() {
   }, 3300);
 }
 
-function getLocationsSaved(modalType, ){
+// **************** DISPLAY ALL LOCATIONS FLAGGED BY USER ON ALL PAGES ****************
+
+function getLocationsSaved(modalType){
   let getLocations = document.querySelectorAll(".alert-link")
     getLocations.forEach(item => {
       item.addEventListener("click", function(){
@@ -159,22 +183,24 @@ function getLocationsSaved(modalType, ){
             </h6>
             `
             addTo.insertAdjacentHTML('beforeend', node);
+            
           });
       });
     });
   });
 }
 
-function userShowSaved(){
-  let getLocations = document.querySelector(".seeAllSaved")
+// **************** DISPLAY ALL LOCATIONS SAVED BY USER ON USER PROFILE ****************
 
-  getLocations.addEventListener("click", function(){
-    console.log('clicked')
+function userSeeAllSaved(){
+let seeAllSaved = document.querySelector(".seeAllSaved")
+
+    
       var addTo = document.querySelector(".savedPlaces")
       
       fetch("/user/locations/saved", {method: "GET"})
       .then(response => response.json())
-      .then(data => {
+      .then(data => { 
         addTo.innerHTML = " "
         data.locations.forEach(location => {
           const node = `
@@ -183,18 +209,18 @@ function userShowSaved(){
           </h6>
           `
           addTo.insertAdjacentHTML('beforeend', node);
+          
         });
-        document.getElementById("showAllSaved").style.display = "block"
-    });
-    
-  });
+        
+    }).then($('#showAllSaved').modal('show'))
+
 }
 
-function userShowflagged(){
-  let getLocations = document.querySelector(".seeAllFlagged")
 
-  getLocations.addEventListener("click", function(){
-    console.log('clicked')
+// **************** DISPLAY ALL LOCATIONS FLAGGED BY USER ON USER PROFILE ****************
+function userSeeAllFlagged(){
+  let seeAllFlagged = document.querySelector(".seeAllFlagged")
+
       var addTo = document.querySelector(".flaggedPlaces")
       
       fetch("/user/locations/flagged", {method: "GET"})
@@ -209,9 +235,189 @@ function userShowflagged(){
           `
           addTo.insertAdjacentHTML('beforeend', node);
         });
-        document.getElementById("showAllVisited").style.display = "block"
+    }).then($('#showAllVisited').modal('show'))
+}
+
+
+// **************** DELETE SCENE ****************
+    let deleteBtn = document.querySelectorAll('.deleteLocation')
+    deleteBtn.forEach(item => {
+    item.addEventListener("click", function(){
+      const parent = item.parentNode.parentNode.parentNode.parentNode.parentNode
+      const sceneId = parent.id
+      fetch(`../scenes/${sceneId}/delete/user`, {method: "POST"})
+        .then(response => response.json())
+        .then(data => {
+          parent.remove();
+          displayFlashMsgOpt(data.message)
+          removeFlashMsg()
+      });
+    })
+  })
+
+// **************** POST COMMENT ****************
+
+
+function postComment(){
+  
+    let postCommentBtn = document.querySelector(".postComment")
+      const sceneId = postCommentBtn.parentNode.id
+      const testString = document.querySelector("#commenText").value
+      const insertTo = document.querySelector(".comments")
+      var data = [{comment:document.querySelector("#commenText").value}]
+      if(testString.replace(/\s/g,"") == ""){
+        displayFlashMsgOpt("Comment Can not be empty")
+        removeFlashMsg()
+      } else {
+      document.querySelector("#commenText").value === ""
+      $('#addComment').modal('hide')
+      document.querySelector("#commenText").value = ""
+      fetch(`/scenes/${sceneId}/comments`, {method: "POST", body: JSON.stringify(data), headers: {'Content-Type': 'application/json',}})
+      .then(response => response.json())
+      .then(data => {
+        let commentDom = "";
+        console.log(data.commentsLength)
+      commentDom = `
+          <div class="div-block-8" id="${data.comment._id}">
+        <div class="div-block-9">
+          <a href="../users/${data.comment.author.id}">
+            <h1 class="heading-6 link-tag">${data.comment.author.username}</h1>
+          </a>
+        </div>
+        <div class="div-block-11 newComment">
+          <div class="comment-block">
+            <div id="commentContent${data.comment._id}">
+            ${data.comment.text}
+            </div>
+          </div>
+          <div class="div-block-12">
+                                          
+                
+                <div class="comments-edit-block">
+                  <div class="comments-edit-cont">
+                    <a class="btn btn-xs btn-info btn-space" type="button"  data-toggle="modal" data-target="#editComment${data.comment._id}"
+                    href="">Edit</a>
+                    <a class="btn btn-xs btn-danger" type="button"  data-toggle="modal" data-target="#deleteComment${data.comment._id}"
+                    href="">delete</a>
+                  </div>
+                </div>   
+                <!-- Modal Edit -->
+                <div class="modal fade" id="editComment${data.comment._id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header table-dark">
+                          <h5 class="modal-title" id="exampleModalLabel">Edit Comment</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+
+                        <div class="modal-body table-dark">
+                            <textarea id="commentText${data.comment._id}" class="form-control" type="textarea" rows="4" cols="4" maxlength="10" name="text">${data.comment.text}</textarea>
+                            <br>
+                            <br>
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button onclick="editComment('${data.comment._id}')" type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- modal delete -->
+
+                  <div class="modal fade" id="deleteComment${data.comment._id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                              <h4 class="modal-title" id="exampleModalLabel">Are you sure that 
+                                  <br>you want to delete this comment?</h4>
+                          </div>
+                          <div class="modal-footer">
+                              
+                              <input onclick="deleteComment('${data.comment._id}', '${data.sceneId}')" type="submit" class="btn btn-xs btn-danger" value="Yes">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+          </div>
+        </div>
+      </div>
+      `
+      if(data.commentsLength === 1){
+        insertTo.innerHTML = ""
+      }
+      insertTo.insertAdjacentHTML('beforeend', commentDom)
+      displayFlashMsgOpt(data.message)
+      removeFlashMsg()
     });
-    
+  }
+}
+
+
+// **************** DELETE COMMENT ****************
+
+function deleteComment(id, sceneId){
+  console.log('click')
+  const data = [{commentid:id, scene: sceneId}]
+  
+
+  let commentDiv = document.getElementById(id)
+  const modalId = `#deleteComment${id}`
+  const insertTo = document.querySelector(".comments")
+  $(modalId).modal('hide')
+    fetch(`/scene/comment/delete/${id}`, {method: "POST", body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+    .then(response => response.json())  
+    .then(data => {
+      console.log(data)
+      
+      if(data.commentsLength === 0 || !data.commentsLength){
+        insertTo.innerHTML = `
+          <div class="noComments">
+            <div class="noCommentsContent">
+              <h5 class="textNoComments">No Comments for this scene yet. <br> 
+                Be the first to comment</h5>
+                  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addComment">Add Comment</button>
+            </div>
+          </div>
+        `
+        document.querySelector(".btnAddComment").innerHTML = ""
+      }
+        commentDiv.remove()
+        displayFlashMsgOpt(data.message)
+        removeFlashMsg()
   });
 }
 
+// **************** EDIT COMMENT ****************
+
+function editComment(id){
+  var commentText = document.querySelector(`#commentText${id}`).value
+  console.log(commentText)
+  const data = [{commentid:id, commentText}]
+  let commentContent = document.getElementById(`commentContent${id}`)
+  if(commentText .replace(/\s/g,"") == ""){
+    displayFlashMsgOpt("Comment Can not be empty")
+    removeFlashMsg()
+  } else {
+    $(`#editComment${id}`).modal('hide')
+      fetch(`/scene/comment/edit/${id}`, {method: "POST", body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+      .then(response => response.json())  
+      .then(data => {
+        commentContent.textContent = data.editedComment
+        displayFlashMsgOpt(data.message)
+        removeFlashMsg()
+      
+    });
+  }
+}

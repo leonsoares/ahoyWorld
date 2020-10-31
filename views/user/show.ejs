@@ -72,7 +72,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=flag[0].id%>"><%=flag[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=flag[1].id%>"><%=flag[1].name%></a> 
-                    <a onclick="userShowflagged()" class="and-more btn btn-outline-info seeAllFlagged" href="#"  data-toggle="modal" data-target="#showAllVisited" > and <%= flag.length - 2%> more...</a>
+                    <a class="and-more btn btn-outline-info seeAllFlagged" data-disabled="true" onclick="userSeeAllFlagged()"> and <%= flag.length - 2%> more...</a>
                   </h1>
                   
                   <% } else if(flag.length === 0){ %>
@@ -94,7 +94,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=savedScene[0].id%>"><%=savedScene[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=savedScene[1].id%>"><%=savedScene[1].name%></a> 
-                    <a onclick="userShowSaved()" class="and-more btn btn-outline-info seeAllSaved" href="#" data-toggle="modal" data-target="#showAllSaved"> and <%= savedScene.length - 2%> more...</a>
+                    <a  onclick="userSeeAllSaved()" class="and-more btn btn-outline-info seeAllSaved" href="#" > and <%= savedScene.length - 2%> more...</a>
                   </h1>
 
                   <% } else if(savedScene.length === 0){ %>
@@ -184,7 +184,7 @@
             
             <% scenes.forEach(function(scene){ %>
             
-              <div class="popular-item-container">
+              <div class="popular-item-container" id="<%-scene.id%>">
                   
                 <div class="popular-item-container-img">
                   <div class="category-tag-<%=scene.sceneType%>">
@@ -193,12 +193,11 @@
                   <%  if(currentUser && user.id == currentUser._id){ %>
 
                   <div class="mobile-settings preventDefault">
-                    <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
-                    <div class="dropdown-menu mobile-setting-items" aria-labelledby="dropdownMenuButton">
+                    <i class="fas fa-cog fa-lg fa-2x "  id="editDeleteDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
+                    <div class="dropdown-menu mobile-setting-items" aria-labelledby="editDeleteDropDown">
                         <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
                         <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
                     </div>
-                   
                   </div>
                   <% } %>
 
@@ -230,13 +229,8 @@
                               </button>
                             </div>
                             <div class="modal-footer table-dark">
-                                
-                                <form id="delete-form" action="../scenes/<%-scene._id %>?_method=DELETE" method="POST">
-                                  <input type="submit" class="btn btn-xs btn-danger" value="Yes">
+                                  <input type="submit" class="btn btn-xs btn-danger deleteLocation" value="Yes">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-
-                                </form>
-                              
                             </div>
                             
                           </div>
@@ -329,8 +323,8 @@
                                                 <option value="<%-scene.location.state%>"><%-scene.location.state%></option>
                                                 
                                             </select>
-                                            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-                                            <script src="//geodata.solutions/includes/countrystate.js"></script>
+                                            <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+                                            <script src="//geodata.solutions/includes/countrystate.js"></script> -->
                                         </div>
 
                                         <div class="form-group ">
@@ -454,8 +448,8 @@
                       <option value="<%-currentUser.location.state%>"><%-currentUser.location.state%></option>
                       
                   </select>
-                  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-                  <script src="//geodata.solutions/includes/countrystate.js"></script>
+                  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+                  <script src="//geodata.solutions/includes/countrystate.js"></script> -->
               </div>
 
               <div class="form-group">

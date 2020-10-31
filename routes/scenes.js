@@ -441,6 +441,29 @@ router.delete('/scenes/:id', middleware.sceneIsAuthorized, (req, res) => {
     });
 });
 
+router.post('/scenes/:id/delete/user', middleware.sceneIsAuthorized, (req, res) => {
+
+    Scene.findById(req.params.id).populate('review').exec((err, scene) => {
+        if (err) {
+            res.redirect("/scenes");
+        } else {
+            Review.deleteMany({"_id": {$in: scene.reviews}}, function (err) {
+                if (err) {
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    return res.redirect("/scenes");
+                }
+                //  delete the Scene
+                scene.remove();
+                console.log("deleted")
+                res.send({data: scene._id, message: "Location deleted"})
+            });
+        }
+    });
+});
+
+
+
+
 // FLAG / Place Visited
 
 router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {

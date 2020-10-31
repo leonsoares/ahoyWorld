@@ -542,6 +542,10 @@ a:hover {
     background-color: rgb(47, 46, 46);
   }
 
+  .newComment {
+    border: 2px solid rgb(3, 116, 28);
+  }
+
   
 
   .comments-edit-block{

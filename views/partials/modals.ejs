@@ -159,8 +159,8 @@
                   <select name="state" class="form-control states order-alpha" id="stateId">
                       <option value="">Select State:</option>
                   </select>
-                  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-                  <script src="//geodata.solutions/includes/countrystate.js"></script>
+                  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+                  <script src="//geodata.solutions/includes/countrystate.js"></script> -->
               </div>
 
               <div class="form-group ">
@@ -265,3 +265,27 @@
         </div>
       </div>
     </div>
+
+<!-- DELETE SCENE MODAL -->
+    <div class="modal fade" id="deleteScene" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header table-dark">
+              <h5 class="modal-title" id="exampleModalLabel">Are you sure that you want to delete 
+                <br> This location</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer table-dark">
+                
+                  <input type="submit" class="btn btn-xs btn-danger deleteLocation" value="Yes">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      
