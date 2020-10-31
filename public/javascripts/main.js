@@ -265,6 +265,11 @@ function postComment(){
       const testString = document.querySelector("#commenText").value
       const insertTo = document.querySelector(".comments")
       var data = [{comment:document.querySelector("#commenText").value}]
+      const bts = `
+      <div class="btnAddComment">
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addComment">Add Comment</button>
+        </div>
+      `
       if(testString.replace(/\s/g,"") == ""){
         displayFlashMsgOpt("Comment Can not be empty")
         removeFlashMsg()
@@ -356,6 +361,8 @@ function postComment(){
       `
       if(data.commentsLength === 1){
         insertTo.innerHTML = ""
+        insertTo.insertAdjacentHTML('afterend', bts)
+        
       }
       insertTo.insertAdjacentHTML('beforeend', commentDom)
       displayFlashMsgOpt(data.message)
