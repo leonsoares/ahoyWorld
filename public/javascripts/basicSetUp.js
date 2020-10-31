@@ -14,3 +14,20 @@ document.querySelectorAll(".preventDefault").forEach(btn => {
 
       }
   });
+
+  var box = $(".feature-img-container"), x;
+  $(".arrow").click(function() {
+    if ($(this).hasClass("arrow-right")) {
+      x = ((box.width() / 2)) + box.scrollLeft();
+      box.animate({
+        scrollLeft: x,
+      })
+    } else {
+      x = ((box.width() / 2)) - box.scrollLeft();
+      box.animate({
+        scrollLeft: -x,
+      })
+    }
+  })
+
+

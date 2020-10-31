@@ -38,6 +38,7 @@ app.use(require("express-session")({
 app.use(flash());
 
 
+
 // App Config
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
