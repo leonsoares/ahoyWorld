@@ -1,3 +1,4 @@
+
 // modal config
 
 document.getElementById("markRead").addEventListener("click", function(){
@@ -57,7 +58,8 @@ fetch('/notifications', {method: "GET"})
     });
   });
   
-  
+  // **************** SHARE LOCATIONS WITH PEOPLE YOU FOLLOW ONLY ****************
+
   function shareLocation(){
       let sendShareBtn = document.querySelectorAll(".send-share-form")
       sendShareBtn.forEach(item => {
@@ -69,15 +71,19 @@ fetch('/notifications', {method: "GET"})
     .then(response => response.json())
     .then(data => {
           item.classList.add('btn-outline-success');
-          item.classList.add('disabled');
+          item.setAttribute("disabled", true);
           item.innerHTML = "sent";
       });
     });
     });
   }
 
+  // **************** MARK A LOCATION AS VISITED ****************
+
+
 function flagLocation(){
     let flag = document.querySelectorAll(".btn-flag")
+    let isShowPage = document.querySelector('.isShowPage')
     flag.forEach(item => {
         item.addEventListener("click", function(){
             var sceneId = item.parentNode.parentNode.id
@@ -92,12 +98,80 @@ function flagLocation(){
             icon[1].classList.toggle('far')
             icon[1].classList.toggle('fa-map')
             item.classList.toggle('action-buttons-selected')
-            removeFlashMsg() 
+            removeFlashMsg()
+
+            if(isShowPage && data.scene.flag.length === 0){
+              let noVisitors = `
+              <div class="noComments">
+                <div class="noCommentsContent">
+                  <h5 class="textNoComments">No Ahoy Traveler has visited  <br>this  place as  yet. </h5>
+                 </div>
+              </div>
+              `
+              document.querySelector(".allFlags").innerHTML = noVisitors
+
+            } else if(isShowPage && data.scene.flag.length === 5){
+              addSeeMoreBtn(data.scene._id)
+            }else if(isShowPage && data.userFlag && data.scene.flag.length <= 4){
+              if(data.scene.flag.length == 1){
+                let singleUser = '<div class="travelers-block users-flagged"> </div>'
+                document.querySelector(".allFlags").innerHTML = ""
+                document.querySelector(".allFlags").insertAdjacentHTML("beforeend", singleUser)
+              }
+                addFlagLocationUser(data.user)
+              
+            } else if (isShowPage && !data.userFlag){
+              removeFlagLocationUser(data.user._id)
+              
+            }
         });
      });
   });
 }
 flagLocation()
+
+// **************** ADD A USER TO VISITORS TO A LOCATION BANNER ****************
+
+
+function addFlagLocationUser(user){
+  let inserTo = document.querySelector(".users-flagged")
+  let data = `
+      <a href="../users/${user._id}" id="flagId${user._id}"class="travelers-item-block ">
+        <div class="travelers-prof-pic-container">
+          <img src="${user.avatar}"  class="traveler-prof-pic">
+        </div>
+        <div class="travelers-info-block">
+          <h1 class="traveler-name link-tag">${user.username}</h1>
+          <h1 class="traveler-place">${user.location.country}</h1>
+        </div>
+      </a>
+    `
+    inserTo.insertAdjacentHTML('beforeend', data);
+}
+
+function removeFlagLocationUser(flagId){
+  let removeItem = document.getElementById(`flagId${flagId}`)
+  removeItem.remove()
+}
+
+// **************** ADD SEE MORE BTN TO SEE ALL VISITORS ****************
+
+function addSeeMoreBtn(id){
+  let inserTo = document.querySelector(".users-flagged")
+
+  let btn = `
+  <div class="see-all-visites" onclick="getAllVisitors('${id}')">
+    <a class="nav-link heading-7"  data-toggle="modal" data-target="#showAllFlaged" href="#">
+      <p>See all...</p>
+    </a>
+  </div>
+  `
+  inserTo.insertAdjacentHTML('afterend', btn);
+}
+
+
+
+// **************** ADD A LOCATION TO FLAGGED PLACES LIST ****************
 
 function saveLocation(){
     let saveBtn = document.querySelectorAll(".btn-save")
@@ -281,7 +355,6 @@ function postComment(){
       .then(response => response.json())
       .then(data => {
         let commentDom = "";
-        console.log(data.commentsLength)
       commentDom = `
           <div class="div-block-8" id="${data.comment._id}">
         <div class="div-block-9">
@@ -428,3 +501,78 @@ function editComment(id){
     });
   }
 }
+// action="/scenes/<%= scene._id %>/reviews" method="POST"
+
+// /scenes/<%= scene._id %>/reviews
+
+function rateScene(id){
+  let insertTo = document.querySelector(".ratings")
+
+  var form = document.querySelectorAll('.ratingForm')
+  let rating = 0
+  for (i = 0; i < form.length; i++) {
+    if (form[i].checked) {
+      rating = form[i].value
+    }
+  }
+  if(rating !== 0){
+    $("#ratings").modal('hide')
+      fetch(`../scenes/${id}/reviews`, {method: "POST", body: JSON.stringify(rating), headers: {'Content-Type': 'application/json'}})
+      .then(response => response.json())  
+      .then(data => {
+        
+        let userRating = `
+            <div class="review-content">
+              <div class="reviews-block-foot">
+                <p class="stars-review">
+                  <span class="far fa-star fa"></span>
+                  ${data.userRate > 1.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+                  ${data.userRate > 2.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+                  ${data.userRate > 3.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+                  ${data.userRate > 4.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+                </p>
+              </div>
+              <div>
+                by: <a class="link-tag" href="../users/${data.user._id}"><strong>${data.user.username}</strong></a>
+              </div>
+              <span><em>${data.createdAt}</em></span>
+            </div>
+          `
+        if(data.ratingLength == 1){
+          let noRatingDiv = document.querySelector(".noRating")
+          let ratingContainer = `
+          <div class="review-container"></div>
+          `
+          insertTo.innerHTML = ""
+          insertTo.insertAdjacentHTML('beforeend', ratingContainer)
+          let inserContent = document.querySelector(".review-container")
+          inserContent.insertAdjacentHTML('beforeend', userRating)   
+        } else if (data.ratingLength < 6 && data.ratingLength > 0){
+          let inserContent = document.querySelector(".review-container")
+          inserContent.insertAdjacentHTML('beforeend', userRating)
+          
+        } else if (data.ratingLength == 6){
+
+        }
+        let newStarReview = `
+          <a href="#" class="nav-link"  data-toggle="modal" data-target="#ratings" > 
+            <p>
+            <span class="far fa-star fa"></span>
+            ${data.sceneRate > 1.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+            ${data.sceneRate > 2.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+            ${data.sceneRate > 3.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+            ${data.sceneRate > 4.5 ? '<span class="far fa-star fa"></span>' : '<span class="far fa-star"></span>'}
+            <em class="sceneTotalRatings">(${data.ratingLength} - ratings )</em>
+            </p>
+          </a>
+        `
+        document.querySelector(".reviews-block").innerHTML = ""
+        document.querySelector(".reviews-block").insertAdjacentHTML("beforeend", newStarReview)
+        displayFlashMsgOpt(data.message)
+        console.log(data)
+        removeFlashMsg()
+      
+    });
+  }  
+}
+
