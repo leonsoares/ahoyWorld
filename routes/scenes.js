@@ -234,14 +234,13 @@ router.get('/scenes/tag/:tag', formidableMiddleware(), (req , res) => {
 
 
 // show form to add new scene ground
-router.get('/scenes/new', middleware.isLoggedIn, (req, res) =>{
-    res.render('scenes/new.ejs')
-})
+// router.get('/scenes/new', middleware.isLoggedIn, (req, res) =>{
+//     res.render('scenes/new.ejs')
+// })
 
 router.get('/scenes/:id', (req, res) => {
-    // res.send('this is the show page');
     Scene.findById(req.params.id).populate({
-        
+            
             path:'flag comments likes reviews',
             options: {sort: {createAt: -1}
         }
@@ -454,7 +453,6 @@ router.post('/scenes/:id/delete/user', middleware.sceneIsAuthorized, (req, res) 
                 }
                 //  delete the Scene
                 scene.remove();
-                console.log("deleted")
                 res.send({data: scene._id, message: "Location deleted"})
             });
         }
@@ -467,7 +465,7 @@ router.post('/scenes/:id/delete/user', middleware.sceneIsAuthorized, (req, res) 
 // FLAG / Place Visited
 
 router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
-    Scene.findById(req.params.id, (err, foundScene) => {
+    Scene.findById(req.params.id).populate('flag').exec((err, foundScene) => {
         if (err) {
             req.flash('error', err.message);
             return res.redirect('back');
@@ -477,6 +475,7 @@ router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
         });
         let msg = ""
         let succesError = ""
+        let userFlag = false
 
         if (foundUserFlag) {
             // user already liked, removing like
@@ -488,6 +487,7 @@ router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
             foundScene.flag.push(req.user);
             msg = "Location add to your"
             succesError = "success"
+            userFlag = true
         }
 
             foundScene.save(function (err) {
@@ -495,8 +495,22 @@ router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
                 req.flash('error', 'sorry, we could not find you are looking for. :/')
                 return res.redirect("/scenes");
             }
-            return res.send({data:"done", message: msg});
+            return res.send({scene:foundScene, message: msg, userFlag, user: req.user});
         });
+
+    });
+});
+
+             
+router.get('/scenes/:id/flag/users', (req, res) => {
+    
+    Scene.findById(req.params.id).populate('flag').exec((err, foundScene) => {
+        if (err) {
+            req.flash('error', err.message);
+            return res.redirect('back');
+        }
+        console.log(foundScene)
+        return res.send({scene:foundScene.flag});
 
     });
 });

@@ -23,11 +23,11 @@
                     return flag.equals(currentUser._id)
                 })) { %>
     
-                    <div class="action-buttons action-buttons-selected preventDefault btn-flag" data-toggle="tooltip" data-placement="top" title="You marked this place as visited">
+                    <div class="action-buttons action-buttons-selected preventDefault btn-flag isShowPage" data-toggle="tooltip" data-placement="top" title="You marked this place as visited">
                         <i class="fas fa-map-marked-alt fa-2x"></i>
                     </div>
                 <% } else if (currentUser){ %>
-                    <div class="action-buttons preventDefault btn-flag">
+                    <div class="action-buttons preventDefault btn-flag isShowPage">
                         <i class="far fa-map fa-2x" data-toggle="tooltip" data-placement="top" title="Mark as visited"></i>
                     </div>
                 <% } else { %> 
@@ -89,13 +89,13 @@
                     <%} else {%>
                       <a href="#" class="nav-link"  data-toggle="modal" data-target="#staticBackdrop" >
                       <%}%>
-                  <p>
+                  <p class="action-buttons-selected">
                     <span class="far fa-star"></span>
                     <span class="far fa-star"></span>
                     <span class="far fa-star"></span>
                     <span class="far fa-star"></span>
                     <span class="far fa-star"></span>
-                    <em>(<%= scene.reviews.length %> - ratings )</em>
+                    <em class="sceneTotalRatings">(<%= scene.reviews.length %> - ratings )</em>
                   </p>
                 </a>
             </h5>
@@ -106,7 +106,7 @@
                     <%} else {%>
                       <a href="#" class="nav-link"  data-toggle="modal" data-target="#staticBackdrop" >
                       <%}%>
-              <p>
+              <p class="action-buttons-selected">
                 <span class="far fa-star fa"></span>
                 <span class="far fa-star <% if (scene.rating > 1.5) { %> fa <% } %>"></span>
                 <span class="far fa-star <% if (scene.rating > 2.5) { %> fa <% } %>"></span>
@@ -138,40 +138,40 @@
     </div>
     <h1 class="visiters-title">Ahoy's Visitors to <%=scene.name%>:</h1>
 
-    
+    <div class="allFlags">
         <% if(scene.flag && scene.flag.length > 4){ %>
-      <div class="allFlags">
-          <div class="travelers-block">
-          <a href="../users/<%=scene.flag[0].id%>" class="travelers-item-block ">
-            <div class="travelers-prof-pic-container">
-              <img src="<%=scene.flag[0].avatar%>" alt="" class="traveler-prof-pic">
-            </div>
-            <div class="travelers-info-block">
-              <h1 class="traveler-name link-tag"><%=scene.flag[0].username%></h1>
-              <h1 class="traveler-place"><%=scene.flag[0].location.country%></h1>
-            </div>
-          </a>
-          <a href="../users/<%=scene.flag[1].id%>" class="travelers-item-block">
-            <div class="travelers-prof-pic-container">
-              <img src="<%=scene.flag[1].avatar%>" alt="" class="traveler-prof-pic">
-            </div>
-            <div class="travelers-info-block">
-              <h1 class="traveler-name link-tag"><%=scene.flag[1].username%></h1>
-              <h1 class="traveler-place"><%=scene.flag[1].location.country%></h1>
-            </div>
-          </a>
+      
+          <div class="travelers-block users-flagged">
+            <a href="../users/<%=scene.flag[0].id%>" id="flagId<%=scene.flag[0].id%>"class="travelers-item-block ">
+              <div class="travelers-prof-pic-container">
+                <img src="<%=scene.flag[0].avatar%>" alt="" class="traveler-prof-pic">
+              </div>
+              <div class="travelers-info-block">
+                <h1 class="traveler-name link-tag"><%=scene.flag[0].username%></h1>
+                <h1 class="traveler-place"><%=scene.flag[0].location.country%></h1>
+              </div>
+            </a>
+            <a href="../users/<%=scene.flag[1].id%>" id="flagId<%=scene.flag[1].id%>" class="travelers-item-block">
+              <div class="travelers-prof-pic-container">
+                <img src="<%=scene.flag[1].avatar%>" alt="" class="traveler-prof-pic">
+              </div>
+              <div class="travelers-info-block">
+                <h1 class="traveler-name link-tag"><%=scene.flag[1].username%></h1>
+                <h1 class="traveler-place"><%=scene.flag[1].location.country%></h1>
+              </div>
+            </a>
 
-          <a href="../users/<%=scene.flag[2].id%>" class="travelers-item-block">
-            <div class="travelers-prof-pic-container">
-              <img src="<%=scene.flag[2].avatar%>" alt="" class="traveler-prof-pic">
-            </div>
-            <div class="travelers-info-block">
-              <h1 class="traveler-name link-tag"><%=scene.flag[2].username%></h1>
-              <h1 class="traveler-place"><%=scene.flag[2].location.country%></h1>
-            </div>
-          </a>
+            <a href="../users/<%=scene.flag[2].id%>" id="flagId<%=scene.flag[2].id%>"class="travelers-item-block">
+              <div class="travelers-prof-pic-container">
+                <img src="<%=scene.flag[2].avatar%>" alt="" class="traveler-prof-pic">
+              </div>
+              <div class="travelers-info-block">
+                <h1 class="traveler-name link-tag"><%=scene.flag[2].username%></h1>
+                <h1 class="traveler-place"><%=scene.flag[2].location.country%></h1>
+              </div>
+            </a>
 
-          <a href="../users/<%=scene.flag[3].id%>" class="travelers-item-block ">
+          <a href="../users/<%=scene.flag[3].id%>" id="flagId<%=scene.flag[3].id%>"class="travelers-item-block ">
               <div class="travelers-prof-pic-container">
                 <img src="<%=scene.flag[3].avatar%>" alt="" class="traveler-prof-pic">
               </div>
@@ -182,13 +182,13 @@
           </a>
           
         </div>
-        <div class="see-all-visites">
+        <div class="see-all-visites" onclick="getAllVisitors('<%=scene._id%>')">
           <a class="nav-link heading-7"  data-toggle="modal" data-target="#showAllFlaged" href="#">
 
             <p>See all...</p>
           </a>
       </div>
-    </div>
+    
           <% } else if(scene.flag.length === 0){ %>
             
             <div class="noComments">
@@ -199,25 +199,25 @@
               </div>
               
           <% } else  { %>
-            <div class="allFlags">
-            <div class="travelers-block">
-            <% scene.flag.forEach((flag) => {%>
+
+            <div class="travelers-block users-flagged">
+            <% scene.flag.forEach((user) => {%>
               
-              <a href="../users/<%=scene.flag.id%>" class="travelers-item-block w-inline-block">
+              <a href="../users/<%=user._id%>"  id="flagId<%=user._id%>" class="travelers-item-block w-inline-block">
                   <div class="travelers-prof-pic-container">
-                    <img src="<%=flag.avatar%>" alt="" class="traveler-prof-pic">
+                    <img src="<%=user.avatar%>" alt="" class="traveler-prof-pic">
                   </div>
                   <div class="travelers-info-block">
-                    <h1 class="traveler-name link-tag"><%=flag.username%></h1>
-                    <h1 class="traveler-place"><%=flag.location.country%></h1>
+                    <h1 class="traveler-name link-tag"><%=user.username%></h1>
+                    <h1 class="traveler-place"><%=user.location.country%></h1>
                   </div>
               </a>
             
             <% }); %>
           </div>
-        </div>
+
           <% } %>
-    
+        </div>
 
       
     <div class="div-block-7">
@@ -352,8 +352,9 @@
   <hr>
 <!--Rate section-->
 <h1>Rates:</h1>
+<div class="ratings">
 <% if (scene.rating === 0) { %>
-<div class="noComments">
+<div class="noComments noRating">
     <div class="noCommentsContent">
       <h5 class="textNoComments">No rate yet. <br>
         <p>
@@ -364,8 +365,8 @@
             <span class="far fa-star"></span>
           </p>
         Be the first to rate it. </h5>
-        <%if(currentUser && scene.rating.length == 0){%>
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#ratings">Rate</button>
+        <%if(currentUser){%>
+          <button  type="button" class="btn btn-info " data-toggle="modal" data-target="#ratings">Rate</button>
           <% } else { %>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staticBackdrop">Rate</button>
             <% } %>
@@ -373,27 +374,35 @@
   </div>
   <% } else { %>
     <div class="review-container">
+      <% scene.reviews.slice(0, 5).forEach(function(review){ %>
+        <div class="review-content">
+          <div class="reviews-block-foot">
+            <p class="stars-review action-buttons-selected">
+              <span class="far fa-star fa"></span>
+              <span class="far fa-star <% if (review.rating > 1.5) { %> fa <% } %>"></span>
+              <span class="far fa-star <% if (review.rating > 2.5) { %> fa <% } %>"></span>
+              <span class="far fa-star <% if (review.rating > 3.5) { %> fa <% } %>"></span>
+              <span class="far fa-star <% if (review.rating > 4.5) { %> fa <% } %>"></span>
+            </p>
+          </div>
+          <div>
+            by: <a class="link-tag" href="../users/<%= review.author.id%>"><strong><%= review.author.username %></strong></a>
+          </div>
+          <span><em><%= review.updatedAt.toDateString() %></em></span>
+        </div>
+        <% }); %>
         
-            <% scene.reviews.slice(0, 5).forEach(function(review){ %>
-              <div class="review-content">
-                      <div class="reviews-block-foot">
-                        <p class="stars-review">
-                          <span class="far fa-star fa"></span>
-                          <span class="far fa-star <% if (review.rating > 1.5) { %> fa <% } %>"></span>
-                          <span class="far fa-star <% if (review.rating > 2.5) { %> fa <% } %>"></span>
-                          <span class="far fa-star <% if (review.rating > 3.5) { %> fa <% } %>"></span>
-                          <span class="far fa-star <% if (review.rating > 4.5) { %> fa <% } %>"></span>
-                        </p>
-                      </div>
-                        <div>
-                          by: <a class="link-tag" href="../users/<%= review.author.id%>"><strong><%= review.author.username %></strong></a>
-                        </div>
-                      <span><em><%= review.updatedAt.toDateString() %></em></span>
-                  
-            </div>
-              <% }); %>
       </div>
     <% } %>
+    
+  </div>
+  <%if(scene.reviews.length > 5){ %>
+    <div  onclick="getAllRates('<%=scene._id%>')">
+      <a class="nav-link heading-7">
+        <p>See all...</p>
+      </a>
+    </div>
+  <%}%>
 </div>   
 
 
@@ -444,32 +453,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header table-dark">
-                <h5 class="modal-title"><%= scene.flag.length %> Ahoy Travelers <br> Flaged This Scene as Visited</h5>
+                <h5 class="modal-title">Ahoy Travelers <br> Flaged This Scene as Visited</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
-            <div class="modal-body table-dark">
-
-                <table class="table table-striped">
-
-                    <tbody>
-                        <% scene.flag.forEach((flag) => {%>
-                          <a href="../users/<%=scene.flag.id%>" class="travelers-item-block w-inline-block">
-                              <div class="travelers-prof-pic-container">
-                                <img src="<%=flag.avatar%>" alt="" class="traveler-prof-pic">
-                              </div>
-                              <div class="travelers-info-block">
-                                <h1 class="traveler-name"><%=flag.username%></h1>
-                                <h1 class="traveler-place"><%=flag.location.country%></h1>
-                              </div>
-                          </a>
-                        
-                        <% }); %>
-                    </tbody>
-                </table>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+            <div class="modal-body table-dark showUsersFlagged">
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
             </div>
             
         </div>
@@ -489,31 +480,22 @@
             </div>
         
             <div class="modal-body table-dark">
-              
-              <%if(hasReviewd){%> 
-                
-                <form action="/scenes/<%= scene._id %>/reviews/edit/?_method=PUT" method="POST">
-                <% } else { %> 
-                  <form action="/scenes/<%= scene._id %>/reviews" method="POST"> 
-                    <%}%>
-                    <div class="starsRatingContainer">
-                        <div class="starsRatingModal">
-                  <fieldset class="rating">
-                      <input type="radio" id="star5" name="review[rating]" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-                      <input type="radio" id="star4" name="review[rating]" value="4" /><label class = "full" for="star4" title="Good - 4 stars"></label>
-                      <input type="radio" id="star3" name="review[rating]" value="3" /><label class = "full" for="star3" title="Okay - 3 stars"></label>
-                      <input type="radio" id="star2" name="review[rating]" value="2" /><label class = "full" for="star2" title="Bad - 2 stars"></label>
-                      <input type="radio" id="star1" name="review[rating]" value="1" /><label class = "full" for="star1"  required title="Really Bad - 1 star"></label>
-                  </fieldset>
-              
+              <form name="rating">
+                <div class="starsRatingContainer">
+                  <div class="starsRatingModal">
+                    <fieldset class="rating">
+                        <input class="ratingForm" type="radio" id="star5" name="review[rating]" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                        <input class="ratingForm" type="radio" id="star4" name="review[rating]" value="4" /><label class = "full" for="star4" title="Good - 4 stars"></label>
+                        <input class="ratingForm" type="radio" id="star3" name="review[rating]" value="3" /><label class = "full" for="star3" title="Okay - 3 stars"></label>
+                        <input class="ratingForm" type="radio" id="star2" name="review[rating]" value="2" /><label class = "full" for="star2" title="Bad - 2 stars"></label>
+                        <input class="ratingForm" type="radio" id="star1" name="review[rating]" value="1" /><label class = "full" for="star1"  required title="Really Bad - 1 star"></label>
+                    </fieldset>
+                  </div>
                 </div>
-              </div>
-              <div class="modal-footer">
-                  <button tyepe="submit" class="btn btn-primary btn-block">Rate</button>
-              </div>
-              
+                <div class="modal-footer">
+                    <button onclick="rateScene('<%=scene._id%>')" class="btn btn-primary btn-block preventDefault">Rate</button>
+                </div>
               </form>
-            
             </div>
         </div>
     </div>
@@ -557,49 +539,49 @@
                       
                       <div class="form-check form-check-inline">
                           <% if(scene.sceneType === "beach"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" checked required/><label class="form-check-label" for="Beach">Beach</label> 
+                          <input type="radio" class="form-check-input" name="sceneType"  value="beach"  checked required/><label class="form-check-label" for="Beach">Beach</label> 
                             <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" required/><label class="form-check-label" for="Beach">Beach</label> 
+                              <input type="radio" class="form-check-input" name="sceneType"  value="beach"  required/><label class="form-check-label" for="Beach">Beach</label> 
                               <% } %>
                         </div>
                       
                       <div class="form-check form-check-inline">
                           <% if(scene.sceneType === "waterfall"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" checked/><label class="form-check-label" for="Waterfall">Waterfall</label> 
+                          <input type="radio" class="form-check-input" name="sceneType"  value="waterfall"  checked/><label class="form-check-label" for="Waterfall">Waterfall</label> 
                             <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" /><label class="form-check-label" for="Waterfall">Waterfall</label> 
+                              <input type="radio" class="form-check-input" name="sceneType"  value="waterfall"  /><label class="form-check-label" for="Waterfall">Waterfall</label> 
                               <% } %>
                         </div>
         
                       <div class="form-check form-check-inline">
                           <% if(scene.sceneType === "forest"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest" checked/><label class="form-check-label" for="Forest">Forest</label> 
+                          <input type="radio" class="form-check-input" name="sceneType"  value="forest"  checked/><label class="form-check-label" for="Forest">Forest</label> 
                             <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest"/><label class="form-check-label" for="Forest">Forest</label> 
+                              <input type="radio" class="form-check-input" name="sceneType"  value="forest" /><label class="form-check-label" for="Forest">Forest</label> 
                               <% } %>
                         </div>
         
                       <div class="form-check form-check-inline">
                           <% if(scene.sceneType === "island"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island" checked/><label class="form-check-label" for="Island">Island</label>
+                          <input type="radio" class="form-check-input" name="sceneType"  value="island"  checked/><label class="form-check-label" for="Island">Island</label>
                             <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island"/><label class="form-check-label" for="Island">Island</label>
+                              <input type="radio" class="form-check-input" name="sceneType"  value="island" /><label class="form-check-label" for="Island">Island</label>
                               <% } %>
                         </div>
         
                         <div class="form-check form-check-inline">
                           <% if(scene.sceneType === "city"){ %>
-                            <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City" checked/><label class="form-check-label" for="city">City</label> 
+                            <input type="radio" class="form-check-input" name="sceneType"  value="city"  checked/><label class="form-check-label" for="city">City</label> 
                             <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="city" id="Lake"/><label class="form-check-label" for="city">City</label> 
+                              <input type="radio" class="form-check-input" name="sceneType"  value="city" /><label class="form-check-label" for="city">City</label> 
                               <% } %>
                           </div>
         
                       <div class="form-check form-check-inline">
                           <% if(scene.sceneType === "lake"){ %>
-                            <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake" checked/><label class="form-check-label" for="Lake">Lake</label> 
+                            <input type="radio" class="form-check-input" name="sceneType"  value="lake"  checked/><label class="form-check-label" for="Lake">Lake</label> 
                             <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake"/><label class="form-check-label" for="Lake">Lake</label> 
+                              <input type="radio" class="form-check-input" name="sceneType"  value="lake" /><label class="form-check-label" for="Lake">Lake</label> 
                               <% } %>
                           </div>
 
