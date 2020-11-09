@@ -65,7 +65,7 @@
                                 <a class="dropdown-item" href="<%=notification.goTo%>"><%= `${notification.username} - ${notification.message}` %></a>
                             <% })%>
                         <%}%>
-                            <a class="dropdown-item " id="all-notifications" data-toggle="modal" data-target="#messages" >See all Notifications</a>
+                            <a class="dropdown-item " href="#" id="all-notifications" data-toggle="modal" data-target="#messages" >See all Notifications</a>
                     </div>
                 </li>
                 
@@ -76,7 +76,7 @@
                     </a>
                     <div class="dropdown-menu dark-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/users/<%= currentUser._id%>">Account</a>
-                        <a class="dropdown-item"  data-toggle="modal" data-target="#addNewScene" href="#">Add new Scene</a>
+                        <a class="dropdown-item"  href="#" data-toggle="modal" data-target="#addNewScene" >Add new Scene</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">Log out</a>
                     </div>
@@ -116,7 +116,7 @@
                         <%= notifications.length %> <i  class="far fa-envelope" data-toggle="tooltip" data-placement="top" title="Notifications"></i>
                 </a>
                 <div class="dropdown-menu right-margin" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item mobile-itens btn btn-primary " id="all-notifications" data-toggle="modal" data-target="#messages" >See all Notifications</a>
+                        <a href="#" class="dropdown-item mobile-itens btn btn-primary " id="all-notifications" data-toggle="modal" data-target="#messages" >See all Notifications</a>
                     <% notifications.slice(0,5).forEach(function(notification) { %>
                         <a class="dropdown-item mobile-itens" href="<%=notification.goTo%>"><%= `${notification.username} - ${notification.message}` %></a>
                     <% })%>
