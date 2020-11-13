@@ -92,7 +92,7 @@ function flagLocation(){
             .then(response => response.json())
             .then(data => {
               let link = 'data-toggle="modal" data-target="#showAllVisited"'
-            displayFlashMsg(data.message, link, "Plces Visited List", "locations/flagged", ".flaggedPlaces")
+            displayFlashMsg(data.message, link, "Places Visited List ", "locations/flagged", ".flaggedPlaces")
             icon[1].classList.toggle('fas')
             icon[1].classList.toggle('fa-map-marked-alt')
             icon[1].classList.toggle('far')
@@ -199,23 +199,39 @@ saveLocation()
 
 // **************** DISPLAY FLASH MESSAGES ****************
 function displayFlashMsg(msg, link, toggle, id, modalType){
+  var w = window.innerWidth
+  || document.documentElement.clientWidth
+  || document.body.clientWidth;
+
+  let flashContainerMobile = document.querySelector(".flash-msg-mobile")
+
   let flashContainer = document.querySelector(".flash-msg")
+  console.log(w)
   var flashmsg =`
     <div class="alert alert-success alert-dismissible fade show" id="${id}" role="alert">
-    ${msg} <a href="#" class="alert-link" ${link}>${toggle}</a>
+    ${msg } <a class="alert-link" ${link}>${toggle}</a>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
   `
-  flashContainer.insertAdjacentHTML('beforeend', flashmsg);
+  if(w > 991){
+    flashContainer.insertAdjacentHTML('beforeend', flashmsg);
+    } else{
+      flashContainerMobile.insertAdjacentHTML('beforeend', flashmsg);
+    }
   getLocationsSaved(modalType)
+  
 }
 
 // **************** DISPLAY FLASH MESSAGES AFTER ACTIONS ****************
 
 
 function displayFlashMsgOpt(msg){
+  var w = window.innerWidth
+  || document.documentElement.clientWidth
+  || document.body.clientWidth;
+  let flashContainerMobile = document.querySelector(".flash-msg-mobile")
   let flashContainer = document.querySelector(".flash-msg")
   var flashmsg =`
     <div class="alert alert-success alert-dismissible fade show"  role="alert">
@@ -225,7 +241,11 @@ function displayFlashMsgOpt(msg){
       </button>
     </div>
   `
-  flashContainer.insertAdjacentHTML('beforeend', flashmsg);
+  if(w > 991){
+    flashContainer.insertAdjacentHTML('beforeend', flashmsg);
+    } else{
+      flashContainerMobile.insertAdjacentHTML('beforeend', flashmsg);
+    }
 }
 
 // **************** REMOVES FLASH MESSAGE ****************
@@ -369,16 +389,15 @@ function postComment(){
             </div>
           </div>
           <div class="div-block-12">
-                                          
-                
-                <div class="comments-edit-block">
-                  <div class="comments-edit-cont">
-                    <a class="btn btn-xs btn-info btn-space" type="button"  data-toggle="modal" data-target="#editComment${data.comment._id}"
-                    href="">Edit</a>
-                    <a class="btn btn-xs btn-danger" type="button"  data-toggle="modal" data-target="#deleteComment${data.comment._id}"
-                    href="">delete</a>
+                    
+                  <div class="editCommentContainer" title="Edit/delete">
+                    <i class="fas fa-cog fa-lg fa-2x "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
+                      <div class="dropdown-menu dropdown-menu-right mobile-setting-items" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item item" data-toggle="modal" data-target="#deleteComment${data.comment._id}" href="#">Delete</a>
+                          <a class="dropdown-item item" data-toggle="modal" data-target="#editComment${data.comment._id}"href="#">Edit</a>
+                      </div>
                   </div>
-                </div>   
+  
                 <!-- Modal Edit -->
                 <div class="modal fade" id="editComment${data.comment._id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -395,7 +414,7 @@ function postComment(){
                             <br>
                             <br>
                             
-                            <div class="modal-footer">
+                            <div class="modal-footer table-dark">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                 <button onclick="editComment('${data.comment._id}')" type="button" class="btn btn-primary">Save changes</button>
                             </div>
@@ -410,17 +429,17 @@ function postComment(){
                   <div class="modal fade" id="deleteComment${data.comment._id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
-                          <div class="modal-header">
+                          <div class="modal-header table-dark">
                             
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div class="modal-body">
+                          <div class="modal-body table-dark">
                               <h4 class="modal-title" id="exampleModalLabel">Are you sure that 
                                   <br>you want to delete this comment?</h4>
                           </div>
-                          <div class="modal-footer">
+                          <div class="modal-footer table-dark">
                               
                               <input onclick="deleteComment('${data.comment._id}', '${data.sceneId}')" type="submit" class="btn btn-xs btn-danger" value="Yes">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>

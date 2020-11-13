@@ -276,94 +276,189 @@ router.get('/scenes/:id/edit', middleware.sceneIsAuthorized, (req, res) => {
     })
 });
 
+// creates new scene from front end
 
-// Create New Scene
-router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
-
-    // add data from form to scenes array
-    req.fields.author = {
-        id: req.user._id,
-        username: req.user.username
-    }
+router.post('/scenes/newScene',  formidableMiddleware(), (req, res) => {
+    // console.log(req.fields)
+    console.log(req.files)
+    console.log("hit")
+    res.send("hit")
+    // // add data from form to scenes array
+    // req.fields.author = {
+    //     id: req.user._id,
+    //     username: req.user.username
+    // }
    
-    var def = "/images/default.png"
-    if(req.fields.image === "") req.fields.image = def
-    if(req.fields.description === "") req.fields.description = "Beautiful"
+    // var def = "/images/default.png"
+    // if(req.fields.image === "") req.fields.image = def
+    // if(req.fields.description === "") req.fields.description = "Beautiful"
 
 
-    var place = ""
-    if(req.fields.knownAs !== ""){
-        place = req.fields.knownAs  + ", " + req.fields.country + ", " + req.fields.state
-    } else {
-        place = req.fields.country + ", " + req.fields.state
-    }    
+    // var place = ""
+    // if(req.fields.knownAs !== ""){
+    //     place = req.fields.knownAs  + ", " + req.fields.country + ", " + req.fields.state
+    // } else {
+    //     place = req.fields.country + ", " + req.fields.state
+    // }    
 
     
     
-    geocoder.geocode(place, (err, data) => {
-        if (err || !data.length) {
-          req.flash('error', 'Invalid address');
-          return res.redirect('back');
-        }
-        // req.fields.location.country = data[0].formattedAddress;
+    // geocoder.geocode(place, (err, data) => {
+    //     if (err || !data.length) {
+    //       req.flash('error', 'Invalid address');
+    //       return res.redirect('back');
+    //     }
+    //     // req.fields.location.country = data[0].formattedAddress;
      
-        var newScene = {
-            name: req.fields.name,
-            knownAs: req.fields.knownAs,
-            sceneType: req.fields.sceneType,
-            location:{
-                country: req.fields.country,
-                state: req.fields.state,
-            },
-            lat: data[0].latitude,
-            lng: data[0].longitude,
-            description: req.fields.description,
-            image: req.fields.image,
-            author:{
-                id: req.user._id,
-                username: req.user.username
-            },
-        }
+    //     var newScene = {
+    //         name: req.fields.name,
+    //         knownAs: req.fields.knownAs,
+    //         sceneType: req.fields.sceneType,
+    //         location:{
+    //             country: req.fields.country,
+    //             state: req.fields.state,
+    //         },
+    //         lat: data[0].latitude,
+    //         lng: data[0].longitude,
+    //         description: req.fields.description,
+    //         image: req.fields.image,
+    //         author:{
+    //             id: req.user._id,
+    //             username: req.user.username
+    //         },
+    //     }
 
 
 
-        // Create a new scene and save to DB
-        Scene.create(newScene, (err, foundScene) => {
-            if (err) {
-                req.flash('error', 'Something went wrong');
-                res.redirect('back')
-            } else {
-                User.findById(req.user._id).populate('followers').exec((err, foundUser) => {
-                    if(err){
-                        req.flash('error', 'Something went wrong');
-                        req.flash('error', err.message)
-                    }
-                    let newNotification = {
-                        username: req.user.username,
-                        sceneId: foundScene._id,
-                        message: "Created a new scene",
-                        goTo: `/scenes/${foundScene._id}`
-                    }
-                    if(foundUser.followers.length > 0){
-                        for(const follower of foundUser.followers){
-                            Notification.create(newNotification, (err, createdNotif) => {
-                                if(err){
-                                req.flash("error", err.message)
-                                }
-                                follower.notifications.push(createdNotif);
-                                follower.save();
+    //     // Create a new scene and save to DB
+    //     Scene.create(newScene, (err, foundScene) => {
+    //         if (err) {
+    //             req.flash('error', 'Something went wrong');
+    //             res.redirect('back')
+    //         } else {
+    //             User.findById(req.user._id).populate('followers').exec((err, foundUser) => {
+    //                 if(err){
+    //                     req.flash('error', 'Something went wrong');
+    //                     req.flash('error', err.message)
+    //                 }
+    //                 let newNotification = {
+    //                     username: req.user.username,
+    //                     sceneId: foundScene._id,
+    //                     message: "Created a new scene",
+    //                     goTo: `/scenes/${foundScene._id}`
+    //                 }
+    //                 if(foundUser.followers.length > 0){
+    //                     for(const follower of foundUser.followers){
+    //                         Notification.create(newNotification, (err, createdNotif) => {
+    //                             if(err){
+    //                             req.flash("error", err.message)
+    //                             }
+    //                             follower.notifications.push(createdNotif);
+    //                             follower.save();
 
-                            });
-                    }
+    //                         });
+    //                 }
                     
-                    }
-                    req.flash('success', 'New Location created, Thank you for contributing with our community');
-                    res.redirect(`/scenes/${foundScene.id}`)
-                })
-            }
-        }); 
-    });
+    //                 }
+    //                 req.flash('success', 'New Location created, Thank you for contributing with our community');
+    //                 res.redirect(`/scenes/${foundScene.id}`)
+    //             })
+    //         }
+    //     }); 
+    // });
 });
+
+
+
+
+
+// // Create New Scene
+// router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
+
+//     // add data from form to scenes array
+//     req.fields.author = {
+//         id: req.user._id,
+//         username: req.user.username
+//     }
+   
+//     var def = "/images/default.png"
+//     if(req.fields.image === "") req.fields.image = def
+//     if(req.fields.description === "") req.fields.description = "Beautiful"
+
+
+//     var place = ""
+//     if(req.fields.knownAs !== ""){
+//         place = req.fields.knownAs  + ", " + req.fields.country + ", " + req.fields.state
+//     } else {
+//         place = req.fields.country + ", " + req.fields.state
+//     }    
+
+    
+    
+//     geocoder.geocode(place, (err, data) => {
+//         if (err || !data.length) {
+//           req.flash('error', 'Invalid address');
+//           return res.redirect('back');
+//         }
+//         // req.fields.location.country = data[0].formattedAddress;
+     
+//         var newScene = {
+//             name: req.fields.name,
+//             knownAs: req.fields.knownAs,
+//             sceneType: req.fields.sceneType,
+//             location:{
+//                 country: req.fields.country,
+//                 state: req.fields.state,
+//             },
+//             lat: data[0].latitude,
+//             lng: data[0].longitude,
+//             description: req.fields.description,
+//             image: req.fields.image,
+//             author:{
+//                 id: req.user._id,
+//                 username: req.user.username
+//             },
+//         }
+
+
+
+//         // Create a new scene and save to DB
+//         Scene.create(newScene, (err, foundScene) => {
+//             if (err) {
+//                 req.flash('error', 'Something went wrong');
+//                 res.redirect('back')
+//             } else {
+//                 User.findById(req.user._id).populate('followers').exec((err, foundUser) => {
+//                     if(err){
+//                         req.flash('error', 'Something went wrong');
+//                         req.flash('error', err.message)
+//                     }
+//                     let newNotification = {
+//                         username: req.user.username,
+//                         sceneId: foundScene._id,
+//                         message: "Created a new scene",
+//                         goTo: `/scenes/${foundScene._id}`
+//                     }
+//                     if(foundUser.followers.length > 0){
+//                         for(const follower of foundUser.followers){
+//                             Notification.create(newNotification, (err, createdNotif) => {
+//                                 if(err){
+//                                 req.flash("error", err.message)
+//                                 }
+//                                 follower.notifications.push(createdNotif);
+//                                 follower.save();
+
+//                             });
+//                     }
+                    
+//                     }
+//                     req.flash('success', 'New Location created, Thank you for contributing with our community');
+//                     res.redirect(`/scenes/${foundScene.id}`)
+//                 })
+//             }
+//         }); 
+//     });
+// });
 
 
 // Edit ROUTE
@@ -480,12 +575,12 @@ router.post('/scenes/:id/flag', middleware.isLoggedIn, (req, res) => {
         if (foundUserFlag) {
             // user already liked, removing like
             foundScene.flag.pull(req.user._id);
-            msg = "Location removed from your"
+            msg = "Location removed from your "
             succesError = "error"
         } else {
             // adding the new user like
             foundScene.flag.push(req.user);
-            msg = "Location add to your"
+            msg = "Location add to your "
             succesError = "success"
             userFlag = true
         }
@@ -532,12 +627,12 @@ router.post('/scenes/:id/saveScene', middleware.isLoggedIn, (req, res) => {
         if (foundUserSave) {
             // user already liked, removing like
             foundScene.saveScene.pull(req.user._id);
-            msg = "Location removed from your"
+            msg = "Location removed from your " 
             
         } else {
             // adding the new user like
             foundScene.saveScene.push(req.user);
-            msg = "Location add to your "
+            msg = "Location add to your " 
             
         }
             foundScene.save(function (err) {
