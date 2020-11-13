@@ -115,32 +115,21 @@
       </div>
       <div class="modal-body table-dark">
       
-      <form  action="/scenes" method="POST" enctype="multipart/form-data">
+      <form id="addNewSceneForm" class="needs-validation" novalidate>
           <div class="form-group ">
               <h6> * Pick a tag that best describes your scene:</h6>
-              
-              <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" required/><label class="form-check-label" for="Beach">Beach</label> 
-              </div>
-              
-              <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" /><label class="form-check-label" for="Waterfall">Waterfall</label> 
-              </div>
 
-              <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest"/><label class="form-check-label" for="Forest">Forest</label> 
-              </div>
-
-              <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island"/><label class="form-check-label" for="Island">Island</label>
-              </div>
-
-              <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City"/><label class="form-check-label" for="City">City</label> 
-              </div> 
-
-              <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake"/><label class="form-check-label" for="Lake">Lake</label> 
+              <select name="sceneType" class="form-control" id="sceneType" required>
+                <option value="">Select Location Type:</option>
+                <option value="beach">Beach</option>
+                <option value="waterfall">Waterfall</option>
+                <option value="forest">Forest</option>
+                <option value="island">Island</option>
+                <option value="city">City</option>
+                <option value="lake">Lake</option>
+              </select>
+              <div class="feedBack">
+                  Select a Tag!
               </div>
           </div>
           <br>
@@ -148,41 +137,83 @@
           <div class="form-group ">
               <label  for="title">* Scene Title</label> <i class="far fa-question-circle"  data-placement="top" delay='{"show":"0", "hide":"0"}' title="You can say something like: Secret waterfall"></i>
               <input type="text" id="name" class="form-control " value="" maxlength="40" name="name" required>
-          </div>
+              <div class="feedBack">
+                  Give you scene a Title
+              </div>
+           </div>
 
             
               <div class="form-group autoFill">
                   <label for="country"> * Scene Location:</label>
                   <select name="country" class="form-control countries order-alpha" id="countryId" required>
-                      <option value="">Select Country:</option>
+                      <option value="">Country:</option>
                   </select>
                   <select name="state" class="form-control states order-alpha" id="stateId">
-                      <option value="">Select State:</option>
+                      <option value="">State or Province:</option>
                   </select>
-                 
+                  <div class="feedBack">
+                      You must select country and State/Province
+                  </div>
               </div>
 
               <div class="form-group ">
                 <label  for="title">Place known as</label> <i class='far fa-question-circle' data-toggle='tooltip' data-placement='top' delay='{"show":"0", "hide":"3000"}' title='Filling this field helps pin point you location on the map'></i>
                 <input type="text" id="knownAs" class="form-control " value="" maxlength="40" name="knownAs" required>
-            </div>
+                <div class="feedBack">
+                    This field is important because helps us pin point this scene's location on the map<br>
+                    How does the locals call this scene? How can it be Found?
+
+                </div>
+              </div>
 
               <br>
               <div class="form-group">
                   <label for="sceneDescriptiom">* Scene Description</label>
                   <textarea class="form-control" id="sceneDescriptiom" rows="3" name="description" required></textarea>
+                  <div class="feedBack">
+                    You must add a description to this scene!
+                  </div>
+              </div>
+
+              <div class="form-group image-form-1">
+                  <label for="image1">* Image 1</label>
+                  <br>
+                  <div class="selectImgType">
+                    <button type="button" class="btn btn-secondary addImgUrl">Add Image URL</button> Or
+                    <button type="file" class="btn btn-secondary addImgfile">Upload from your device</button>
+                  </div>
+                  <div class="feedBack">
+                    
+                  </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="image2">Image 2</label> 
+                <br>
+                <div class="selectImgType">
+                  <button type="button" class="btn btn-secondary addImgUrl">Add Image URL</button> Or
+                  <button type="button" class="btn btn-secondary addImgfile">Upload from your device</button>
+                </div>
+                <div class="feedBack">
+                      
+                </div>
               </div>
 
               <div class="form-group">
-                  <label for="image">* Image</label>
-                  <input type="url" name="image" placeholder="url"  class="form-control" placeholder="" id="image" required>
+                <label for="image3">Image 3</label> 
+                <br>
+                <div class="selectImgType">
+                  <button type="button" class="btn btn-secondary addImgUrl">Add Image URL</button> Or
+                  <button type="button" class="btn btn-secondary addImgfile">Upload from your device</button>
+                </div>
+                <div class="feedBack">
+                      
+                </div>
               </div>
-
-
 
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Post</button>
+                  <button  onclick="validateForm()" type="submit" class="btn btn-primary ">Post</button>
                 </div>
           </form>
       </div>

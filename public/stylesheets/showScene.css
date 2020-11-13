@@ -227,6 +227,8 @@ a:hover {
   }
 
 
+
+
   .action-buttons{
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -474,8 +476,8 @@ a:hover {
 
   .review-content{
     width: 20%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding-top:10px;
+    padding-bottom:10px;
   }
 
   .travelers-prof-pic-container {
@@ -541,6 +543,23 @@ a:hover {
     border: 2px solid rgb(99, 99, 99);
     background-color: rgb(47, 46, 46);
   }
+  .div-block-12 {
+    display: flex;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 0;
+  }
+  .editCommentContainer{
+    margin-top: auto;
+    margin-bottom: auto; 
+    margin-right: 5px;
+
+  }
+
 
   .newComment {
     border: 2px solid rgb(3, 116, 28);
@@ -585,10 +604,7 @@ a:hover {
     margin-right: 10px;
   }
   
-  .div-block-12 {
-    
-    margin-top: 5px;
-  }
+ 
   
   .see-all-visites{
     position: absolute;
@@ -694,7 +710,7 @@ a:hover {
     }
     .review-content{
       width: 33%;
-    
+
     }
   }
 
