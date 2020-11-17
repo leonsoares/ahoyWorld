@@ -35,9 +35,18 @@ function inserImgUrl(element){
 }
 
 function inserImgFile(element){
+    console.log(element)
+    console.log(element.parentElement)
+    console.log(element.parentElement.parentElement)
     let parent = element.parentElement
-    let label = element.parentElement.parentElement.childNodes[1]
-    let inputName = element.parentElement.parentElement.childNodes[1].htmlFor
+    let allElements = element.parentElement.parentElement.childNodes
+    let label 
+    console.log(allElements)
+    allElements.forEach(element => {
+        if(element.localName === "label") label = element
+    })
+    
+    let inputName = label.htmlFor
     let replaceIcon = `
     <i class="fas fa-exchange-alt"></i>
     `
@@ -254,6 +263,8 @@ function sendPost(formData){
    
     fetch("/scenes/newScene", {method: "POST", body: formData})
     .then(data => {
-      console.log(data)
+        console.log(data.url)
+        window.location.href = data.url
+      
   });
 }

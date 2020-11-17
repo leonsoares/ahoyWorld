@@ -122,7 +122,7 @@
                 
             </div>
 
-          <div class="scene-item-container-img"><a href="/scenes/<%-scene.id%>"><img src="<%= scene.image %>" alt="" class="icon-1"></a>
+          <div class="scene-item-container-img"><a href="/scenes/<%-scene.id%>"><img src="<%= scene.images.img1 %>" alt="" class="icon-1"></a>
             <form action="/scenes/tag/<%=scene.sceneType%>" method="GET">
 
               <button type="submit" class="btn btn-primary category-tag-<%=scene.sceneType%>"><%=scene.sceneType%></button>

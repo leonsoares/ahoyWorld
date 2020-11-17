@@ -13,6 +13,7 @@
     "async": "^3.2.0",
     "aws4": "^1.10.1",
     "body-parser": "^1.19.0",
+    "cloudinary": "^1.23.0",
     "connect-flash": "^0.1.1",
     "dom-parser": "^0.1.6",
     "dotenv": "^8.2.0",
