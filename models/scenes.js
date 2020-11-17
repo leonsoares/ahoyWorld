@@ -13,6 +13,11 @@ const sceneSchema = new mongoose.Schema({
     lng: Number,
     description: String,
     image: String,
+    images: {
+        img1: String,
+        img2: String,
+        img3: String
+    },
     author:{
         id: {
             type: mongoose.Schema.Types.ObjectId,
