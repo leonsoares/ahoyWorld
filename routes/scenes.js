@@ -272,13 +272,177 @@ router.get('/scenes/:id', (req, res) => {
 })
 
 // EDIT ROUTE
-router.get('/scenes/:id/edit', middleware.sceneIsAuthorized, (req, res) => {
+router.get('/scene/:id/edit', middleware.sceneIsAuthorized, (req, res) => {
+
     Scene.findById(req.params.id, (err, foundScene) => {
         if (err) {
             req.flash('error', 'sorry, we could not find you are looking for. :/')
             res.redirect('back')
         } else {
-            res.render('scenes/edit', {scene:foundScene});
+            res.send({scene:foundScene});
+        }
+    })
+});
+
+router.post('/scene/editScene/:id/edit',  formidableMiddleware(), async(req, res) => {
+    console.log('hit')
+    let editScene = new Promise(async (resolve, reject) => {
+        Scene.findById(req.params.id, (err, foundScene) => {
+            if (err || !foundScene) {
+                reject(err)
+                return err
+            } else {
+                resolve(foundScene)
+            }
+        })
+    })
+    .then((result) => result)
+    .catch((error) => error)
+                  
+    let foundScene = await editScene.then((result) => result)
+    .catch((error) => error)
+
+        let changeAddress = false
+
+        if(req.fields.name !== foundScene.name) foundScene.name = req.fields.name
+        if(req.fields.sceneType !== foundScene.sceneType) foundScene.sceneType = req.fields.sceneType
+        if(req.fields.knownAs !== foundScene.knownAs) {
+            foundScene.knownAs = req.fields.knownAs
+            changeAddress = true
+        }
+        if(req.fields.description !== foundScene.description) foundScene.description = req.fields.description
+        if(req.fields.country !== foundScene.location.country) {
+            foundScene.location.country = req.fields.country
+            changeAddress = true
+        }
+        if(req.fields.state !== foundScene.location.state) {
+            foundScene.location.state = req.fields.state
+            changeAddress = true
+        }
+
+        if(changeAddress === true){
+            let geoData = new Promise(async (resolve, reject) => {
+                let place = ""
+                if(req.fields.knownAs !== ""){
+                    place = req.fields.knownAs  + ", " + req.fields.country + ", " + req.fields.state
+                    } else {
+                        place = req.fields.country + ", " + req.fields.state
+                    } 
+                  {
+                    await geocoder.geocode(place, (err, data) => {
+                    if (err || !data.length) {
+                        reject(err)
+                    }
+                    if(data){
+                        resolve(data)
+                    }
+                        
+                    })
+                } 
+            })
+            .then((result) => result)
+            .catch((error) => error)
+            let geoLocation = await geoData.then(response => response).catch(error => error)
+            foundScene.lat = geoLocation[0].latitude
+            foundScene.lng = geoLocation[0].longitude
+    
+        }
+        
+    let hasImg = [false, false, false]
+  
+      
+      if(req.fields.image1){
+          foundScene.images.img1 = req.fields.image1
+          hasImg[0] = true
+      }
+      if(req.fields.image2){
+          foundScene.images.img2 = req.fields.image2
+          hasImg[1] = true
+      }
+      if(req.fields.image3) {
+          foundScene.images.img3 = req.fields.image3
+          hasImg[2] = true
+      }
+
+    let imgs = req.files
+
+    if(imgs !== {}){
+    let imgsPath = []
+    for (const property in imgs) {
+        imgsPath.push(imgs[property].path)
+    }
+
+    let multipleUpload = new Promise(async (resolve, reject) => {
+        let upload_len = imgsPath.length
+            ,upload_res = new Array();
+  
+          for(let i = 0; i <= upload_len + 1; i++)
+          {
+              await cloudinary.uploader.upload(imgsPath[i], (error, result) => {
+  
+                  if(upload_res.length === upload_len)
+                  {
+                    /* resolve promise after upload is complete */
+                    resolve(upload_res)
+                  }else if(result)
+                  {
+                    upload_res.push(result.url);
+                  } else if(error) {
+                    reject(error)
+                  }
+  
+              })
+  
+          } 
+      })
+      .then((result) => result)
+      .catch((error) => error)
+  
+      let upload = await multipleUpload;
+
+
+        var hasNewImages = req.fields.hasNewFiles.split(',')
+
+         
+        let count = 0
+        for(let i = 0; i < upload.length; i++){
+            for(let j = count; j < hasNewImages.length; j++){
+                if(hasNewImages[j] === "true" && hasImg[j] === false && j == 0) {
+                    foundScene.images.img1 = upload[i]
+                    count =+1
+                    break
+                }if(hasNewImages[j] === "true" && hasImg[j] === false && j == 1) {
+                    foundScene.images.img2 = upload[i]
+                    count =+2
+                    break
+                }if(hasNewImages[j] === "true" && hasImg[j] === false && j == 2) {
+                    foundScene.images.img3 = upload[i]
+                    break
+                }
+            }
+        }
+    }
+
+
+    Scene.findById(req.params.id, (err, changeInfoScene) => {
+        if (err || !foundScene) {
+            return err
+        } else {
+            changeInfoScene.name = foundScene.name,
+            changeInfoScene.knownAs = foundScene.knownAs,
+            changeInfoScene.sceneType = foundScene.sceneType,
+            changeInfoScene.description = foundScene.description
+
+            changeInfoScene.images.img1 = foundScene.images.img1
+            changeInfoScene.images.img2 = foundScene.images.img2
+            changeInfoScene.images.img3 = foundScene.images.img3
+            
+            changeInfoScene.location.country = foundScene.location.country
+            changeInfoScene.location.state = foundScene.location.state
+            changeInfoScene.lat = foundScene.lat
+            changeInfoScene.lng = foundScene.lng
+            changeInfoScene.save()
+            res.send(changeInfoScene)
         }
     })
 });

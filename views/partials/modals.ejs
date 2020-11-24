@@ -212,14 +212,133 @@
               </div>
 
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button  onclick="validateForm()" type="submit" class="btn btn-primary ">Post</button>
-                </div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button onclick="validateForm()" type="submit" class="btn btn-primary ">Post</button>
+              </div>
           </form>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Edit Scene Modal -->
+
+<!-- <div class="modal fade" id="editSceneModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content ">
+        <div class="modal-header table-dark">
+          <h5 class="modal-title" idf="exampleModalLabel">Editing</h5>
+          <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body table-dark">
+        
+        <form id="editSceneForm" class="needs-validation editModalFormBody" novalidate>
+            <div class="form-group sceneType">
+                <h6> * Pick a tag that best describes your scene:</h6>
+  
+                <select name="sceneType" class="form-control editSceneType" id="sceneType" required>
+                  <option value="">Select Location Type:</option>
+                  <option value="beach">Beach</option>
+                  <option value="waterfall">Waterfall</option>
+                  <option value="forest">Forest</option>
+                  <option value="island">Island</option>
+                  <option value="city">City</option>
+                  <option value="lake">Lake</option>
+                </select>
+                <div class="feedBack">
+                    Select a Tag!
+                </div>
+            </div>
+            <br>
+                
+            <div class="form-group ">
+                <label  for="title">* Scene Title</label> <i class="far fa-question-circle"  data-placement="top" delay='{"show":"0", "hide":"0"}' title="You can say something like: Secret waterfall"></i>
+                <input type="text" id="name" class="form-control sceneTitle" value="" maxlength="40" name="name" required>
+                <div class="feedBack">
+                    Give you scene a Title
+                </div>
+             </div>
+  
+              
+                <div class="form-group autoFill">
+                    <label for="country"> * Scene Location:</label>
+                    <select name="country" class="form-control countries order-alpha selectContry"id="countryId" required>
+                        <option value="">Country:</option>
+                    </select>
+                    <select name="state" class="form-control states order-alpha selectState" id="stateId">
+                        <option value="">State or Province:</option>
+                    </select>
+                    <div class="feedBack">
+                        You must select country and State/Province
+                    </div>
+                </div>
+  
+                <div class="form-group ">
+                  <label  for="title">Place known as</label> <i class='far fa-question-circle' data-toggle='tooltip' data-placement='top' delay='{"show":"0", "hide":"3000"}' title='Filling this field helps pin point you location on the map'></i>
+                  <input type="text" id="knownAs" class="form-control knownAs" value="" maxlength="40" name="knownAs" required>
+                  <div class="feedBack">
+                      This field is important because helps us pin point this scene's location on the map<br>
+                      How does the locals call this scene? How can it be Found?
+  
+                  </div>
+                </div>
+  
+                <br>
+                <div class="form-group">
+                    <label for="sceneDescriptiom">* Scene Description</label>
+                    <textarea class="form-control sceneDescription" id="sceneDescriptiom" rows="3" name="description" required></textarea>
+                    <div class="feedBack">
+                      You must add a description to this scene!
+                    </div>
+                </div>
+  
+                <div class="form-group image-form-1 editImage1">
+                    <label for="image1">* Image 1</label>
+                    <br>
+                    <div class="selectImgType">
+                      <button type="button" class="btn btn-secondary addImgUrl">Add Image URL</button> Or
+                      <button type="button" class="btn btn-secondary addImgfile">Upload from your device</button>
+                    </div>
+                    <div class="feedBack">
+                      
+                    </div>
+                </div>
+                
+                <div class="form-group editImage2">
+                  <label for="image2">Image 2</label> 
+                  <br>
+                  <div class="selectImgType">
+                    <button type="button" class="btn btn-secondary addImgUrl">Add Image URL</button> Or
+                    <button type="button" class="btn btn-secondary addImgfile">Upload from your device</button>
+                  </div>
+                  <div class="feedBack">
+                        
+                  </div>
+                </div>
+  
+                <div class="form-group editImage3">
+                  <label for="image3">Image 3</label> 
+                  <br>
+                  <div class="selectImgType">
+                    <button type="button" class="btn btn-secondary addImgUrl">Add Image URL</button> Or
+                    <button type="button" class="btn btn-secondary addImgfile">Upload from your device</button>
+                  </div>
+                  <div class="feedBack">
+                        
+                  </div>
+                </div>
+  
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary submitEditForm">Post</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div> -->
 
   <!-- messages Modal -->
   <div class="modal fade" id="messages" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
