@@ -196,7 +196,7 @@
                     <i class="fas fa-cog fa-lg fa-2x "  id="editDeleteDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
                     <div class="dropdown-menu mobile-setting-items" aria-labelledby="editDeleteDropDown">
                         <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
-                        <a class="dropdown-item item" data-toggle="modal" data-target="#editScene<%-scene._id%>"href="#">Edit</a>
+                        <a onclick="editPost('<%-scene._id%>', 'userPage')" class="dropdown-item item"  href="#">Edit</a>
                     </div>
                   </div>
                   <% } %>
@@ -236,127 +236,7 @@
                           </div>
                         </div>
                       </div>
-
-
-                      <div class="modal fade" id="editScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header table-dark">
-                                <h5 class="modal-title" id="exampleModalLabel">Editing: 
-                                  <br> <%-scene.name%></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body table-dark">
-                                  <form action="/scenes/<%=scene._id %>?_method=PUT" method="POST">
-                                    <div class="form-group ">
-                                        <h6> Pick a tag that best describes your scene:</h6>
-                                        
-                                        
-                                        <div class="form-check form-check-inline">
-                                            <% if(scene.sceneType === "beach"){ %>
-                                            <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" checked required/><label class="form-check-label" for="Beach">Beach</label> 
-                                              <% }else { %>
-                                                <input type="radio" class="form-check-input" name="sceneType"  value="beach" id="Beach" required/><label class="form-check-label" for="Beach">Beach</label> 
-                                                <% } %>
-                                          </div>
-                                        
-                                        <div class="form-check form-check-inline">
-                                            <% if(scene.sceneType === "waterfall"){ %>
-                                            <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" checked/><label class="form-check-label" for="Waterfall">Waterfall</label> 
-                                              <% }else { %>
-                                                <input type="radio" class="form-check-input" name="sceneType"  value="waterfall" id="Waterfall" /><label class="form-check-label" for="Waterfall">Waterfall</label> 
-                                                <% } %>
-                                          </div>
-                          
-                                        <div class="form-check form-check-inline">
-                                            <% if(scene.sceneType === "forest"){ %>
-                                            <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest" checked/><label class="form-check-label" for="Forest">Forest</label> 
-                                              <% }else { %>
-                                                <input type="radio" class="form-check-input" name="sceneType"  value="forest" id="Forest"/><label class="form-check-label" for="Forest">Forest</label> 
-                                                <% } %>
-                                          </div>
-                          
-                                        <div class="form-check form-check-inline">
-                                            <% if(scene.sceneType === "island"){ %>
-                                            <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island" checked/><label class="form-check-label" for="Island">Island</label>
-                                              <% }else { %>
-                                                <input type="radio" class="form-check-input" name="sceneType"  value="island" id="Island"/><label class="form-check-label" for="Island">Island</label>
-                                                <% } %>
-                                          </div>
-                          
-                                          <div class="form-check form-check-inline">
-                                            <% if(scene.sceneType === "city"){ %>
-                                              <input type="radio" class="form-check-input" name="sceneType"  value="city" id="City" checked/><label class="form-check-label" for="city">City</label> 
-                                              <% }else { %>
-                                                <input type="radio" class="form-check-input" name="sceneType"  value="city" id="Lake"/><label class="form-check-label" for="city">City</label> 
-                                                <% } %>
-                                            </div>
-                          
-                                        <div class="form-check form-check-inline">
-                                            <% if(scene.sceneType === "lake"){ %>
-                                              <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake" checked/><label class="form-check-label" for="Lake">Lake</label> 
-                                              <% }else { %>
-                                                <input type="radio" class="form-check-input" name="sceneType"  value="lake" id="Lake"/><label class="form-check-label" for="Lake">Lake</label> 
-                                                <% } %>
-                                            </div>
-
-                                          
-                                    </div>
-                                    <br>
-                                        
-                                    <div class="form-group ">
-                                        <label  for="title">Scene Title</label>
-                                        <input type="text" id="name" class="form-control " value="<%-scene.name%>" maxlength="40" name="name" required>
-                                    </div>
-                          
-                                        
-                                        
-                                        <div class="form-group">
-                                            <label for="country">Scene Location:</label>
-                                            <select name="country" class="form-control countries order-alpha" id="countryId" required>
-                                                <option value=""></option>
-                                                <option value="<%-scene.location.country%>" selected><%-scene.location.country%></option>
-                                            </select>
-                                            <select name="state" class="form-control states order-alpha" id="stateId" >
-                                                <option value="<%-scene.location.state%>"><%-scene.location.state%></option>
-                                                
-                                            </select>
-                                            <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-                                            <script src="//geodata.solutions/includes/countrystate.js"></script> -->
-                                        </div>
-
-                                        <div class="form-group ">
-                                          <label  for="title">Place known as</label> <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Filling this field helps pin point you location on the map"></i>
-                                          <input type="text" id="knownAs" class="form-control " value="<%-scene.knownAs%>" maxlength="40" name="knownAs" required>
-                                        </div>
-                          
-                                        <br>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Scene Description</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1"  rows="3" name="description" required><%-scene.description%></textarea>
-                                        </div>
-                                        
-                          
-                                        <div class="form-group">
-                                            <label for="image">Image</label>
-                                            <input type="url" name="image" placeholder="url"  value="<%-scene.image%>" class="form-control" placeholder="" id="image" required>
-                                        </div>
-                          
-                          
-                          
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                            <button type="submit" class="btn btn-primary">Save</button>
-                                          </div>
-                                    </form>
-                              </div>
-                              
-                            </div>
-                          </div>
-                        </div>
-                      <%}%>
+                    <%}%>
               </div>
             
               <% }) %>
