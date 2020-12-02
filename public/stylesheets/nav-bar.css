@@ -8,6 +8,37 @@ a {
   text-decoration: none;
 }
 
+
+.loader {
+  position: fixed;
+  display: flex;
+  background: #000000a6;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 30;
+  /* margin: 5rem auto; */
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  
+}
+  .loader svg {
+    
+    height: 5.5rem;
+    width: 5.5rem;
+    fill: #F59A83;
+    transform-origin: 44% 50%;
+    animation: rotate 1.5s infinite linear; }
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0); }
+  100% {
+    transform: rotate(360deg); } }
+
+
 a:visited{
   color: rgb(255, 255, 255);
   text-decoration: none;

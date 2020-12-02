@@ -4,18 +4,18 @@
 
 <div class="page-container">
   <div class="div-block-3">
-    <div class="div-block">
+    
+    <div class="div-block sceneHeader">
       <h1 class="heading"><%=scene.name %></h1>
       <h1 class="heading"> <%= scene.location.country %></h1>
       <h6 class="card-title"> Post By @<a class="link-tag" href="/users/<%= scene.author.id%>"><%= scene.author.username%></a></h6>
-   
-      
 
-      <!-- <div class="text-block">This is some text inside of a div block.
-        <br>This is some text inside of a div block. This is some text inside of a div block.
-      </div> -->
     </div>
+   
     <div class="div-block-6">
+        <div class="div-block-4">
+            <div class="scene-description"><p><%=scene.description%></p></div>
+          </div>
       <div class="div-block-2">
           <div class="actions-box" id="<%=scene._id%>">
               <div >
@@ -75,15 +75,16 @@
    
               <% } %>
           </div>
-
-          <a href="#" class="category-tag-<%=scene.sceneType%> ">
-          <form action="/scenes/tag/<%=scene.sceneType%>" method="GET">
-            <button type="submit" class="btn btn-primary category-tag-<%=scene.sceneType%>"><%=scene.sceneType%></button>
-          </form>
-          </a>
+          <div class="categoryTags">
+            <a href="#" class="category-tag-<%=scene.sceneType%> ">
+              <form action="/scenes/tag/<%=scene.sceneType%>" method="GET">
+                  <button type="submit" class="btn btn-primary category-tag-<%=scene.sceneType%>"><%=scene.sceneType%></button>
+              </form>
+            </a>
+        </div>
           <div id="carouselExampleControls" class="carousel slide " data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
+            <div class="carousel-inner sceneImgs">
+              <div class="carousel-item active ">
                 <img class="d-block  w-100 image" src="<%= scene.images.img1 %>" alt="First slide">
               </div>
               <%if(scene.images.img2){%>
@@ -156,9 +157,7 @@
       <h7 class=""> <%= created %></h5>
     </div>
     <div class="map-text-conteiner">
-      <div class="div-block-4">
-        <div class="scene-description"><p><%=scene.description%></p></div>
-      </div>
+      
       <div class="div-block-5">
           
           <div id="pano"></div>
@@ -359,7 +358,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header table-dark">
-                <h5 class="modal-title" id="exampleModalLabel">Add your Comment to  <%= scene.name%></h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add your Comment:</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -499,7 +498,7 @@
     <div class="modal-dialog modal-size">
         <div class="modal-content">
             <div class="modal-header table-dark">
-                <h5 class="modal-title" id="staticBackdropLabel">Rating: <br><%= scene.name %>
+                <h5 class="modal-title" id="staticBackdropLabel">Rate this Location
                 
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -535,7 +534,7 @@
         <div class="modal-content">
           <div class="modal-header table-dark">
             <h5 class="modal-title" id="exampleModalLabel">Are you sure that you want to delete 
-              <br> <%-scene.name%>?</h5>
+              <br> this scene?</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -549,124 +548,6 @@
     </div>
 
 
-    <div class="modal fade" id="editScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header table-dark">
-              <h5 class="modal-title" id="exampleModalLabel">Editing: 
-                <br> <%-scene.name%></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body table-dark">
-                <form action="/scenes/<%=scene._id %>?_method=PUT" method="POST">
-                  <div class="form-group ">
-                      <h6> Pick a tag that best describes your scene:</h6>
-                      
-                      
-                      <div class="form-check form-check-inline">
-                          <% if(scene.sceneType === "beach"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="beach"  checked required/><label class="form-check-label" for="Beach">Beach</label> 
-                            <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="beach"  required/><label class="form-check-label" for="Beach">Beach</label> 
-                              <% } %>
-                        </div>
-                      
-                      <div class="form-check form-check-inline">
-                          <% if(scene.sceneType === "waterfall"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="waterfall"  checked/><label class="form-check-label" for="Waterfall">Waterfall</label> 
-                            <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="waterfall"  /><label class="form-check-label" for="Waterfall">Waterfall</label> 
-                              <% } %>
-                        </div>
-        
-                      <div class="form-check form-check-inline">
-                          <% if(scene.sceneType === "forest"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="forest"  checked/><label class="form-check-label" for="Forest">Forest</label> 
-                            <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="forest" /><label class="form-check-label" for="Forest">Forest</label> 
-                              <% } %>
-                        </div>
-        
-                      <div class="form-check form-check-inline">
-                          <% if(scene.sceneType === "island"){ %>
-                          <input type="radio" class="form-check-input" name="sceneType"  value="island"  checked/><label class="form-check-label" for="Island">Island</label>
-                            <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="island" /><label class="form-check-label" for="Island">Island</label>
-                              <% } %>
-                        </div>
-        
-                        <div class="form-check form-check-inline">
-                          <% if(scene.sceneType === "city"){ %>
-                            <input type="radio" class="form-check-input" name="sceneType"  value="city"  checked/><label class="form-check-label" for="city">City</label> 
-                            <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="city" /><label class="form-check-label" for="city">City</label> 
-                              <% } %>
-                          </div>
-        
-                      <div class="form-check form-check-inline">
-                          <% if(scene.sceneType === "lake"){ %>
-                            <input type="radio" class="form-check-input" name="sceneType"  value="lake"  checked/><label class="form-check-label" for="Lake">Lake</label> 
-                            <% }else { %>
-                              <input type="radio" class="form-check-input" name="sceneType"  value="lake" /><label class="form-check-label" for="Lake">Lake</label> 
-                              <% } %>
-                          </div>
-
-                        
-                  </div>
-                  <br>
-                      
-                  <div class="form-group ">
-                      <label  for="title">Scene Title</label>
-                      <input type="text" id="name" class="form-control " value="<%-scene.name%>" maxlength="40" name="name" required>
-                  </div>
-        
-                      
-                      
-                      <div class="form-group">
-                          <label for="country">Scene Location:</label>
-                          <select name="country" class="form-control countries order-alpha" id="countryId" required>
-                              <option value=""></option>
-                              <option value="<%-scene.location.country%>" selected><%-scene.location.country%></option>
-                          </select>
-                          <select name="state" class="form-control states order-alpha" id="stateId" >
-                              <option value="<%-scene.location.state%>"><%-scene.location.state%></option>
-                              
-                          </select>
-                          <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-                          <script src="//geodata.solutions/includes/countrystate.js"></script> -->
-                      </div>
-
-                      <div class="form-group ">
-                        <label  for="title">Place known as</label> <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Filling this field helps pin point you location on the map"></i>
-                        <input type="text" id="knownAs" class="form-control " value="<%-scene.knownAs%>" maxlength="40" name="knownAs" required>
-                      </div>
-        
-                      <br>
-                      <div class="form-group">
-                          <label for="exampleFormControlTextarea1">Scene Description</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1"  rows="3" name="description" required><%-scene.description%></textarea>
-                      </div>
-                      
-        
-                      <div class="form-group">
-                          <label for="image">Image</label>
-                          <input type="url" name="image" placeholder="url"  value="<%-scene.image%>" class="form-control" placeholder="" id="image" required>
-                      </div>
-        
-        
-        
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                          <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                  </form>
-            </div>
-            
-          </div>
-        </div>
-      </div>
     <%}%>
 
 
@@ -679,7 +560,7 @@
       defer
     ></script>
 
-<script>
+<script class="initializeMap">
     function initialize() {
       const fenway = { lat: <%=scene.lat%>, lng: <%=scene.lng%> };
       const map = new google.maps.Map(document.getElementById("map"), {
@@ -698,7 +579,7 @@
       );
       map.setStreetView(panorama);
     }
-  </script>
+</script>
 
 
 <style>

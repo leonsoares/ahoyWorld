@@ -66,6 +66,7 @@ a:hover {
    bottom: 0%;
    margin-left: 10px;
  }
+
  .reviews-block-foot{
   color: rgb(241, 207, 12); 
   margin-left: 10px;
@@ -280,6 +281,7 @@ a:hover {
   
   .div-block-6 {
     margin-top: 30px;
+    display: flex;
     
     -webkit-box-pack: center;
     
@@ -288,30 +290,20 @@ a:hover {
             justify-content: center;
   }
 
-  .carousel-inner > .image{
-    display: block;
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
-  -o-object-position: 50% 50%;
-  object-position: 50% 50%;
-  } 
 
 
   .div-block-2 {
     position: relative;
     overflow: hidden;
-    width: auto;
-    height: 70vh;
+    width: 50%;
+    height: auto;
+    max-height: 60vh;
   }
-  .carousel{
-    height: 70vh
-    
-  }
+
   
   .map-text-conteiner{
     margin-top: 30px;
+    width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -324,7 +316,7 @@ a:hover {
   .div-block-5 {
     text-align: right;
     color:#eeee;
-    width: 50%;
+    width: 100%;
     height: 70vh;
     margin-left: auto;
   }
@@ -665,6 +657,8 @@ a:hover {
   }
   
   @media screen and (max-width: 991px) {
+
+
     .div-block-9 {
       width: auto;
       margin: 10px;
@@ -697,12 +691,17 @@ a:hover {
     }
     
     .div-block-6{
+      
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
           -ms-flex-direction: column;
               flex-direction: column;
      
     }
+    .div-block-4{
+      order: 1;
+    }
+
     .div-block-2{
       width: 100%;
     }  
