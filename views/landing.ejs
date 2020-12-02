@@ -19,12 +19,12 @@
           
           <div class="form-container">
              <div class="form-content-index">
-            <form  action="/scenes" method="GET">
+            <form  action="/scenes/query/search" method="POST">
                 <div  class="input-container" >
                   <div class="input-main">
-                      <input type="text"  class="form-control main-search" id="inputPassword2" placeholder=" search place by location or tag. Ex: 'island' or 'Australia' ">
+                      <input type="text" name="search" class="form-control main-search" placeholder="search place by location or tag. Ex: 'island' or 'Australia' ">
                   </div>
-                  <div class="">
+                  <div>
                       <button type="submit" class="btn btn-primary "><i class="fas fa-search"></i> Search</button>
                   </div>
                 </div>

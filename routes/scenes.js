@@ -4,18 +4,18 @@ const Scene   = require('../models/scenes');
 const Notification = require('../models/notification');
 const User = require('../models/user');
 const Review = require('../models/reviews');
+const Comment = require('../models/comment')
 // eval(require('locus')); DEBUGGIN PACKAGE
 const formidableMiddleware        = require('express-formidable');
 const middleware = require('../middleware');
 var cloudinary = require('cloudinary').v2;
-
+const bodyParser        = require('body-parser');
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
     api_key: process.env.CLOUDINARY_API_KEY, 
     api_secret: process.env.CLOUDINARY_SECRET
   });
-// const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
-// node-geocoder config
+
 
 var NodeGeocoder = require('node-geocoder');
  
@@ -114,67 +114,122 @@ router.get('/map', (req, res) =>{
 
 
 // render all scenes:
-router.get('/scenes', (req , res) => {
+router.get('/scenes',  (req , res) => {
     // eval(require('locus'));
+ 
     var perPage = 8;
     var pageQuery = parseInt(req.query.page);
     var pageNumber = pageQuery ? pageQuery : 1;
-    
-    if(req.query.search){
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        Scene.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-            Scene.countDocuments({name: regex}).exec(function (err, count) {
-            if (err) {
-                req.flash('error', 'sorry, we could not find you are looking for. :/')
-                res.redirect('back')
-            } else if(allScenes.length === 0) {
-                Scene.find({location: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-                    Scene.countDocuments({location: regex}).exec(function (err, count) {
-                    if (err) {
-                        req.flash('error', 'sorry, we could not find you are looking for. :/')
-                        res.redirect('back')
-                    } else {
-                        if(allScenes.length === 0){
-                        noMatch = `Sorry, we could not find any matches for: ${req.query.search}`
-                        res.render('scenes/index', {
-                            scenes:allScenes,
-                            resultsFor: "All Locations",
-                            noMatch: noMatch,
-                            current: pageNumber,
-                            pages: Math.ceil(count / perPage)
-                            });
-                        } else {
 
-                        res.render('scenes/index', {scenes:allScenes, resultsFor: "All Locations", current: pageNumber, pages: Math.ceil(count / perPage)});
-                        }
-                    }
-                })
-             })
-            }
-            else {
-                res.render('scenes/index', {scenes:allScenes, resultsFor: "All Locations", current: pageNumber, pages: Math.ceil(count / perPage)});
-            }
-            })
-        })
-    } else {
-            Scene.find().skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
-                Scene.countDocuments().exec(function (err, count) {
-                if (err) {
-                    req.flash('error', 'sorry, we could not find you are looking for. :/')
-                    res.redirect('back')
-                } else {
-                    res.render('scenes/index', {
-                        scenes:allScenes,
-                        resultsFor: "All Locations",
-                        current: pageNumber,
-                        pages: Math.ceil(count / perPage)
+    Scene.find().skip((perPage * pageNumber) - perPage).limit(perPage).exec((err, allScenes) => {
+        Scene.countDocuments().exec(function (err, count) {
+        if (err) {
+            req.flash('error', 'sorry, we could not find you are looking for. :/')
+            res.redirect('back')
+        } else {
+            if(allScenes.length === 0){
+                noMatch = `Sorry, we could not find any matches for: ${req.fields.search}`
+                res.render('scenes/index', {
+                    scenes:allScenes,
+                    resultsFor: "All Locations",
+                    noMatch: noMatch,
+                    current: pageNumber,
+                    pages: Math.ceil(count / perPage)
+                });
+            } else {
+                res.render('scenes/index', {
+                    scenes:allScenes, 
+                    resultsFor: "All Locations", 
+                    current: pageNumber, 
+                    pages: Math.ceil(count / perPage)
                     });
-                
                 }
-            })
+            }
         })
-    }
+    })
 });
+
+// FIND SCENES BASED ON SEARCH
+router.post('/scenes/query/search', formidableMiddleware(), async(req , res) => {
+    let checkContent = req.fields.search.trim()
+    if(checkContent.length === 0 ){
+        res.redirect('/scenes')
+    }
+    
+
+    const regex = new RegExp(escapeRegex(req.fields.search), 'gi');
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+
+    var findByScneType = () => {
+        return new Promise((resolve, reject) => {
+            Scene.find( { sceneType: { $regex: regex } } ).exec((err, allScenes) => {
+                if(err || !allScenes) reject(err)
+                if(allScenes) resolve(allScenes) 
+            })
+     })
+    }
+
+    var findByScneCountry = () => {
+        return new Promise((resolve, reject) => {
+            Scene.find( { "location.country": { $regex: regex } } ).exec((err, allScenes) => {
+                if(err || !allScenes) reject(err)
+                if(allScenes) resolve(allScenes) 
+            })
+     })
+    }
+
+    var findByScnestate = () => {
+        return new Promise((resolve, reject) => {
+            Scene.find( { "location.state": { $regex: regex } } ).exec((err, allScenes) => {
+                if(err || !allScenes) reject(err)
+                if(allScenes) resolve(allScenes) 
+            })
+     })
+    }
+
+
+     var scenesByType    = await findByScneType();
+     var scenesBycountry = await findByScneCountry();
+     var scenesByState   = await findByScnestate();
+
+     let allScenes = []
+
+     scenesByType.forEach(scene => {
+         allScenes.push(scene)
+     })
+
+     scenesBycountry.forEach(scene => {
+        allScenes.push(scene)
+    })
+
+    scenesByState.forEach(scene => {
+        allScenes.push(scene)
+    })
+
+
+
+    for(let i = 0; i < allScenes.length - 1; i++){        
+        for(let j = i+1; j < allScenes.length; j++){
+            if(allScenes[j]._id.toString() == allScenes[i]._id.toString()){
+                allScenes.splice(j, 1)
+            }
+        }
+    }
+
+    res.render('scenes/index', {
+        scenes:allScenes,
+        resultsFor: req.fields.search,
+        current: pageNumber,
+        pages: Math.ceil(allScenes.length / perPage)
+    });
+});
+
+
+
+
+
 
 router.get('/scenes/tag/:tag', formidableMiddleware(), (req , res) => {
     // eval(require('locus'));
@@ -366,7 +421,7 @@ router.post('/scene/editScene/:id/edit',  formidableMiddleware(), async(req, res
 
     let imgs = req.files
 
-    if(imgs !== {}){
+    if(imgs !== {} && req.fields.hasNewFiles){
     let imgsPath = []
     for (const property in imgs) {
         imgsPath.push(imgs[property].path)
@@ -724,29 +779,115 @@ router.put('/scenes/:id', middleware.sceneIsAuthorized, formidableMiddleware(), 
 });
 
 // DELETE
-router.delete('/scenes/:id', middleware.sceneIsAuthorized, (req, res) => {
+router.post('/scene/deleteScene/:id/delete', async (req, res) => {
     // add data from form to scenes array
-    Scene.findById(req.params.id).populate('followers').populate('review').exec((err, scene) => {
+    Scene.findById(req.params.id).populate('followers').populate('review').populate('comments').exec((err, scene) => {
         if (err) {
             res.redirect("/scenes");
         } else {
-            // deletes all comments associated with the scene
-            
-                // deletes all reviews associated with the scene
-                Review.deleteMany({"_id": {$in: scene.reviews}}, function (err) {
-                    if (err) {
-                        req.flash('error', 'sorry, we could not find you are looking for. :/')
-                        return res.redirect("/scenes");
+
+            let imgsPath = []
+            let finalPath = []
+            imgsPath.push(scene.images.img1)
+            if(scene.images.img2 !== undefined) imgsPath.push(scene.images.img2)
+            if(scene.images.img3 !== undefined) imgsPath.push(scene.images.img3)
+
+            if(imgsPath.length > 0){
+                imgsPath.forEach(path => {
+                    let newPath = path.split('/')
+                    console.log("this is new path")
+                    console.log(newPath)
+                    for(let i = 0; i < newPath.length; i++){
+                        if(newPath[i] === "res.cloudinary.com"){
+                            let publicId = newPath[newPath.length - 1].split('.')
+                            finalPath.push(publicId[0])
+                        }
                     }
-                    //  delete the Scene
-                    scene.remove();
-                    req.flash("success", "Location deleted successfully!");
-                    res.redirect("back");
-                });
+                    
+                })
+                console.log(finalPath)
+            }
+            
+
+            if(finalPath.length > 0) {
+            let deleteImgs = new Promise(async (resolve, reject) => {
+                let upload_len = finalPath.length
+                    ,upload_res = new Array();
+          
+                  for(let i = 0; i <= upload_len + 1; i++)
+                  {
+                      await cloudinary.uploader.destroy(finalPath[i], (error, result) => {
+          
+                          if(upload_res.length === upload_len)
+                          {
+                            /* resolve promise after upload is complete */
+                            resolve(upload_res)
+                          }else if(result)
+                          {
+                            upload_res.push(result.url);
+                          } else if(error) {
+                            console.log(error)
+                            reject(error)
+                          }
+          
+                      })
+          
+                  } 
+              })
+              deleteImgs.then(response => response)
+              
+            }
+              
+              
+              
+            // deletes all comments associated with the scene
+            Comment.deleteMany({"_id": {$in: scene.comments}}, function (err) {
+                if (err) {
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    return res.redirect("/scenes");
+                }
+                return
+               
+            });
+                // deletes all reviews associated with the scene
+            Review.deleteMany({"_id": {$in: scene.reviews}}, function (err) {
+                if (err) {
+                    req.flash('error', 'sorry, we could not find you are looking for. :/')
+                    return res.redirect("/scenes");
+                }
+                return
+            });
             
         }
+        scene.remove();
+        req.flash("success", "Location deleted successfully!");
+        res.send({data: "delete"});
     });
 });
+
+// router.delete('/scenes/:id', middleware.sceneIsAuthorized, (req, res) => {
+//     // add data from form to scenes array
+//     Scene.findById(req.params.id).populate('followers').populate('review').exec((err, scene) => {
+//         if (err) {
+//             res.redirect("/scenes");
+//         } else {
+//             // deletes all comments associated with the scene
+            
+//                 // deletes all reviews associated with the scene
+//                 Review.deleteMany({"_id": {$in: scene.reviews}}, function (err) {
+//                     if (err) {
+//                         req.flash('error', 'sorry, we could not find you are looking for. :/')
+//                         return res.redirect("/scenes");
+//                     }
+//                     //  delete the Scene
+//                     scene.remove();
+//                     req.flash("success", "Location deleted successfully!");
+//                     res.redirect("back");
+//                 });
+            
+//         }
+//     });
+// });
 
 router.post('/scenes/:id/delete/user', middleware.sceneIsAuthorized, (req, res) => {
 

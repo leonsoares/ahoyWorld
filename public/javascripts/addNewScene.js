@@ -50,13 +50,9 @@ function inserImgUrl(element){
 }
 
 function inserImgFile(element){
-    console.log(element)
-    console.log(element.parentElement)
-    console.log(element.parentElement.parentElement)
     let parent = element.parentElement
     let allElements = element.parentElement.parentElement.childNodes
     let label 
-    console.log(allElements)
     allElements.forEach(element => {
         if(element.localName === "label") label = element
     })
@@ -124,22 +120,11 @@ function ValidateSize(file) {
         var result = "..." + filename + '.' + extension;
         let fileParent = file.parentNode
         
-        // fileParent.innerHTML = ""
         file.style.display = "none"
 
 
         fileParent.insertAdjacentHTML('beforeend',result)
-        // let image1 = document.getElementById("image1").files.length
-        // console.log("4")
-        // console.log("image1: " + image1)
-        // if(document.getElementById("image2")){
-        //     console.log("5")
-        //     console.log("image2: " + document.getElementById("image2").files.length)
-        //         }
-        // if(document.getElementById("image3")){
-        //     console.log("6")
-        //     console.log("image3: " + document.getElementById("image3").files.length)
-        // }
+  
     }
 }
 
@@ -149,8 +134,7 @@ function msgNotValid(element, form){
     for (let i = 0; i < selectedForm.length; i++) {
         selectedForm[i].childNodes.forEach(childrenEl => {
             if(childrenEl.name == element){
-                // console.log("Bingo")
-                // console.log(childrenEl.parentNode)
+
                 childrenEl.parentNode.childNodes.forEach(div =>{
                     if(div.className === "feedBack"){
                         div.style.display = "inline-block"
@@ -159,22 +143,6 @@ function msgNotValid(element, form){
             } 
         });
       }
-    // selectedForm.forEach(element =>{
-    //     element.forEach(childElement => {
-    //         if(childElement.childNodes.name == element) console.log("bingo")
-    //     })
-    // })
-
-    // let inputName = document.getElementsByName(element)
-    // let parent = inputName[0].parentNode.childNodes
-    // // console.log(parent)
-    // parent.forEach(element => {
-    //     if(element.className === "feedBack"){
-    //         // console.log("this is element: ")
-    //         // console.log(element)
-    //         element.style.display = "inline-block"
-    //     }
-    // })
 }
 
 
@@ -182,12 +150,9 @@ function clearMsg(element, form){
 
 
     let selectedForm = document.querySelector("#"+form).children
-    console.log(selectedForm)
     for (let i = 0; i < selectedForm.length; i++) {
         selectedForm[i].childNodes.forEach(childrenEl => {
             if(childrenEl.name == element){
-                // console.log("Bingo")
-                // console.log(childrenEl.parentNode)
                 childrenEl.parentNode.childNodes.forEach(div =>{
                     if(div.className === "feedBack"){
                         div.style.display = "none"
@@ -196,23 +161,6 @@ function clearMsg(element, form){
             } 
         });
       }
-
-
-
-    
-    // let inputName = document.getElementsByName(element)
-    // let parent = ''
-
-    // if(element === "image1" || element === "image2" || element === "image3" ){
-    //     parent = inputName[0].parentNode.parentNode.childNodes
-    // }else{
-    //     parent = inputName[0].parentNode.childNodes
-    // }
-    // parent.forEach(element => {
-    //     if(element.className === "feedBack"){
-    //         element.style.display = "none"
-    //     }
-    // })
 }
 
 function msgAddImage(){
@@ -282,13 +230,10 @@ function validateForm(){
     let formType = "addNewSceneForm"
     var hasImageUrl = checkImageUrl(formData, formType) 
     let files = hasImageOnFile()
-    console.log(files)
     let hasImageFile = files.length > 0 ? true : false
     
     let hasAllfields = !checkInputValues(formData, formType)
-    console.log("hasImageUrl " + hasImageUrl)
-    console.log("hasImageFile " + hasImageFile)
-    console.log("hasAllfields " + hasAllfields)
+
     
     if(hasImageUrl === false && hasImageFile === false) msgAddImage()
 
@@ -299,16 +244,10 @@ function validateForm(){
         })
         if(hasImageFile === true){
             files.forEach(img => {
-                console.log("this is img: ")
-                console.log(img)
                 data.append(img.name, img)
             })
         }
-        // for (var [key, value] of data.entries()) { 
-        //     console.log(key, value);
-        //   }
-        // console.log(data)
-        // console.log(formData)
+        renderLoader("#addNewSceneForm")
         sendPost(data)
         
     }
@@ -356,7 +295,7 @@ function addCountriesOpt(countries){
         let opt = `
         <option value="${element.country_name}">${element.country_name}</option>
         `
-        inpuPlace.insertAdjacentHTML("beforeend", opt)
+        if(inpuPlace) inpuPlace.insertAdjacentHTML("beforeend", opt)
     })
 }
 
@@ -367,7 +306,8 @@ function addStatesOpt(states){
             let opt = `
             <option value="${element.state_name}">${element.state_name}</option>
             `
-            inpuPlace.insertAdjacentHTML("beforeend", opt)
+            if(inpuPlace)inpuPlace.insertAdjacentHTML("beforeend", opt)
+            
         })
     }
 }
@@ -382,6 +322,9 @@ async function getStates(query){
         return states;
     } else return false   
 }
+
+
+
 
 function editPost(sceneId, editingFrom){
     loadModal()
@@ -458,11 +401,31 @@ function editPost(sceneId, editingFrom){
 
        let submitForm = document.querySelector('.submitEditForm')
        submitForm.addEventListener('click', function(){
+        renderLoader(".submitEditForm")
         editScene(sceneId, editingFrom)
        })
 
     });
 }
+
+
+function renderLoader(modal){
+    let parent = document.querySelector(modal)
+    const loader = `
+        <div class="loader">
+            <svg>
+                <use href="/images/icons.svg#icon-cw"></use>
+            </svg>
+        </div>
+    `;
+    parent.insertAdjacentHTML('afterbegin', loader);
+};
+
+
+
+
+
+
 function loadModal(){
     let modalForm = `
     <div class="modal" id="editSceneModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -681,8 +644,8 @@ function changeDataViewUserPage(data){
             <div class="mobile-settings preventDefault">
             <i class="fas fa-cog fa-lg fa-2x "  id="editDeleteDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
             <div class="dropdown-menu mobile-setting-items" aria-labelledby="editDeleteDropDown">
-                <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene${data._id}" href="#">Delete</a>
-                <a onclick="editPost('${data._id}', 'userPage')" class="dropdown-item item"  href="#">Edit</a>
+                 <a onclick="showDeleteModal('${data._id}', 'userPage') "class="dropdown-item item" >Delete</a>
+                    <a onclick="editPost('${data._id}', 'userPage')" class="dropdown-item item"  href="#">Edit</a>
             </div>
             </div>
            
@@ -702,6 +665,7 @@ function changeDataViewUserPage(data){
             </a>
             
         </div>
+
     `
     let sceneId = data._id
     let showDiv = document.getElementById(sceneId)
@@ -710,6 +674,139 @@ function changeDataViewUserPage(data){
     console.log(showDiv)
 
 }
+function changeDataViewShowPage(data){
+    $("#editSceneModal").modal('hide')
+    $("#editSceneModal").modal('dispose')
+    
+
+
+    let sceneHeader = document.querySelector('.sceneHeader')
+    let sceneHeaderContent = `
+    <div class="div-block sceneHeader">
+      <h1 class="heading">${data.name}</h1>
+      <h1 class="heading">${data.location.country}</h1>
+      <h6 class="card-title"> Post By @<a class="link-tag" href="/users/${data.author.id}"><${data.author.username}</a></h6>
+    </div>
+    `
+    sceneHeader.innerHTML = sceneHeaderContent
+
+
+    let img1 =`
+        <div id="carouselExampleControls" class="carousel slide " data-ride="carousel">
+            <div class="carousel-inner sceneImgs">
+                <div class="carousel-item active ">
+                    <img class="d-block  w-100 image" src="${data.images.img1}" alt="First slide">
+                </div>
+            </div>
+        </div>
+    `
+    let img2 = `
+        <div id="carouselExampleControls" class="carousel slide " data-ride="carousel">
+            <div class="carousel-inner sceneImgs">
+                <div class="carousel-item active ">
+                    <img class="d-block  w-100 image" src="${data.images.img1}" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100 image" src="${data.images.img2}" alt="Second slide">
+                </div>
+        </div>
+    
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    `
+    let img3 = `
+        <div id="carouselExampleControls" class="carousel slide " data-ride="carousel">
+            <div class="carousel-inner sceneImgs">
+                <div class="carousel-item active ">
+                    <img class="d-block  w-100 image" src="${data.images.img1}" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100 image" src="${data.images.img2}" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100 image" src="${data.images.img3}" alt="Third slide">
+                </div>
+            </div>
+
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    `
+
+    let newChild 
+    if(data.images.img3) newChild = img3
+    else if (data.images.img2) newChild = img2
+    else newChild = img1
+
+    let carousel = document.getElementById("carouselExampleControls");
+    carousel.parentNode.childNodes.forEach(element => {
+        if(element.id === "carouselExampleControls"){
+            let brother = element.previousElementSibling
+            console.log(brother)
+            element.remove()
+            brother.insertAdjacentHTML("afterend", newChild)
+            let map = document.querySelector('.initializeMap')
+            initializeMap(data)
+        }
+    })
+    
+    
+
+    let sceneDescription = document.querySelector('.scene-description')
+    sceneDescription.innerHTML = `<p>${data.description}</p>`
+
+    let visitersTitle = document.querySelector('.visiters-title')
+    visitersTitle.value = `Ahoy's Visitors to ${data.name}:`
+
+
+    let categoryTags = document.querySelector(".categoryTags")
+    
+    let newCatetegoryTags = `
+    <a href="#" class="category-tag-${data.sceneType}">
+        <form action="/scenes/tag/${data.sceneType}" method="GET">
+            <button type="submit" class="btn btn-primary category-tag-${data.sceneType}">${data.sceneType}</button>
+        </form>
+    </a>
+    `
+    categoryTags.innerHTML = newCatetegoryTags
+    
+
+}
+
+
+    function initializeMap(data) {
+      const fenway = { lat: data.lat, lng: data.lng };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: fenway,
+        zoom: 14,
+      });
+      const panorama = new google.maps.StreetViewPanorama(
+        document.getElementById("pano"),
+        {
+          position: fenway,
+          pov: {
+            heading: 34,
+            pitch: 10,
+          },
+        }
+      );
+      map.setStreetView(panorama);
+    }
+
+
 
 
 

@@ -15,16 +15,16 @@
       </div>
       <div class="form-container">
         <div class="form-content-index">
-          <form  class="form-all-cenes" action="/scenes" method="GET">
+          <form  class="form-all-cenes" action="/scenes/query/search" method="POST">
               <div  class="input-container" >
                 <div class="input-main">
-                    <input type="text"  class="form-control main-search" id="inputPassword2" placeholder=" search place by location or tag. Ex: 'island' or 'Australia' ">
+                    <input type="text"  name="search" class="form-control main-search" name="search" placeholder=" search place by location or tag. Ex: 'island' or 'Australia' ">
                 </div>
                 <div class="btn-form">
                     <button type="submit" class="btn btn-primary form-btn"><i class="fas fa-search"></i> Search</button>
                 </div>
               </div>
-            </form>
+          </form>
           </div>
           <div class="tags-container">
               <form action="/scenes/tag/beach" method="GET">

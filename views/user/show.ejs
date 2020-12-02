@@ -195,7 +195,7 @@
                   <div class="mobile-settings preventDefault">
                     <i class="fas fa-cog fa-lg fa-2x "  id="editDeleteDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false""></i>
                     <div class="dropdown-menu mobile-setting-items" aria-labelledby="editDeleteDropDown">
-                        <a class="dropdown-item item" data-toggle="modal" data-target="#deleteScene<%-scene._id%>" href="#">Delete</a>
+                        <a onclick="showDeleteModal('<%-scene._id%>', 'userPage') "class="dropdown-item item" >Delete</a>
                         <a onclick="editPost('<%-scene._id%>', 'userPage')" class="dropdown-item item"  href="#">Edit</a>
                     </div>
                   </div>
@@ -217,26 +217,7 @@
                   
                 </div>
 
-                <%if(currentUser._id.toString() === scene.author.id.toString()){%>
-                    <div class="modal fade" id="deleteScene<%-scene._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header table-dark">
-                              <h5 class="modal-title" id="exampleModalLabel">Are you sure that you want to delete 
-                                <br> <%-scene.name%>?</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-footer table-dark">
-                                  <input type="submit" class="btn btn-xs btn-danger deleteLocation" value="Yes">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                            </div>
-                            
-                          </div>
-                        </div>
-                      </div>
-                    <%}%>
+               
               </div>
             
               <% }) %>
