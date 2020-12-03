@@ -136,8 +136,8 @@
                 <h1 class="data-text">Following: </h1>
                 <% if(user.following.length > 2){ %>
                   <h1 class="data-text"> 
-                    <a class="and-more" href="../users/<%=user.following[0].id%>"><%=user.following[0].name%>,</a>
-                    <a class="and-more" href="../users/<%=user.following[1].id%>"><%=user.following[1].name%></a> 
+                    <a class="and-more" href="../users/<%=user.following[0].id%>"><%=user.following[0].username%>,</a>
+                    <a class="and-more" href="../users/<%=user.following[1].id%>"><%=user.following[1].username%></a> 
                     <a class="and-more btn btn-outline-info" href="#"  data-toggle="modal" data-target="#showAllFollowing"> and <%= user.following.length - 2%> more...</a>
                   </h1>
                   
@@ -301,11 +301,11 @@
               
               <div class="form-group">
                   <label for="location">Your location:</label>
-                  <select name="country" class="form-control countries order-alpha" id="countryId" required>
+                  <select name="country" class="form-control countries order-alpha"  required>
                       <option value=""></option>
                       <option value="<%-currentUser.location.country%>" selected><%-currentUser.location.country%></option>
                   </select>
-                  <select name="state" class="form-control states order-alpha" id="stateId" required>
+                  <select name="state" class="form-control states order-alpha"  required>
                       <option value="<%-currentUser.location.state%>"><%-currentUser.location.state%></option>
                       
                   </select>
@@ -316,10 +316,10 @@
               <div class="form-group">
                   <%if(currentUser.description !== "") { %>
                   <label for="sceneDescription"> Description</label>
-                  <textarea class="form-control" id="sceneDescriptiom" rows="3" name="description" required><%=currentUser.description%></textarea>
+                  <textarea class="form-control"  rows="3" name="description" required><%=currentUser.description%></textarea>
                   <%} else {%>
                     <label for="sceneDescription"> Description</label>
-                  <textarea class="form-control" id="sceneDescriptiom" rows="3" name="description" required></textarea>
+                  <textarea class="form-control"  rows="3" name="description" required></textarea>
                     <%}%>
                 </div>
 

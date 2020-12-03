@@ -71,7 +71,6 @@ document.querySelectorAll(".preventDefault").forEach(btn => {
             `
             modalBody.insertAdjacentHTML("beforeend", rateDiv)
           })
-          console.log(data)
       });
   }
 

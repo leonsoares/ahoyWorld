@@ -22,21 +22,7 @@ router.get('/register', (req, res) => {
     res.render('user/register');
 });
 
-// sign up logic
-// app.post("/register", function(req, res){
-//     var newUser = new User({username: req.fields.username});
-//     var passw = req.fields.password
-//     User.register(newUser, passw, function(err, user){
-//         if(err){
-//             console.log(err);
-//             return res.render("register");
-//         }else{
-//             passport.authenticate("local")(req, res, function(){
-//                 res.redirect("/scenes"); 
-//              });
-//         }
-//     });
-// });
+
 
 router.post("/register", bodyParser.urlencoded({extended: true}), function (req, res, next) {
     var newUser = new User({
@@ -62,10 +48,6 @@ router.get('/login', (req, res) => {
     res.render('user/login');
 })
 
-// app.post('/login', (req, res) => {
-//     var test = req.fields.username
-//     res.send(test)
-// })
 
 router.post('/login', bodyParser.urlencoded({extended: true}), passport.authenticate('local', 
     {   
@@ -85,47 +67,6 @@ router.get('/logout', bodyParser.urlencoded({extended: true}), (req, res) => {
     res.redirect('back');
 });
 
-// router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
-//     User.findById(req.params.id).populate('followers').populate('following').exec((err, foundUser) => {
-//         if (err || !foundUser) {
-//             req.flash('error', 'sorry, we could not find the user you are looking for. :/')
-//             res.redirect('back')
-//         } 
-        
-//         let memberSince = foundUser._id.getTimestamp().toDateString().split(' ', 4);
-
-//         let isFollowing = false
-//         if(req.user._id !== foundUser._id && foundUser.followers.length > 0){
-//             for(var i = 0; i < foundUser.followers.length; i++){
-//                 if(foundUser.followers[i].id === req.user.id){
-//                     isFollowing = true
-//                     break
-//                 }
-//             }
-//         }
-  
-//         Scene.find().where('author.id').equals(foundUser._id).exec(function(err, scenes){
-//             if (err || !scenes) {
-//                 req.flash('error', 'sorry, we could not find you are looking for. :/')
-//                 res.redirect('back')
-//             }
-//             Scene.find().where('saveScene').equals(foundUser._id).exec(function(err, foundScenes){
-//                 if (err || !scenes) {
-//                     req.flash('error', 'sorry, we could not find you are looking for. :/')
-//                     res.redirect('back')
-//                 }
-//                 Scene.find().where('flag').equals(foundUser._id).exec(function(err, flag){
-//                     if (err || !scenes) {
-//                         req.flash('error', 'sorry, we could not find you are looking for. :/')
-//                         res.redirect('back')
-//                     }
-                    
-//                     res.render('user/show', {savedScene:foundScenes, flag, user: foundUser, scenes: scenes, isFollowing, memberSince})
-//                 });
-//             });
-//         });
-//     });
-// });
 
 router.get('/users/:id', middleware.isLoggedIn, (req, res) => {
     User.findById(req.params.id).populate('followers').populate('following').exec((err, foundUser) => {
@@ -298,13 +239,7 @@ router.get('/users/scenes/share', middleware.isLoggedIn, (req, res) => {
             req.flash('error', err.message)
             res.redirect('back');
         }
-        // foundUser.notifications.forEach(function(notification){
-        //     notification.isRead = true;
-        //     notification.save();
-        // })
-        // let allNotifications = foundUser.allNotifications;
-        console.log("grom back end: ");
-        console.log(foundUser.following);
+        
         res.send({data:foundUser.following});
     });
 });
@@ -375,17 +310,6 @@ router.get('/user/locations/flagged', middleware.isLoggedIn, (req, res) => {
     });
 });
 
-// router.post('/clicked', (req, res) => {
-
-//     db.collection('clicks').save(click, (err, result) => {
-//       if (err) {
-//         return console.log(err);
-//       }
-//       console.log('click added to db');
-//       res.sendStatus(201);
-//     });
-//   });
-
 
 router.get('/clicked', middleware.isLoggedIn, (req, res) => {
     User.findById(req.user._id).populate('notifications').exec((err, foundUser) => {
@@ -414,26 +338,6 @@ router.get('/notifications/isread', middleware.isLoggedIn, (req, res) => {
         res.redirect('back')
     });
 });
-
-
-
-
-// router.get('/users/:id', (req, res) => {
-//     User.findById(req.params.id, (err, foundUser) => {
-//         if (err || !foundUser) {
-//             req.flash('error', 'sorry, we could not find the user you are looking for. :/')
-//             res.redirect('back')
-//         } 
-//         Scene.find().where('author.id').equals(foundUser._id).exec(function(err, scenes){
-//             if (err || !scenes) {
-//                 req.flash('error', 'sorry, we could not find you are looking for. :/')
-//                 res.redirect('back')
-//             }
-//             res.render('user/show', {user: foundUser, scenes: scenes})
-//         })
-        
-//     });
-// })
 
 router.get('/forgot', (req, res) =>{
     res.render('user/forgot');
@@ -612,9 +516,4 @@ router.post('/users/:id/edit', formidableMiddleware(), (req, res) => {
     });
 });
 
-
-
-
-
-  
 module.exports = router

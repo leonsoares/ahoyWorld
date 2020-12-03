@@ -115,42 +115,11 @@ a:hover {
   font-weight: 400;
   color:#eeee;
 }
+
 .link-more{
   color: #056b7a;
 }
-.pagination-container{
-  padding: 15px 0px 10px 0px;
-}
-.page-link {
-  color: #eeee;
 
-  background-color: #363538;
-}
-.page-link:hover{
-  color: #056b7a;
-}
-
-.disabled-item {
-  color: rgba(184, 181, 181, 0.933);
-  background-color: #363538;
-}
-
-.disabled-item:hover .page-link {
-  color: rgba(184, 181, 181, 0.933);
-  background-color: #363538;
-
-}
-.active-item{
-  color: #eeee;
-  text-shadow: 1px 1px 1px #ffffffaf;
-}
-
-.active-item:hover .page-link{
-  color: #eeee;
-  text-shadow: 1px 1px 1px #ffffffaf;
-  background-color: #363538;
-
-}
 
 
 

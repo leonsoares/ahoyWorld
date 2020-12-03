@@ -206,7 +206,6 @@ function displayFlashMsg(msg, link, toggle, id, modalType){
   let flashContainerMobile = document.querySelector(".flash-msg-mobile")
 
   let flashContainer = document.querySelector(".flash-msg")
-  console.log(w)
   var flashmsg =`
     <div class="alert alert-success alert-dismissible fade show" id="${id}" role="alert">
     ${msg } <a class="alert-link" ${link}>${toggle}</a>
@@ -467,7 +466,6 @@ function postComment(){
 // **************** DELETE COMMENT ****************
 
 function deleteComment(id, sceneId){
-  console.log('click')
   const data = [{commentid:id, scene: sceneId}]
   
 
@@ -478,7 +476,6 @@ function deleteComment(id, sceneId){
     fetch(`/scene/comment/delete/${id}`, {method: "POST", body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
     .then(response => response.json())  
     .then(data => {
-      console.log(data)
       
       if(data.commentsLength === 0 || !data.commentsLength){
         insertTo.innerHTML = `
@@ -502,7 +499,6 @@ function deleteComment(id, sceneId){
 
 function editComment(id){
   var commentText = document.querySelector(`#commentText${id}`).value
-  console.log(commentText)
   const data = [{commentid:id, commentText}]
   let commentContent = document.getElementById(`commentContent${id}`)
   if(commentText .replace(/\s/g,"") == ""){
@@ -520,9 +516,7 @@ function editComment(id){
     });
   }
 }
-// action="/scenes/<%= scene._id %>/reviews" method="POST"
 
-// /scenes/<%= scene._id %>/reviews
 
 function rateScene(id){
   let insertTo = document.querySelector(".ratings")
@@ -588,7 +582,6 @@ function rateScene(id){
         document.querySelector(".reviews-block").innerHTML = ""
         document.querySelector(".reviews-block").insertAdjacentHTML("beforeend", newStarReview)
         displayFlashMsgOpt(data.message)
-        console.log(data)
         removeFlashMsg()
       
     });

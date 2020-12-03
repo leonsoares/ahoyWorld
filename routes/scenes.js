@@ -419,7 +419,6 @@ router.get('/scene/:id/edit', middleware.sceneIsAuthorized, (req, res) => {
 });
 
 router.post('/scene/editScene/:id/edit',  formidableMiddleware(), async(req, res) => {
-    console.log('hit')
     let editScene = new Promise(async (resolve, reject) => {
         Scene.findById(req.params.id, (err, foundScene) => {
             if (err || !foundScene) {
@@ -607,7 +606,6 @@ router.post('/scenes/newScene',  formidableMiddleware(), async(req, res) => {
                   {
                     upload_res.push(result.url);
                   } else if(error) {
-                    console.log(error)
                     reject(error)
                   }
   
@@ -672,12 +670,7 @@ router.post('/scenes/newScene',  formidableMiddleware(), async(req, res) => {
 
           newLocation.lat = geoLocation[0].latitude
           newLocation.lng = geoLocation[0].longitude
-          console.log(geoLocation)
         
-    
-
-        console.log(newLocation)
-
         Scene.create(newLocation, (err, foundScene) => {
             if (err) {
                 req.flash('error', 'Something went wrong');
@@ -714,100 +707,6 @@ router.post('/scenes/newScene',  formidableMiddleware(), async(req, res) => {
         });
 });
 
-
-
-
-
-
-// // Create New Scene
-// router.post('/scenes', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
-
-//     // add data from form to scenes array
-//     req.fields.author = {
-//         id: req.user._id,
-//         username: req.user.username
-//     }
-   
-//     var def = "/images/default.png"
-//     if(req.fields.image === "") req.fields.image = def
-//     if(req.fields.description === "") req.fields.description = "Beautiful"
-
-
-//     var place = ""
-//     if(req.fields.knownAs !== ""){
-//         place = req.fields.knownAs  + ", " + req.fields.country + ", " + req.fields.state
-//     } else {
-//         place = req.fields.country + ", " + req.fields.state
-//     }    
-
-    
-    
-//     geocoder.geocode(place, (err, data) => {
-//         if (err || !data.length) {
-//           req.flash('error', 'Invalid address');
-//           return res.redirect('back');
-//         }
-//         // req.fields.location.country = data[0].formattedAddress;
-     
-//         var newScene = {
-//             name: req.fields.name,
-//             knownAs: req.fields.knownAs,
-//             sceneType: req.fields.sceneType,
-//             location:{
-//                 country: req.fields.country,
-//                 state: req.fields.state,
-//             },
-//             lat: data[0].latitude,
-//             lng: data[0].longitude,
-//             description: req.fields.description,
-//             image: req.fields.image,
-//             author:{
-//                 id: req.user._id,
-//                 username: req.user.username
-//             },
-//         }
-
-
-
-//         // Create a new scene and save to DB
-//         Scene.create(newScene, (err, foundScene) => {
-//             if (err) {
-//                 req.flash('error', 'Something went wrong');
-//                 res.redirect('back')
-//             } else {
-//                 User.findById(req.user._id).populate('followers').exec((err, foundUser) => {
-//                     if(err){
-//                         req.flash('error', 'Something went wrong');
-//                         req.flash('error', err.message)
-//                     }
-//                     let newNotification = {
-//                         username: req.user.username,
-//                         sceneId: foundScene._id,
-//                         message: "Created a new scene",
-//                         goTo: `/scenes/${foundScene._id}`
-//                     }
-//                     if(foundUser.followers.length > 0){
-//                         for(const follower of foundUser.followers){
-//                             Notification.create(newNotification, (err, createdNotif) => {
-//                                 if(err){
-//                                 req.flash("error", err.message)
-//                                 }
-//                                 follower.notifications.push(createdNotif);
-//                                 follower.save();
-
-//                             });
-//                     }
-                    
-//                     }
-//                     req.flash('success', 'New Location created, Thank you for contributing with our community');
-//                     res.redirect(`/scenes/${foundScene.id}`)
-//                 })
-//             }
-//         }); 
-//     });
-// });
-
-
 // Edit ROUTE
 router.put('/scenes/:id', middleware.sceneIsAuthorized, formidableMiddleware(), (req, res) => {
     
@@ -824,7 +723,6 @@ router.put('/scenes/:id', middleware.sceneIsAuthorized, formidableMiddleware(), 
           req.flash('error', 'Invalid address');
           return res.redirect('back');
         }
-        // req.fields.location.country = data[0].formattedAddress;
      
         var editScene = {
             name: req.fields.name,
@@ -874,8 +772,6 @@ router.post('/scene/deleteScene/:id/delete', async (req, res) => {
             if(imgsPath.length > 0){
                 imgsPath.forEach(path => {
                     let newPath = path.split('/')
-                    console.log("this is new path")
-                    console.log(newPath)
                     for(let i = 0; i < newPath.length; i++){
                         if(newPath[i] === "res.cloudinary.com"){
                             let publicId = newPath[newPath.length - 1].split('.')
@@ -884,7 +780,6 @@ router.post('/scene/deleteScene/:id/delete', async (req, res) => {
                     }
                     
                 })
-                console.log(finalPath)
             }
             
 
@@ -905,7 +800,6 @@ router.post('/scene/deleteScene/:id/delete', async (req, res) => {
                           {
                             upload_res.push(result.url);
                           } else if(error) {
-                            console.log(error)
                             reject(error)
                           }
           
@@ -943,30 +837,6 @@ router.post('/scene/deleteScene/:id/delete', async (req, res) => {
         res.send({data: "delete"});
     });
 });
-
-// router.delete('/scenes/:id', middleware.sceneIsAuthorized, (req, res) => {
-//     // add data from form to scenes array
-//     Scene.findById(req.params.id).populate('followers').populate('review').exec((err, scene) => {
-//         if (err) {
-//             res.redirect("/scenes");
-//         } else {
-//             // deletes all comments associated with the scene
-            
-//                 // deletes all reviews associated with the scene
-//                 Review.deleteMany({"_id": {$in: scene.reviews}}, function (err) {
-//                     if (err) {
-//                         req.flash('error', 'sorry, we could not find you are looking for. :/')
-//                         return res.redirect("/scenes");
-//                     }
-//                     //  delete the Scene
-//                     scene.remove();
-//                     req.flash("success", "Location deleted successfully!");
-//                     res.redirect("back");
-//                 });
-            
-//         }
-//     });
-// });
 
 router.post('/scenes/:id/delete/user', middleware.sceneIsAuthorized, (req, res) => {
 
@@ -1037,7 +907,6 @@ router.get('/scenes/:id/flag/users', (req, res) => {
             req.flash('error', err.message);
             return res.redirect('back');
         }
-        console.log(foundScene)
         return res.send({scene:foundScene.flag});
 
     });
