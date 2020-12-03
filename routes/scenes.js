@@ -154,7 +154,7 @@ router.post('/scenes/query/search', formidableMiddleware(), async(req , res) => 
     let checkContent = req.fields.search.trim()
     if(checkContent.length === 0 ){
         res.redirect('/scenes')
-    }
+    } else {
     
 
     const regex = new RegExp(escapeRegex(req.fields.search), 'gi');
@@ -224,8 +224,87 @@ router.post('/scenes/query/search', formidableMiddleware(), async(req , res) => 
         current: pageNumber,
         pages: Math.ceil(allScenes.length / perPage)
     });
+}
 });
 
+
+router.post('/scenes/searchbytag', formidableMiddleware(), async(req , res) => {
+    let checkContent = req.fields.tagSearch
+    if(checkContent.length === 0 ){
+        res.redirect('/scenes')
+    } else {
+    
+
+    const regex = new RegExp(escapeRegex(checkContent), 'gi');
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+
+    var findByScneType = () => {
+        return new Promise((resolve, reject) => {
+            Scene.find( { sceneType: { $regex: regex } } ).exec((err, allScenes) => {
+                if(err || !allScenes) reject(err)
+                if(allScenes) resolve(allScenes) 
+            })
+     })
+    }
+
+    var findByScneCountry = () => {
+        return new Promise((resolve, reject) => {
+            Scene.find( { "location.country": { $regex: regex } } ).exec((err, allScenes) => {
+                if(err || !allScenes) reject(err)
+                if(allScenes) resolve(allScenes) 
+            })
+     })
+    }
+
+    var findByScnestate = () => {
+        return new Promise((resolve, reject) => {
+            Scene.find( { "location.state": { $regex: regex } } ).exec((err, allScenes) => {
+                if(err || !allScenes) reject(err)
+                if(allScenes) resolve(allScenes) 
+            })
+     })
+    }
+
+
+     var scenesByType    = await findByScneType();
+     var scenesBycountry = await findByScneCountry();
+     var scenesByState   = await findByScnestate();
+
+     let allScenes = []
+
+     scenesByType.forEach(scene => {
+         allScenes.push(scene)
+     })
+
+     scenesBycountry.forEach(scene => {
+        allScenes.push(scene)
+    })
+
+    scenesByState.forEach(scene => {
+        allScenes.push(scene)
+    })
+
+
+
+    for(let i = 0; i < allScenes.length - 1; i++){        
+        for(let j = i+1; j < allScenes.length; j++){
+            if(allScenes[j]._id.toString() == allScenes[i]._id.toString()){
+                allScenes.splice(j, 1)
+            }
+        }
+    }
+
+    res.send({
+        user: req.user,
+        scenes: allScenes,
+        resultsFor: checkContent,
+        current: pageNumber,
+        pages: Math.ceil(allScenes.length / perPage)
+    });
+}
+});
 
 
 

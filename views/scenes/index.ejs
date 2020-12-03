@@ -5,12 +5,12 @@
 <div class="index-scenes-conainer">
     <div class="title-search-container">
       <div class="popular-title">
-        <div class="name-text">Showing Results for:</div>
+        <div class="name-text ">Showing Results for:</div>
         <div class="under-mark-across"></div>
         <% if(!resultsFor){%>
           <div class="name-text">All Locations</div>
         <% } else {%>
-          <div class="name-text"><%=resultsFor%></div>
+          <div class="name-text resultsFor"><%=resultsFor%></div>
         <% } %>
       </div>
       <div class="form-container">
@@ -21,39 +21,25 @@
                     <input type="text"  name="search" class="form-control main-search" name="search" placeholder=" search place by location or tag. Ex: 'island' or 'Australia' ">
                 </div>
                 <div class="btn-form">
-                    <button type="submit" class="btn btn-primary form-btn"><i class="fas fa-search"></i> Search</button>
+                    <button type="submit" class="btn btn-primary form-btn sendSearch"><i class="fas fa-search"></i> Search</button>
                 </div>
               </div>
           </form>
           </div>
-          <div class="tags-container">
-              <form action="/scenes/tag/beach" method="GET">
+          <div class="tags-container tags-container-indexPage">
                 <button type="submit" class="btn btn-primary beach">beach</button>  
-              </form>
 
-              <form action="/scenes/tag/waterfall" method="GET">
                 <button type="submit" class="btn btn-primary waterfall">waterfall</button>
-              </form>
 
-              <form action="/scenes/tag/forest" method="GET">
                 <button type="submit" class="btn btn-primary forest">forest</button>
-              </form>
 
-              <form action="/scenes/tag/island" method="GET">
                 <button type="submit" class="btn btn-primary island">island</button>
-              </form>
 
-              <form action="/scenes/tag/mountain" method="GET">
                 <button type="submit" class="btn btn-primary mountain">mountain</button>
-              </form>
 
-              <form action="/scenes/tag/city" method="GET">
                 <button type="submit" class="btn btn-primary city">city</button>
-              </form>
 
-              <form action="/scenes/tag/lake" method="GET">
                 <button type="submit" class="btn btn-primary lake">lake</button>
-              </form>
 
             
           </div>
