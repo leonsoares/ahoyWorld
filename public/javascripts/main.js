@@ -383,7 +383,7 @@ function postComment(){
         </div>
         <div class="div-block-11 newComment">
           <div class="comment-block">
-            <div id="commentContent${data.comment._id}">
+            <div class="commentContent" id="commentContent${data.comment._id}">
             ${data.comment.text}
             </div>
           </div>
