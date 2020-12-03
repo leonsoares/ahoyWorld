@@ -54,7 +54,9 @@ a:hover {
     text-align: center;
   }
   
- 
+ .commentContent{
+   overflow-wrap: break-word;
+ }
   
 
  .reviews-block{
@@ -369,6 +371,7 @@ a:hover {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    
     margin-bottom: 10px;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -381,7 +384,7 @@ a:hover {
   }
   
   .div-block-9 {
-    width: 20%;
+    min-width: 20%;
     margin: 10px;
     text-align: center;
   }
@@ -535,6 +538,8 @@ a:hover {
   
   
   .div-block-11 {
+    overflow: wrap;
+    word-wrap: break-word;
     position: relative;
     width: 100%;
     padding-top: 10px;
