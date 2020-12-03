@@ -347,10 +347,16 @@
       <%if(currentUser && scene.comments.length != 0){%>
         <div class="btnAddComment">
           <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addComment">Add Comment</button>
+          <%if(scene.comments.length > 7){%>
+            <button onclick="renderAllCommentsModal('<%=scene._id%>')" type="button" class="btn btn-info seeAllComments">See All <%=scene.comments.length%> Comments</button>
+            <%}%>
         </div>
         <% } else if(scene.comments.length != 0){ %>
           <div class="btnAddComment">
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#staticBackdrop">Add Comment</button>
+            <%if(scene.comments.length > 7){%>
+            <button onclick="renderAllCommentsModal('<%=scene._id%>')" type="button" class="btn btn-info seeAllComments">See All <%=scene.comments.length%>  Comments</button>
+            <%}%>
           </div>
           <% } %>
       <!-- modal Add comment -->
