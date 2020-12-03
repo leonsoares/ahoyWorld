@@ -55,7 +55,9 @@ a:hover {
   }
   
  .commentContent{
+   padding-right: 20px; 
    overflow-wrap: break-word;
+   overflow: wrap;
  }
   
 
@@ -81,7 +83,9 @@ a:hover {
     margin-right: auto;
     margin-left: auto;
   }
-  
+  .comments{
+    width: 100%;
+  }
   .text-block {
     display: inline-block;
     text-align: center;
@@ -154,6 +158,9 @@ a:hover {
     background-color: #b42121;
   }
   
+  .seeAllComments{
+    margin-left: auto;
+  }
   .category-tag-lake {
     z-index: 1;
     position: absolute;
@@ -370,8 +377,8 @@ a:hover {
   .div-block-8 {
     display: -webkit-box;
     display: -ms-flexbox;
+    width: 100%;
     display: flex;
-    
     margin-bottom: 10px;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -541,7 +548,7 @@ a:hover {
     overflow: wrap;
     word-wrap: break-word;
     position: relative;
-    width: 100%;
+    min-width: 80%;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -647,7 +654,7 @@ a:hover {
   }
 
   .comment-block{
-    width: 90%;
+    width: 95%;
   }
 
 

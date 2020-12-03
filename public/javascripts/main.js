@@ -455,12 +455,76 @@ function postComment(){
         insertTo.insertAdjacentHTML('afterend', bts)
         
       }
-      insertTo.insertAdjacentHTML('beforeend', commentDom)
-      displayFlashMsgOpt(data.message)
-      removeFlashMsg()
+      if(data.commentsLength < 8){
+        insertTo.insertAdjacentHTML('beforeend', commentDom)
+        displayFlashMsgOpt(data.message)
+        removeFlashMsg()
+      }
+      if(data.commentsLength === 8){
+        addSeeAllCommentsBtn(data, sceneId)
+      }
+
+      
     });
   }
 }
+
+function addSeeAllCommentsBtn(data, sceneId){
+  let btn = `
+    <button onclick="renderAllCommentsModal('${sceneId}')" type="button" class="btn btn-info seeAllComments">See All ${data.commentsLength} Comments</button>
+  `
+  let parent = document.querySelector(".btnAddComment")
+  parent.insertAdjacentHTML("beforeend", btn)
+}
+
+let seeAllComent = document.querySelector(".seeAllComments")
+
+
+
+
+function renderAllCommentsModal(id){
+  let data = {sceneId: id}
+  let modal = `
+    <div class="modal fade" id="seeAllCommentsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header table-dark">
+          <h5 class="modal-title" id="exampleModalLongTitle">All Comments</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body seeAllCommentsBody table-dark">
+          
+        </div>
+        <div class="modal-footer table-dark">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `
+  let body = document.querySelector('body')
+  body.insertAdjacentHTML("beforeend", modal)
+  let modalBody = document.querySelector('.seeAllCommentsBody')
+
+  fetch(`/../scenes/${id}/comments/get`, {method: "POST", body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+      .then(response => response.json())
+      .then(data => {
+        $('#seeAllCommentsModal').modal('show')
+        console.log(data)
+        data.comments.forEach(function(element){
+          let eachComment =  `
+          <h5><a href="../users/${element.author.id}" class="tooltip-test" title="Tooltip">${element.author.username}</a></h5>
+            <p> ${element.text}</p>
+          <hr>
+          `
+          modalBody.insertAdjacentHTML("beforeend", eachComment)
+        })
+      })
+
+}
+
 
 
 // **************** DELETE COMMENT ****************

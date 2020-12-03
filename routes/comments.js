@@ -35,6 +35,22 @@ router.post('/scenes/:id/comments', middleware.isLoggedIn, formidableMiddleware(
     })
 });
 
+router.post('/scenes/:id/comments/get', formidableMiddleware(), (req, res) => {
+    console.log(req.fields)
+    Scene.findById(req.fields.sceneId).populate({
+        path:'comments',
+        options: {sort: {createAt: -1}
+    }
+    }).exec((err, foundScene) => {
+        if(err || !foundScene){
+            res.send("nothing Found")
+        }
+        res.send({comments: foundScene.comments})
+    })
+});
+
+
+
 router.post('/scene/comment/edit/:commentId', formidableMiddleware(), (req, res) => {
     const commentId = req.fields[0].commentid
     const commentText = req.fields[0].commentText
