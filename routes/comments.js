@@ -8,23 +8,6 @@ const middleware = require('../middleware');
 
 // ============ COMMENT ROUTES ====================
 
-// router.get('/scenes/:id/comments/new', middleware.isLoggedIn, (req, res) => {
-//     Scene.findById(req.params.id, (err, foundScene) => {
-//         if(err || !foundScene){
-//             req.flash('error', 'Sorry, we were not able to find this scene');
-//             res.redirect('back');
-//         }
-//         Scene.findById(req.params.id, (err, foundScene) =>{
-//             if(err){
-//                 req.flash('error', 'sorry, we could not find you are looking for. :/')
-//                 res.redirect('back')
-//             } else{
-//                 res.render('comments/new', {scene:foundScene});
-//             } 
-//         })
-//     })
-// });
-
 router.post('/scenes/:id/comments', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
     var newComment = {
         text: req.fields[0].comment,
@@ -51,25 +34,6 @@ router.post('/scenes/:id/comments', middleware.isLoggedIn, formidableMiddleware(
         }
     })
 });
-
-
-
-            
-// router.get('/scenes/:id/comments/:comment_id/edit', middleware.commentIsAuthorized, (req, res) => {
-//     Scene.findById(req.params.id, (err, foundScene) => {
-//         if(err || !foundScene){
-//             res.flash('error', 'sorry, we could no find this scene!');
-//             return res.redirect('back')
-//         }
-//         Comment.findById(req.params.comment_id, (err, foundComment) => {
-//             if (err) {
-//                 res.redirect('back')
-//             } else {
-//                 res.render('comments/edit', {scene_id: req.params.id, comment: foundComment});
-//             }
-//         });
-//     })
-// });
 
 router.post('/scene/comment/edit/:commentId', formidableMiddleware(), (req, res) => {
     const commentId = req.fields[0].commentid
@@ -122,23 +86,16 @@ router.post('/scene/comment/delete/:commentId', middleware.isLoggedIn, formidabl
                     req.flash('error', 'Sorry, sothing went wrong :/')
                     return res.redirect('back');
                 } else{
-                    console.log(foundScene.comments.length)
                     res.send({message, commentsLength: foundScene.comments.length})
                 }
             })
             } else {
                 message = "This comment is not your to delete"
-                console.log(scene.comments.length)
                 
             }
         }
     })
 
 });
-
-
-
-
-
 
 module.exports = router

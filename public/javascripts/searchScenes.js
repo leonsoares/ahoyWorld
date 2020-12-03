@@ -18,9 +18,6 @@ if(sendSearch){
         let searchForm = $('.form-all-cenes').serializeArray()
         let data = await fetchScenes(searchForm[0].value)
         changeDomElements(data)
-        console.log("fromBack")
-        
-        console.log(data)
     })
 }
 

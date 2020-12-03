@@ -5,7 +5,6 @@ document.addEventListener('click', function (event) {
 	// If the clicked element doesn't have the right selector, bail
     if (event.target.matches('.addImgUrl')){
         inserImgUrl(event.target)
-        // console.log(event.target.parentElement)
 
     }else if (event.target.matches('.addImgfile')){
         inserImgFile(event.target)
@@ -89,8 +88,6 @@ function restoreDefault(element){
 }
 
 function ValidateSize(file) {
-    // console.log("3")
-    // console.log(file.parentNode.childNodes)
     var FileSize = file.files[0].size / 1024 / 1024; // in MB
     let parent = file.parentNode.parentNode.childNodes
     // let form = file.parentNode.parentNode.parentNode.childNodes
@@ -130,7 +127,6 @@ function ValidateSize(file) {
 
 function msgNotValid(element, form){
     let selectedForm = document.querySelector("#"+form).children
-    console.log(selectedForm)
     for (let i = 0; i < selectedForm.length; i++) {
         selectedForm[i].childNodes.forEach(childrenEl => {
             if(childrenEl.name == element){
@@ -332,6 +328,7 @@ function editPost(sceneId, editingFrom){
     $(".closeModal").click(function(){
         $("#editSceneModal").modal('hide');
         $("#editSceneModal").remove()
+        
    })
 
     fetch(`/scene/${sceneId}/edit`, {method: "GET", headers: {'Content-Type': 'application/json'}})
@@ -590,19 +587,11 @@ function editScene(sceneId, editingFrom){
 
     var hasImageUrl = checkImageUrl(formData, formType) 
     let files = hasImageOnFile()
-    // console.log("this is files: ")
-    // console.log(files)
-    // console.log("**********************")
+    
     let hasImageFile = files.length > 0 ? true : false
     
     let hasAllfields = !checkInputValues(formData, formType)
-    console.log("hasImageUrl " + hasImageUrl)
-    console.log("hasImageFile " + hasImageFile)
-    console.log("hasAllfields " + hasAllfields)
-    console.log(formData)
     
-    // if(hasImageUrl === false && hasImageFile === false) msgAddImage()
-
     if(hasAllfields === true){
         let data = new FormData()
         formData.forEach(element => {
@@ -623,8 +612,7 @@ function editScene(sceneId, editingFrom){
             }else if(editingFrom === "showPage"){
                 changeDataViewShowPage(data)
             }
-            console.log(editingFrom)
-            console.log(data)
+            
             // window.location.href = data.url
             
         })
@@ -634,6 +622,9 @@ function editScene(sceneId, editingFrom){
 
 function changeDataViewUserPage(data){
     $("#editSceneModal").modal('hide');
+    $("#editSceneModal").modal('dispose')
+    $(".loader").remove()
+   
     let changeWith = `
         <div class="popular-item-container-img">
             <div class="category-tag-${data.sceneType}">
@@ -671,13 +662,12 @@ function changeDataViewUserPage(data){
     let showDiv = document.getElementById(sceneId)
     showDiv.innerHTML = ""
     showDiv.insertAdjacentHTML("beforeend", changeWith)
-    console.log(showDiv)
 
 }
 function changeDataViewShowPage(data){
     $("#editSceneModal").modal('hide')
     $("#editSceneModal").modal('dispose')
-    
+    $(".loader").remove()
 
 
     let sceneHeader = document.querySelector('.sceneHeader')
@@ -755,7 +745,6 @@ function changeDataViewShowPage(data){
     carousel.parentNode.childNodes.forEach(element => {
         if(element.id === "carouselExampleControls"){
             let brother = element.previousElementSibling
-            console.log(brother)
             element.remove()
             brother.insertAdjacentHTML("afterend", newChild)
             let map = document.querySelector('.initializeMap')
@@ -824,13 +813,3 @@ function hasNewImageFile(){
 }
 
 
-
-// function disposeModal(){
-//     $("#editSceneModal").modal('hide');
-//     $("#editSceneModal").modal('dispose');
-//     let modal = $("#editSceneModal")
-//     if(modal){
-//         console.log(modal)
-//     }
-
-// }
