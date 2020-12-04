@@ -285,16 +285,17 @@ function getLocationsSaved(modalType){
 
 // **************** DISPLAY ALL LOCATIONS SAVED BY USER ON USER PROFILE ****************
 
-function userSeeAllSaved(){
+function userSeeAllSaved(id){
 let seeAllSaved = document.querySelector(".seeAllSaved")
 
-    
+      let data = {userId : id}
       var addTo = document.querySelector(".savedPlaces")
-      
-      fetch("/user/locations/saved", {method: "GET"})
+      let title = document.querySelector(".savedPlacesTitle")
+      fetch("/user/locations/saved", {method: "POST", body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
       .then(data => { 
         addTo.innerHTML = " "
+        title.innerHTML = `All places saved by ${data.userName}:`
         data.locations.forEach(location => {
           const node = `
           <h6 class=""> 
@@ -311,15 +312,19 @@ let seeAllSaved = document.querySelector(".seeAllSaved")
 
 
 // **************** DISPLAY ALL LOCATIONS FLAGGED BY USER ON USER PROFILE ****************
-function userSeeAllFlagged(){
+function userSeeAllFlagged(id){
   let seeAllFlagged = document.querySelector(".seeAllFlagged")
-
+  let userTitle = document.querySelector(".placesVisitedTitle")
       var addTo = document.querySelector(".flaggedPlaces")
-      
-      fetch("/user/locations/flagged", {method: "GET"})
+      // come back here
+      let data = {userId: id}
+      fetch("../user/locations/flagged", {method: "POST", body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         addTo.innerHTML = " "
+        console.log(data)
+        userTitle.innerHTML = `All places visited by ${data.userName}:`
         data.locations.forEach(location => {
           const node = `
           <h6 class=""> 
@@ -462,6 +467,9 @@ function postComment(){
       }
       if(data.commentsLength === 8){
         addSeeAllCommentsBtn(data, sceneId)
+      }
+      if(data.commentsLength > 8){
+        document.querySelector(".seeAllComments").innerHTML = `See All ${data.commentsLength} Comments`
       } 
     });
   }
@@ -498,6 +506,9 @@ function deleteComment(id, sceneId){
         if(data.commentsLength === 7){
           $('.seeAllComments').remove()
         }
+        if(data.commentsLength > 7){
+          document.querySelector(".seeAllComments").innerHTML = `See All ${data.commentsLength} Comments`
+        } 
         displayFlashMsgOpt(data.message)
         removeFlashMsg()
   });
