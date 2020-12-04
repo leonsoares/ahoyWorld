@@ -91,18 +91,29 @@ router.post('/scene/comment/delete/:commentId', middleware.isLoggedIn, formidabl
             message = "You can not do that!"
             res.send({message})
         } else {  
+            
             let userId = toString(req.user._id) 
             let commentAuthor = toString(comment.author.id)
             if(userId === commentAuthor){
-            comment.remove()
             message = "comment deleted."
-            
+            comment.remove()
             Scene.findById(sceneId).populate('comments').exec( (err, foundScene) =>{
                 if(err || !foundScene){
                     req.flash('error', 'Sorry, sothing went wrong :/')
                     return res.redirect('back');
-                } else{
-                    res.send({message, commentsLength: foundScene.comments.length})
+                } else {
+                    console.log("this is comment id")
+                    console.log(comment._id)
+                    for(let i = 0; i < foundScene.comments.length; i++){
+                        console.log(foundScene.comments[i]._id)
+                        if(foundScene.comments[i]._id == comment._id){
+                            foundScene.comments.splice(i,1)
+                            foundScene.save()
+                            
+                        }
+                    }
+                    let comments = foundScene.comments
+                    res.send({message, commentsLength: foundScene.comments.length, comments})
                 }
             })
             } else {

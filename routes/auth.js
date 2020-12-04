@@ -290,25 +290,40 @@ router.get('/notifications', middleware.isLoggedIn, (req, res) => {
 
 
 
-router.get('/user/locations/saved', middleware.isLoggedIn, (req, res) => {
-    Scene.find({saveScene: req.user._id}).populate('saveScene').exec((err, locations) => {
+router.post('/user/locations/saved', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
+    Scene.find({saveScene: req.fields.userId}).populate('saveScene').exec((err, locations) => {
         if (err) {
             res.redirect("/scenes");
         } else {
-           res.send({locations})
+            User.findById(req.fields.userId).exec((err, foundUser) => {
+                if (err) {
+                    req.flash('error', err.message)
+                    res.redirect('back');
+                }
+                let foundUserName = foundUser.username
+                res.send({locations, userName: foundUserName})
+            })
         }
     });
 });
 
-router.get('/user/locations/flagged', middleware.isLoggedIn, (req, res) => {
-    Scene.find({flag: req.user._id}).populate('flag').exec((err, locations) => {
+router.post('/user/locations/flagged', middleware.isLoggedIn, formidableMiddleware(), (req, res) => {
+    Scene.find({flag: req.fields.userId}).populate('flag').exec((err, locations) => {
         if (err) {
             res.redirect("/scenes");
         } else {
-           res.send({locations})
+            User.findById(req.fields.userId).exec((err, foundUser) => {
+                if (err) {
+                    req.flash('error', err.message)
+                    res.redirect('back');
+                }
+                let foundUserName = foundUser.username
+                res.send({locations, userName: foundUserName})
+            })
         }
-    });
-});
+    })
+})
+
 
 
 router.get('/clicked', middleware.isLoggedIn, (req, res) => {

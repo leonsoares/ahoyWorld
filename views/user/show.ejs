@@ -72,7 +72,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=flag[0].id%>"><%=flag[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=flag[1].id%>"><%=flag[1].name%></a> 
-                    <a class="and-more btn btn-outline-info seeAllFlagged" data-disabled="true" onclick="userSeeAllFlagged()"> and <%= flag.length - 2%> more...</a>
+                    <a class="and-more btn btn-outline-info seeAllFlagged" onclick="userSeeAllFlagged('<%=user.id%>')"> and <%= flag.length - 2%> more...</a>
                   </h1>
                   
                   <% } else if(flag.length === 0){ %>
@@ -94,7 +94,7 @@
                   <h1 class="data-text"> 
                     <a class="and-more" href="../scenes/<%=savedScene[0].id%>"><%=savedScene[0].name%>,</a>
                     <a class="and-more" href="../scenes/<%=savedScene[1].id%>"><%=savedScene[1].name%></a> 
-                    <a  onclick="userSeeAllSaved()" class="and-more btn btn-outline-info seeAllSaved" href="#" > and <%= savedScene.length - 2%> more...</a>
+                    <a  onclick="userSeeAllSaved('<%=user.id%>')" class="and-more btn btn-outline-info seeAllSaved" href="#" > and <%= savedScene.length - 2%> more...</a>
                   </h1>
 
                   <% } else if(savedScene.length === 0){ %>

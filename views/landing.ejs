@@ -233,15 +233,27 @@
               <div class="under-mark-across"></div>
             </div>
             <% highRank.forEach((user) => { %>
-            <a href="../users/<%=user.id%>">
-              <div class="travelers-item-block">
-                <div class="travelers-prof-pic-container"><img src="<%=user.avatar%>" alt="" class="traveler-prof-pic"></div>
-                <div class="travelers-info-block">
-                  <h1 class="traveler-name"><%=user.username%></h1>
-                  <h1 class="traveler-place"><%=user.location.state%>, <%=user.location.country%></h1>
-                </div>
-              </div>
-            </a>
+              <% if(currentUser){%>
+                <a href="../users/<%=user.id%>">
+                  <div class="travelers-item-block">
+                    <div class="travelers-prof-pic-container"><img src="<%=user.avatar%>" alt="" class="traveler-prof-pic"></div>
+                    <div class="travelers-info-block">
+                      <h1 class="traveler-name"><%=user.username%></h1>
+                      <h1 class="traveler-place"><%=user.location.state%>, <%=user.location.country%></h1>
+                    </div>
+                  </div>
+                </a>
+                <%} else {%>
+                  <a data-toggle="modal" data-target="#staticBackdrop" ">
+                    <div class="travelers-item-block">
+                      <div class="travelers-prof-pic-container"><img src="<%=user.avatar%>" alt="" class="traveler-prof-pic"></div>
+                      <div class="travelers-info-block">
+                        <h1 class="traveler-name"><%=user.username%></h1>
+                        <h1 class="traveler-place"><%=user.location.state%>, <%=user.location.country%></h1>
+                      </div>
+                    </div>
+                  </a>
+                  <%} %>
             <% }) %>
           </div>
           <div class="category-block">
