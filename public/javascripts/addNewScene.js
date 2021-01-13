@@ -32,11 +32,7 @@ function inserImgUrl(element){
             inputName = label.htmlFor
         }
     })
-
-
-
-
-
+    
     let replaceIcon = `
     <i class="fas fa-exchange-alt"></i>
     `

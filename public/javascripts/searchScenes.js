@@ -37,6 +37,8 @@ async function fetchScenes(tag) {
 
 function changeDomElements(data){
     let scenesContainer = document.querySelector(".scenes-all-posts")
+    if(data.scenes.length > 0) document.querySelector(".notFound").innerHTML = ""
+    else document.querySelector(".notFound").innerHTML = "Not Locations Found"
     
     scenesContainer.innerHTML = ""
     data.scenes.forEach(scene => {
@@ -45,7 +47,7 @@ function changeDomElements(data){
 
     document.querySelector(".resultsFor").innerHTML = data.resultsFor
 }
-
+ 
 function inserDomElement(scene, parent, user){
     let sceneFlag = `
         <div class="action-buttons action-buttons-selected preventDefault btn-flag" data-toggle="tooltip" data-placement="top" title="You marked this place as visited">
@@ -133,14 +135,14 @@ function inserDomElement(scene, parent, user){
         </div>
          
         </div>
-
-        <div class="scene-item-container-img"><a href="/scenes/${scene.id}"><img src="${scene.images.img1}" alt="" class="icon-1"></a>
+        
+        <div class="scene-item-container-img"><a href="/scenes/${scene._id}"><img src="${scene.images.img1}" alt="" class="icon-1"></a>
         <form action="/scenes/tag/${scene.sceneType}" method="GET">
 
             <button type="submit" class="btn btn-primary category-tag-${scene.sceneType}">${scene.sceneType}</button>
 
         </form>
-        <a href="/scenes/${scene.id}" class="categori-description-block w-inline-block">
+        <a href="/scenes/${scene._id}" class="categori-description-block w-inline-block">
             <h1 class="category-title">${scene.name}</h1>
             <br>
             <h4 class="category-title">${scene.location.country}</h4>
@@ -148,7 +150,7 @@ function inserDomElement(scene, parent, user){
         </div>
         
         <div class="category-description">
-        ${scene.description}<a class="link-more" href="/scenes/${scene.id}[...]</a>
+        ${scene.description}<a class="link-more" href="/scenes/${scene._id}[...]</a>
         </div>   
     </div>
     `
